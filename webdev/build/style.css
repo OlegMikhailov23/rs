@@ -4,7 +4,7 @@
     font-weight: 500;
     font-style: normal;
 
-    src: url('../assets/fonts/Roboto-Regular.ttf');
+    src: url('assets/fonts/Roboto-Regular.ttf');
 }
 
 @font-face
@@ -13,7 +13,7 @@
     font-weight: 400;
     font-style: normal;
 
-    src: url('../assets/fonts/Roboto-Regular.ttf');
+    src: url('assets/fonts/Roboto-Regular.ttf');
 }
 
 @font-face
@@ -22,7 +22,7 @@
     font-weight: 700;
     font-style: normal;
 
-    src: url('../assets/fonts/Roboto-Bold.ttf');
+    src: url('assets/fonts/Roboto-Bold.ttf');
 }
 
 body
@@ -64,4 +64,70 @@ img
 .visible
 {
     opacity: 1;
+}
+
+.main-header__wrapper
+{
+    position: relative;
+
+    width: 1600px;
+    min-height: 95px;
+    margin: 0 auto;
+    padding-top: 38px;
+    padding-right: 10px;
+    padding-bottom: 37px;
+    padding-left: 10px;
+
+    background-color: red;
+}
+
+.main-header__logo
+{
+    position: absolute;
+    top: 25px;
+    left: 50%;
+
+    width: 44px;
+    height: 45px; 
+    margin-left: -22px;
+}
+
+nav
+{
+    width: 600px;
+    margin: 0 auto;
+}
+
+nav .main-header__menu-list
+{
+    display: flex;
+
+    margin: 0;
+    padding: 0;
+
+    border-collapse: collapse;
+    list-style: none;
+
+    text-decoration: none;
+
+    justify-content: space-between;
+}
+nav .main-header__menu-list a
+{
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+
+    display: block;
+
+    margin: 0;
+    padding: 0;
+
+    border-collapse: collapse;
+    list-style: none;
+
+    text-decoration: none;
+
+    color: #fff;
 }
