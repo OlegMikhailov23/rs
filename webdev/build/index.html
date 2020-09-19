@@ -11,19 +11,35 @@
 </head>
 <body>
 <header class="main-header">
+    <h1 class="hidden-title hidden">webdev</h1>
     <div class="main-header__wrapper">
         <div class="main-header__logo">
             <a><img src="assets/img/logo.svg" width="44" height="45" alt="Logo webdev"></a>
         </div>
         <nav>
             <ul class="main-header__menu-list">
-                <li class="main-header__menu-list__item"><a href="#">About</a></li>
-                <li class="main-header__menu-list__item"><a href="#">Syllabus</a></li>
-                <li class="main-header__menu-list__item"><a href="#">Projects</a></li>
-                <li class="main-header__menu-list__item"><a href="#">FAQ</a></li>
+                <li class="main-header__menu-list__item"><a class="main-header__menu-list__item__link main-header__menu-list__item__link--active" href="#">About</a></li>
+                <li class="main-header__menu-list__item"><a class="main-header__menu-list__item__link" href="#">Syllabus</a></li>
+                <li class="main-header__menu-list__item"><a class="main-header__menu-list__item__link" href="#">Projects</a></li>
+                <li class="main-header__menu-list__item"><a class="main-header__menu-list__item__link" href="#">FAQ</a></li>
             </ul>
         </nav>
     </div>
 </header>
+<main>
+    <section class="intro">
+        <div class="intro__wrapper">
+            <h2 class="intro__title">Your life is webdev</h2>
+            <p class="intro__sub-title">Whatever the approach to development may be, the final program must satisfy some fundamental properties</p>
+            <a class="intro__button" href="">Get started</a>
+            <ul class="intro__social-link-list">
+                <li><a class="intro__social-link-list__link intro__social-link-list__link--mail" href="#">Email</a></li>
+                <li><a class="intro__social-link-list__link intro__social-link-list__link--fb" href="#">Facebook</a></li>
+                <li><a class="intro__social-link-list__link intro__social-link-list__link--inst" href="#">Instagram</a></li>
+                <li><a class="intro__social-link-list__link intro__social-link-list__link--telegram" href="#">Telegram</a></li>
+            </ul>
+        </div>
+    </section>
+</main>
 </body>
 </html>
