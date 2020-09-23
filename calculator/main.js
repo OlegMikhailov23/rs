@@ -84,10 +84,10 @@ class Calculator {
             if (isNaN(prev) || (isNaN(current))) return
             switch (this.operation) {
                 case '+':
-                    computation = (prev*10 + current*10)/10
+                    computation = (prev*1000 + current*1000)/1000
                     break
                 case '-':
-                    computation = (prev*10 - current*10)/10
+                    computation = (prev*1000 - current*1000)/1000
                     break
                 case '*':
                     computation = (prev*10 * current*10)/100
