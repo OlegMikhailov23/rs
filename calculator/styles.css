@@ -7,7 +7,25 @@
 body {
   padding: 0;
   margin: 0;
-  background: linear-gradient(to right, #00AAFF, #00FF6C);
+  background: url('calculator-bg.jpg') 30% 30% no-repeat;
+}
+
+.rick {
+  position: absolute;
+  opacity: 0;
+  bottom: 0;
+  rigth: 0;
+  width: 80px;
+  height: 80px;
+  background-image: url("rick-error.png");
+  background-position: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  transition: all 0.3s ease-in-out;
+}
+
+.visible {
+  opacity: 1;
 }
 
 .calculator-grid {
@@ -24,11 +42,24 @@ body {
   font-size: 2rem;
   border: 1px solid white;
   outline: none;
-  background-color: rgba(255, 255, 255, .75);
+  background-color: rgba(255, 255, 255, .9);
+  transition: all 0.3s ease;
+}
+
+.calculator-grid .equal-btn {
+  background-color: rgba(12, 244, 160, 0.95);
+}
+
+.calculator-grid .operation-btn {
+  background-color: rgba(248, 209, 24, 0.95);
+}
+
+.calculator-grid .equal-btn:hover {
+  background-color: #acf9cd;
 }
 
 .calculator-grid > button:hover {
-  background-color: rgba(255, 255, 255, .9);
+  background-color: rgba(255, 255, 255, 1);
 }
 
 .span-two {
@@ -40,8 +71,9 @@ body {
 }
 
 .output {
+  position: relative;
   grid-column: 1 / -1;
-  background-color: rgba(0, 0, 0, .75);
+  background-color: rgba(0, 0, 0, 0.9);
   display: flex;
   align-items: flex-end;
   justify-content: space-around;

@@ -67,7 +67,13 @@ class Calculator {
                     computation = Math.pow(prev, 2);
                     break
                 case '√':
-                    prev < 0 ? computation = errorMessage : computation = Math.sqrt(prev);
+                    if (prev < 0) {
+                        computation = errorMessage;
+                        errorPicture.classList.add('visible');
+                        setTimeout(() => {
+                            errorPicture.classList.remove('visible');
+                        },3000);
+                    }
                     break
                 default:
                     return
@@ -91,7 +97,7 @@ class Calculator {
                     return
             }
         }
-        this.currentOperand = computation.toFixed(15);
+        this.currentOperand = computation;
         this.operation = undefined;
         this.previousOperand = '';
     }
@@ -123,7 +129,8 @@ const powButton = document.querySelector('[data-pow-operation]');
 const previousOperandTextElement = document.querySelector('[data-previous-operand]');
 const currentOperandTextElement = document.querySelector('[data-current-operand]');
 const changeSignButton = document.querySelector('[data-change-sign]');
-const errorMessage = 'Don`t do it any more!)'
+const errorMessage = 'Don`t do it any more, Morty!)';
+const errorPicture = document.querySelector('.rick');
 
 const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement);
 
