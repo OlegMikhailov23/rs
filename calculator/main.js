@@ -30,6 +30,16 @@ class Calculator {
         this.currentOperand = '';
     }
 
+    changeSign() {
+        if (!this.currentOperand) return
+        if (this.currentOperand < 0) {
+            this.currentOperand = Math.abs(this.currentOperand);
+        } else {
+            this.currentOperand = '-' + this.currentOperand;
+            return
+        }
+    }
+
     getDisplayNumber(number) {
         const stringNumber = number.toString();
         const integerDigits = parseFloat(stringNumber.split('.')[0]);
@@ -57,7 +67,7 @@ class Calculator {
                     computation = Math.pow(prev, 2);
                     break
                 case '√':
-                    computation = Math.sqrt(prev);
+                    prev < 0 ? computation = errorMessage : computation = Math.sqrt(prev);
                     break
                 default:
                     return
@@ -66,28 +76,33 @@ class Calculator {
             if (isNaN(prev) || (isNaN(current))) return
             switch (this.operation) {
                 case '+':
-                    computation = prev + current
+                    computation = (prev*10 + current*10)/10
                     break
                 case '-':
-                    computation = prev - current
+                    computation = (prev*10 - current*10)/10
                     break
                 case '*':
-                    computation = prev * current
+                    computation = (prev*10 * current*10)/100
                     break
                 case '÷':
-                    computation = prev / current
+                    computation = (prev*10 / current*10)/100
                     break
                 default:
                     return
             }
         }
-        this.currentOperand = computation;
+        this.currentOperand = computation.toFixed(15);
         this.operation = undefined;
         this.previousOperand = '';
     }
 
     updateDisplay() {
-        this.currentOperandTextElement.innerText = this.getDisplayNumber(this.currentOperand);
+        if (this.currentOperand === errorMessage)  {
+            this.currentOperandTextElement.innerText = this.currentOperand;
+            calculator.clear();
+        } else {
+            this.currentOperandTextElement.innerText = this.getDisplayNumber(this.currentOperand);
+        }
         if (this.operation != null) {
             this.previousOperandTextElement.innerText = `${this.getDisplayNumber(this.previousOperand)} ${this.operation}`
         } else {
@@ -107,6 +122,8 @@ const powButton = document.querySelector('[data-pow-operation]');
 
 const previousOperandTextElement = document.querySelector('[data-previous-operand]');
 const currentOperandTextElement = document.querySelector('[data-current-operand]');
+const changeSignButton = document.querySelector('[data-change-sign]');
+const errorMessage = 'Don`t do it any more!)'
 
 const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement);
 
@@ -119,6 +136,11 @@ squareButton.addEventListener('click', (button) => {
 powButton.addEventListener('click', (button) => {
     calculator.chooseOperation(button.target.innerText);
     calculator.compute();
+    calculator.updateDisplay();
+})
+
+changeSignButton.addEventListener('click', (button) => {
+    calculator.changeSign();
     calculator.updateDisplay();
 })
 
