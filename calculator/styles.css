@@ -1,0 +1,94 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  font-family: Gotham Rounded, sans-serif;
+  font-weight: normal;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  background: url('calculator-bg.jpg') 30% 30% no-repeat;
+}
+
+.rick {
+  position: absolute;
+  opacity: 0;
+  bottom: 0;
+  rigth: 0;
+  width: 80px;
+  height: 80px;
+  background-image: url("rick-error.png");
+  background-position: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  transition: all 0.3s ease-in-out;
+}
+
+.visible {
+  opacity: 1;
+}
+
+.calculator-grid {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  min-height: 100vh;
+  grid-template-columns: repeat(4, 100px);
+  grid-template-rows: minmax(120px, auto) repeat(6, 100px);
+}
+
+.calculator-grid > button {
+  cursor: pointer;
+  font-size: 2rem;
+  border: 1px solid white;
+  outline: none;
+  background-color: rgba(255, 255, 255, .9);
+  transition: all 0.3s ease;
+}
+
+.calculator-grid .equal-btn {
+  background-color: rgba(12, 244, 160, 0.95);
+}
+
+.calculator-grid .operation-btn {
+  background-color: rgba(248, 209, 24, 0.95);
+}
+
+.calculator-grid .equal-btn:hover {
+  background-color: #acf9cd;
+}
+
+.calculator-grid > button:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.span-two {
+  grid-column: span 2;
+}
+
+.span-four {
+  grid-column: span 4;
+}
+
+.output {
+  position: relative;
+  grid-column: 1 / -1;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  flex-direction: column;
+  padding: 10px;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.output .previous-operand {
+  color: rgba(255, 255, 255, .75);
+  font-size: 1.5rem;
+}
+
+.output .current-operand {
+  color: white;
+  font-size: 2.5rem;
+}
