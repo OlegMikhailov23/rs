@@ -73,6 +73,8 @@ class Calculator {
                         setTimeout(() => {
                             errorPicture.classList.remove('visible');
                         },3000);
+                    } else {
+                        computation = Math.sqrt(prev);
                     }
                     break
                 default:
