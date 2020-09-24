@@ -21,13 +21,20 @@ class Calculator {
     }
 
     chooseOperation(operation) {
-        if (this.currentOperand === '') return
+        if (!this.previousOperand && !this.currentOperand) {
+            return
+        }
+        if (this.currentOperand === '') {
+            this.operation = operation;
+            this.currentOperand = '';
+        } else {
         if (this.previousOperand !== '') {
             this.compute()
         }
         this.operation = operation;
         this.previousOperand = this.currentOperand;
         this.currentOperand = '';
+        }
     }
 
     changeSign() {
@@ -125,8 +132,8 @@ const deleteButton = document.querySelector('[data-delete]');
 const acButton = document.querySelector('[data-all-clear]');
 const equalButton = document.querySelector('[data-equals]');
 
-const squareButton = document.querySelector('[data-square-operation]');
-const powButton = document.querySelector('[data-pow-operation]');
+const rootButton = document.querySelector('[data-root-operation]');
+const exponentiationButton = document.querySelector('[data-exponentiation-operation]');
 
 const previousOperandTextElement = document.querySelector('[data-previous-operand]');
 const currentOperandTextElement = document.querySelector('[data-current-operand]');
@@ -136,16 +143,18 @@ const errorPicture = document.querySelector('.rick');
 
 const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement);
 
-squareButton.addEventListener('click', (button) => {
-    calculator.chooseOperation(button.target.innerText);
+const calculateExponentiationOrRoot = (evt) => {
+    calculator.chooseOperation(evt.target.innerText);
     calculator.compute();
     calculator.updateDisplay();
+}
+
+rootButton.addEventListener('click', (button) => {
+    calculateExponentiationOrRoot(button);
 })
 
-powButton.addEventListener('click', (button) => {
-    calculator.chooseOperation(button.target.innerText);
-    calculator.compute();
-    calculator.updateDisplay();
+exponentiationButton.addEventListener('click', (button) => {
+    calculateExponentiationOrRoot(button);
 })
 
 changeSignButton.addEventListener('click', (button) => {
