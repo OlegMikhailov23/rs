@@ -16,6 +16,11 @@
             <h1>Cozy House</h1>
             <span>Shelter for pets in Boston</span>
         </div>
+        <a class ="nav-toggle" title="Open/Close menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </a>
         <nav>
             <ul class="main-header__menu-list">
                 <li class="main-header__menu-list__item"><a class="main-header__menu-list__item__link main-header__menu-list__item__link--active" href="#">About the shelter</a></li>
@@ -140,5 +145,22 @@
         </div>
     </div>
 </footer>
+<script>
+    const hamburgerButton = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('nav');
+    const navMenuLink = document.querySelectorAll('nav a');
+
+    hamburgerButton.addEventListener('click', (evt) => {
+        hamburgerButton.classList.toggle('open');
+        navMenu.classList.toggle('collapse');
+    })
+
+    navMenuLink.forEach((link) => {
+        link.addEventListener('click', (evt) => {
+                hamburgerButton.classList.remove('open');
+                navMenu.classList.remove('collapse');
+            });
+    })
+</script>
 </body>
 </html>
