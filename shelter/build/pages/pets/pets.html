@@ -7,12 +7,14 @@
     <title>Shelter - Pets</title>
     <link rel="shortcut icon" href="../../favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="../libs/swiper/swiper.min.css">
     <link rel="stylesheet" href="style.min.css">
 </head>
 <body>
 <header class="pets-header pets-header--disable-sticky">
     <div class="pets-header__wrapper">
-        <div class="pets-header__logo">
+        <div class="modal-background"></div>
+        <div class="main-header__logo pets-header__logo">
             <h1>Cozy House</h1>
             <span>Shelter for pets in Boston</span>
         </div>
@@ -22,6 +24,10 @@
             <span></span>
         </a>
         <nav>
+            <div class="pets-header__logo pets-header__logo--nav">
+                <h1>Cozy House</h1>
+                <span>Shelter for pets in Boston</span>
+            </div>
             <ul class="pets-header__menu-list">
                 <li class="pets-header__menu-list__item"><a class="pets-header__menu-list__item__link" href="#">About
                     the shelter</a></li>
@@ -44,43 +50,43 @@
             <h1 class="looking-for__title">Our friends who<br> are looking for a house</h1>
             <div class="looking-for__container">
                 <div class="looking-for__container__item">
-                    <img class="looking-for__container__item__picture" src="../../assets/images/slider-1.png" alt="Katrine" width="270" height="270">
+                    <img class="looking-for__container__item__picture" src="../../assets/images/freddie.png" alt="Katrine" width="270" height="270">
                     <span class="looking-for__container__item__name">Katrine</span>
                     <a class="looking-for__container__item__button" href="#">Learn more</a>
                 </div>
                 <div class="looking-for__container__item">
-                    <img class="looking-for__container__item__picture" src="../../assets/images/slider-2.png" alt="Jennifer" width="270" height="270">
+                    <img class="looking-for__container__item__picture" src="../../assets/images/jennifer.png" alt="Jennifer" width="270" height="270">
                     <span class="looking-for__container__item__name">Jennifer</span>
                     <a class="looking-for__container__item__button" href="#">Learn more</a>
                 </div>
                 <div class="looking-for__container__item">
-                    <img class="looking-for__container__item__picture" src="../../assets/images/slider-3.png" alt="Woody" width="270" height="270">
+                    <img class="looking-for__container__item__picture" src="../../assets/images/woody.png" alt="Woody" width="270" height="270">
                     <span class="looking-for__container__item__name">Woody</span>
                     <a class="looking-for__container__item__button" href="#">Learn more</a>
                 </div>
                 <div class="looking-for__container__item extractable-mobile">
-                    <img class="looking-for__container__item__picture" src="../../assets/images/pets-sophia.jpg" alt="Sophia" width="270" height="270">
+                    <img class="looking-for__container__item__picture" src="../../assets/images/sophia.png" alt="Sophia" width="270" height="270">
                     <span class="looking-for__container__item__name">Sophia</span>
                     <a class="looking-for__container__item__button" href="#">Learn more</a>
                 </div>
 
                 <div class="looking-for__container__item extractable-mobile">
-                    <img class="looking-for__container__item__picture" src="../../assets/images/pets-timmy.jpg" alt="Timmy" width="270" height="270">
+                    <img class="looking-for__container__item__picture" src="../../assets/images/timmy.png" alt="Timmy" width="270" height="270">
                     <span class="looking-for__container__item__name">Timmy</span>
                     <a class="looking-for__container__item__button" href="#">Learn more</a>
                 </div>
                 <div class="looking-for__container__item extractable-mobile">
-                    <img class="looking-for__container__item__picture" src="../../assets/images/pets-charly.jpg" alt="Charly" width="270" height="270">
+                    <img class="looking-for__container__item__picture" src="../../assets/images/charly.png" alt="Charly" width="270" height="270">
                     <span class="looking-for__container__item__name">Charly</span>
                     <a class="looking-for__container__item__button" href="#">Learn more</a>
                 </div>
                 <div class="looking-for__container__item extractable-tablet">
-                    <img class="looking-for__container__item__picture" src="../../assets/images/pets-scarlet.jpg" alt="Scarlet" width="270" height="270">
+                    <img class="looking-for__container__item__picture" src="../../assets/images/scarlett.png" alt="Scarlet" width="270" height="270">
                     <span class="looking-for__container__item__name">Scarlett</span>
                     <a class="looking-for__container__item__button" href="#">Learn more</a>
                 </div>
                 <div class="looking-for__container__item extractable-tablet">
-                    <img class="looking-for__container__item__picture" src="../../assets/images/pets-katrine.jpg" alt="Katrine" width="270" height="270">
+                    <img class="looking-for__container__item__picture" src="../../assets/images/katrine.png" alt="Katrine" width="270" height="270">
                     <span class="looking-for__container__item__name">Freddie</span>
                     <a class="looking-for__container__item__button" href="#">Learn more</a>
                 </div>
@@ -118,22 +124,47 @@
         </div>
     </div>
 </footer>
+<div class="modal-background"></div>
 <script>
     const hamburgerButton = document.querySelector('.nav-toggle');
     const navMenu = document.querySelector('nav');
     const navMenuLink = document.querySelectorAll('nav a');
+    const modalBackground = document.querySelector('.modal-background');
+    const headerLogo = document.querySelector('.main-header__logo');
+
+    const closeNav = () => {
+        navMenu.classList.add('closed');
+        headerLogo.style.width = 'auto';
+        headerLogo.style.height = 'auto';
+        document.querySelector('body').style.overflow = 'visible';
+        setTimeout(() => {
+            navMenu.classList.remove('collapse');
+            navMenu.classList.remove('closed');
+            hamburgerButton.classList.remove('open');
+            modalBackground.classList.remove('modal-background-show');
+            headerLogo.style.opacity = '1';
+        }, 199)
+    }
 
     hamburgerButton.addEventListener('click', (evt) => {
-        hamburgerButton.classList.toggle('open');
-        navMenu.classList.toggle('collapse');
+        if(navMenu.classList.contains('collapse')) {
+            closeNav();
+        } else {
+            hamburgerButton.classList.add('open');
+            navMenu.classList.add('collapse');
+            modalBackground.classList.add('modal-background-show');
+            document.querySelector('body').style.overflow = 'hidden';
+            headerLogo.style.opacity = '0';
+            headerLogo.style.width = '0';
+            headerLogo.style.height = '0';
+        }
     })
 
     navMenuLink.forEach((link) => {
-        link.addEventListener('click', (evt) => {
-            hamburgerButton.classList.remove('open');
-            navMenu.classList.remove('collapse');
-        });
-    })
+        link.addEventListener('click', closeNav)
+    });
+
+    modalBackground.addEventListener('click', closeNav);
 </script>
 </body>
 </html>
