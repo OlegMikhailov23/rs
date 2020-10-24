@@ -1,0 +1,182 @@
+@import '../../../common-styles-scss/mixin';
+@import '../../../common-styles-scss/variables';
+
+.looking-for {
+  background-color: $background-colr-2;
+}
+
+.looking-for__wrapper {
+  @include container();
+  padding-top: 4.2%;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 5.2%;
+}
+
+.looking-for__title {
+  @include zero-style();
+  @include fontpref(2.4em, 130%, 400);
+  margin: 0 auto;
+  margin-bottom: 4.7%;
+  color: $h2-color;
+  text-align: center;
+  width: 35%;
+  font-family: "Georgia Regular";
+  letter-spacing: 1.5px;
+}
+
+.looking-for__container {
+  position: relative;
+  margin-bottom: 5.6%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2.4rem;
+}
+
+.looking-for__container__item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: -7px;
+  width: 22.5%;
+  min-height: 435px;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 10px;
+  box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background-color: $background-colr-3;
+  &:hover {
+    background-color: $second-font-color;
+  }
+}
+
+.looking-for__container__item__picture {
+  border-top-right-radius: 11px;
+  border-top-left-radius: 11px;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.looking-for__container__item__name {
+  @include zero-style();
+  @include fontpref(1.3em, 130%, 400);
+  font-family: 'Georgia Regular';
+  color: $main-font-color;
+  letter-spacing: 1.5px;
+  padding-bottom: 28px;
+}
+
+.looking-for__container__item__button {
+  @include link-btn();
+  border-radius: 30px;
+  background-color: transparent;
+  border: 2px solid $btn-bg;
+  @include fontpref(1.2em, 120%, 400);
+  letter-spacing: 0.7px;
+  padding: 15px 42px 15px 42px;
+  &:hover {
+    border-color: $btn-bg-hover-color;
+  }
+}
+
+.looking-for__controls {
+  display: flex;
+  width: 30%;
+  min-width: 340px;
+  margin: 0 auto;
+  justify-content: center;
+  gap: 1.2rem;
+}
+
+.looking-for__controls__button {
+  width: 52px;
+  height: 52px;
+  border: 2px solid $btn-bg;
+  border-radius: 50%;
+  outline: none;
+  @include fontpref(1.3em, 120%, 400);
+  font-family: 'Georgia Regular';
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-repeat: no-repeat;
+  background-position: center;
+  &:hover {
+    background-color: $btn-bg-hover-color;
+    border-color: $btn-bg-hover-color;
+  }
+}
+
+.looking-for__controls__button--disabled {
+  border: 2px solid $disabled-border;
+  color: $disabled-border;
+
+  &:hover {
+    background-color: transparent;
+    border-color: $disabled-border;
+  }
+}
+
+.looking-for__controls__button--active {
+  background-color: $btn-bg;
+}
+
+@media ($tablet-widths) {
+  .looking-for__wrapper {
+    padding-top: 10.1%;
+    padding-bottom: 9.65%;
+  }
+
+  .looking-for__title {
+    width: 65%;
+    margin-bottom: 4.3%
+  }
+
+  .looking-for__container {
+    margin-bottom: 6.5%;
+  }
+
+  .looking-for__container__item {
+    width: 270px;
+  }
+
+  .looking-for__container__item.extractable-tablet {
+    display: none;
+  }
+}
+
+@media ($mobile-widths) {
+  .looking-for__wrapper {
+    padding-top: 12.4%;
+    padding-bottom: 13%;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .looking-for__title {
+    @include fontpref(1.7em, 130%, 400);
+    width: 100%;
+    margin-bottom: 13.5%;
+  }
+
+  .looking-for__container {
+    margin-bottom: 15.5%;
+  }
+
+  .looking-for__controls {
+    min-width: 300px !important;
+    gap: 0.6rem
+  }
+
+  .looking-for__container__item.extractable-mobile {
+    display: none;
+  }
+}
+
+
+
+
+
+

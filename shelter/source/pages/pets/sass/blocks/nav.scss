@@ -1,0 +1,228 @@
+@import '../../../common-styles-scss/mixin';
+@import '../../../common-styles-scss/variables';
+
+.pets-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background-color: $background-colr-1;
+}
+
+.pets-header__wrapper {
+  @include container();
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-top: 30px;
+  padding-bottom: 18px;
+  padding-left: 40px;
+  padding-right: 40px;
+  will-change: transform;
+  min-height: 121px;
+}
+
+.pets-header__logo {
+  transition: all 0.2s ease-in-out;
+}
+
+.pets-header__logo h1 {
+  @include zero-style();
+  @include fontpref(2em, 36px, 400);
+  color: $main-font-color;
+  letter-spacing: 3px;
+}
+
+.pets-header__logo span {
+  @include zero-style();
+  @include fontpref(0.9em, 36px, 400);
+  padding-left: 4px;
+  font-family: 'Arial';
+  color: $btn-font-color;
+  letter-spacing: 1.1px;
+}
+
+.pets-header__logo--nav {
+  display: none;
+}
+
+nav {
+  width: 37%;
+}
+
+nav .pets-header__menu-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-top: 18px;
+  @include zero-style();
+  & a {
+    @include zero-style();
+    display: block;
+    @include fontpref(14px, 20px, 400);
+    font-family: 'Arial Regular';
+    color: $main-font-color;
+    transition: all 0.3s ease-out;
+    letter-spacing: 0.5px;
+  }
+}
+
+nav .pets-header__menu-list a:hover {
+  color: $btn-font-color;
+  &::before {
+    background-color: $hover-font-color;
+    transition: all 0.3s ease-out;
+  }
+}
+
+nav .pets-header__menu-list .pets-header__menu-list__item__link--active {
+  position: relative;
+  color: $main-font-color;
+}
+
+.pets-header__menu-list__item__link--active::before {
+  @include pseudo();
+  bottom: -5px;
+  left: 1px;
+  width: 100%;
+  height: 2px;
+  background-color: $fourth-font-color;
+}
+
+.modal-background {
+  display: none;
+}
+
+@media ($tablet-widths) {
+  .pets-header__wrapper {
+    padding-top: 30px;
+    padding-left: 4%;
+    padding-right: 30px;
+    padding-bottom: 19px;
+  }
+
+  nav {
+    min-width: 62.5%;
+  }
+
+  nav .pets-header__menu-list {
+    gap: 1.5rem;
+  }
+}
+
+@media ($mobile-widths) {
+  .pets-header--disable-sticky {
+    position: relative;
+  }
+
+  .pets-header__logo {
+    overflow: hidden;
+  }
+
+  .pets-header__wrapper {
+    padding-left: 10px;
+    padding-top: 30px;
+    z-index: -10;
+  }
+
+  .pets-header__logo--nav {
+    display: block;
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    z-index: 10;
+  }
+
+  nav {
+    position: absolute;
+    padding-top: 30%;
+    top: 0;
+    min-width: 320px;
+    width: 320px;
+    min-height: 100vh;
+    right: -320px;
+    transition: all 0.3s ease-in-out;
+    overflow-x: hidden;
+    display: none;
+  }
+
+  .nav-toggle {
+    display: block;
+    z-index: 10;
+    height: 22px;
+    cursor: pointer;
+    position: relative;
+    top: 20px;
+    right: 8%;
+    transition: all 0.2s ease;
+  }
+
+  .nav-toggle span {
+    position: relative;
+    display: block;
+    height: 2px;
+    width: 30px;
+    margin-bottom: 8px;
+    background-color: #000000;
+    transition: all .25s;
+  }
+
+  .nav-toggle.open {
+    transform: rotate(90deg);
+  }
+
+  nav .pets-header__menu-list {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 43.8%;
+    & a {
+      color: #000000;
+      @include fontpref(2em , 145%, 400);
+      font-family: "Arial Regular";
+      letter-spacing: 0.06rem;
+      margin-bottom: 26px;
+    }
+  }
+
+  .pets-header__menu-list__item__link--active::before {
+    background-color: #ffffff;
+    height: 3px;
+  }
+
+  nav.collapse {
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    padding-bottom: 5%;
+    top: 0;
+    right: 0;
+    width: 320px;
+    height: 100vh;
+    background-color: #F1CDB3;
+    animation: 0.2s fadeInRight ease;
+  }
+
+  nav.closed {
+    display: flex;
+    animation: 0.25s fadeInLeft ease;
+  }
+
+  .modal-background {
+    display: none;
+    position: fixed;
+    margin: auto;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(41, 41, 41, 0.6);
+    z-index: 0;
+    @include transit(all,.2s,linear);
+  }
+
+  .modal-background-show {
+    display: block;
+    @include transit(all, .2s, linear);
+  }
+}

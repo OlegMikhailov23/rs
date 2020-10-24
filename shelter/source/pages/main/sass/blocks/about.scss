@@ -1,0 +1,129 @@
+@import '../../../common-styles-scss/mixin';
+@import '../../../common-styles-scss/variables';
+
+.about__wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-top: 80px;
+  padding-bottom: 93px;
+  position: relative;
+  @include container();
+}
+
+.about__picture {
+  padding-left: 16.4%;
+  width: 49.5%;
+}
+
+.about__text-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 400px;
+  padding-top: 8px;
+  padding-left: 2px;
+  width: 50.5%;
+}
+
+.about__text-content__title {
+  @include zero-style();
+  @include fontpref(2.3em, 130%, 400);
+  color: $h2-color;
+  font-family: "Georgia Regular";
+  padding-right: 300px;
+  padding-bottom: 4%;
+  letter-spacing: 2.2px;
+}
+
+.about__text-content p {
+  @include zero-style();
+  @include fontpref(1em, 160%, 400);
+  font-family: "Arial Regular";
+  color: $fifth-font-color;
+  width: 68%;
+}
+
+.about__text-content p:nth-child(2) {
+  padding-bottom: 4%;
+}
+
+@media ($tablet-widths) {
+  .about__wrapper {
+    padding-top: 9.5%;
+    padding-bottom: 12%;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about__picture {
+    order: 1;
+  }
+
+  .about__text-content {
+    display: flex;
+    flex-direction: column;
+    width: 59%;
+    order: 0;
+    margin-bottom: 9%;
+  }
+
+  .about__text-content__title {
+    padding-right: 15%;
+    padding-bottom: 6%;
+    letter-spacing: 2.2px;
+  }
+
+  .about__text-content p {
+    width: 100%;
+  }
+
+  .about__text-content p:nth-child(2) {
+    padding-bottom: 5%;
+  }
+
+  .about__picture {
+    position: relative;
+    padding-left: 0;
+    width: 300px;
+  }
+}
+
+@media ($mobile-widths) {
+  .about__wrapper {
+    padding-top: 10.5%;
+    padding-bottom: 12%;
+  }
+
+  .about__text-content {
+    width: 100%;
+    margin-bottom: 13%;
+  }
+
+  .about__text-content__title {
+    @include fontpref(1.8em, 120%, 400);
+    padding-right: 0;
+    padding-bottom: 8%;
+    letter-spacing: 0.05rem;
+    text-align: center;
+  }
+
+  .about__text-content p {
+    display: flex;
+    padding-left: 12px;
+    padding-right: 4%;
+    letter-spacing:0.01rem;
+    align-items: center;
+    text-align: justify;
+  }
+  .about__text-content p:nth-child(2) {
+    padding-bottom: 8%;
+  }
+
+  .about__picture {
+    position: relative;
+    width: 260px;
+    padding-left: 0;
+    left: 0;
+  }
+}

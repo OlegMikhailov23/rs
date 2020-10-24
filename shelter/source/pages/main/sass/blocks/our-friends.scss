@@ -1,0 +1,199 @@
+@import '../../../common-styles-scss/mixin';
+@import '../../../common-styles-scss/variables';
+
+.our-friends {
+  background-color: $background-colr-2;
+}
+
+.our-friends__wrapper {
+  @include container();
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 4.3%;
+  padding-bottom: 5.2%;
+}
+
+.our-friends__title {
+  @include zero-style();
+  @include fontpref(2.4em, 130%, 400);
+  color: $h2-color;
+  text-align: center;
+  font-family: "Georgia Regular";
+  letter-spacing: 1.5px;
+}
+
+.our-friends__slider {
+  width: 990px;
+  height: 100%;
+  background-color: $background-colr-2;
+  margin-bottom: 5px;
+  overflow: hidden;
+  padding-top: 4.5%;
+  padding-bottom: 4.5%;
+}
+
+.our-friends__slider__item {
+  display: flex;
+  flex-direction: column;
+  width: 270px;
+  min-height: 435px;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: $background-colr-3;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  &:hover {
+    background-color: $second-font-color;
+  }
+}
+
+.our-friends__slider__item__picture {
+  padding-bottom: 26px;
+  width: 100%;
+}
+
+.our-friends__slider__item__name {
+  @include zero-style();
+  @include fontpref(1.3em, 130%, 400);
+  font-family: 'Georgia Regular';
+  color: $main-font-color;
+  letter-spacing: 1.5px;
+  padding-bottom: 28px;
+}
+
+.our-friends__slider__item__button {
+  @include link-btn();
+  border-radius: 30px;
+  background-color: transparent;
+  border: 2px solid $btn-bg;
+  @include fontpref(1.2em, 120%, 400);
+  letter-spacing: 0.7px;
+  padding: 15px 42px 15px 42px;
+  &:hover {
+    border-color: $btn-bg-hover-color;
+  }
+}
+
+.our-friends__button {
+  @include link-btn();
+  @include fontpref(1.2em, 120%, 400);
+  border-radius: 30px;
+  border: none;
+  letter-spacing: 0.5px;
+}
+
+.our-friends__slider__control {
+  position: absolute;
+  width: 52px;
+  height: 52px;
+  border: 2px solid $btn-bg;
+  border-radius: 50%;
+  outline: none;
+  font-size: 0;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-image: url("../../assets/images/Arrow.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  &:hover {
+    background-color: $btn-bg-hover-color;
+    border-color: $btn-bg-hover-color;
+  }
+}
+
+.our-friends__slider__control--prev {
+  top: 51.2%;
+  left: 38px;
+  margin-top: -25px;
+}
+
+.our-friends__slider__control--next {
+  top: 51.2%;
+  right: 38px;
+  margin-top: -25px;
+  transform: rotate(180deg);
+}
+
+@media ($tablet-widths) {
+  .our-friends__wrapper {
+    padding-top: 11%;
+    padding-bottom: 13%;
+  }
+
+  .our-friends__slider {
+    width: 580px;
+    padding-top: 7.4%;
+    padding-bottom: 5%;
+  }
+
+
+  .our-friends__slider__item {
+    width: 270px;
+  }
+
+  .our-friends__slider__item.extractable-tablet {
+    display: none !important;
+  }
+
+  .our-friends__slider {
+    margin-bottom: 3%;
+  }
+
+  .our-friends__slider__control--prev {
+
+    left: 28px;
+
+  }
+
+  .our-friends__slider__control--next {
+
+    right: 28px;
+
+  }
+}
+
+@media ($mobile-widths){
+  .our-friends__slider__item.extractable-mobile {
+    display: none;
+  }
+
+  .our-friends__wrapper {
+    padding-top: 45px;
+    padding-bottom: 13%;
+  }
+
+
+  .our-friends__title {
+    @include fontpref(1.7em, 120%, 400);
+    margin-bottom: 24px;
+  }
+
+  .our-friends__slider {
+    width: 280px;
+    padding-bottom: 0;
+    margin-bottom: 114px;
+  }
+
+  .our-friends__slider__item {
+    width: 270px;
+  }
+
+  .our-friends__slider__control--prev {
+    top: 630px;
+    left: 21%;
+    margin-top: -25px;
+  }
+
+  .our-friends__slider__control--next {
+    top: 630px;
+    right: 21%;
+    margin-top: -25px;
+    transform: rotate(180deg);
+  }
+}
+
+

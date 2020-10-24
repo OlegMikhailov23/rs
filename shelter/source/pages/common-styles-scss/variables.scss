@@ -1,0 +1,91 @@
+$mobile-widths: "max-width: 767px";
+$tablet-widths: "max-width: 1279px";
+$retina: "(min-resolution: 144dpi), (min-resolution: 1.5dppx)";
+//--- Font-size...
+
+$main-font-size: 15px;
+
+$main-line-height: 20px;
+
+//--- Font-colors...
+
+$main-font-color: #545454;
+
+$second-font-color: #ffffff;
+
+$third-font-color: #cdcdcd;
+
+$fourth-font-color: #F1CDB3;
+
+$fifth-font-color: #4c4c4c;
+
+$sixth-font-color: #B2B2B2;
+
+$btn-font-color: #292929;
+
+$h1-color: #F1CDB3;
+
+$h2-color: #545454;
+
+$h3-color: #d15030;
+
+$h4-color: #000000;
+
+$hover-font-color: #FAFAFA;
+
+$active-font-color: #000000;
+
+//--- Btn-colors...
+
+$btn-bg-hover-color: #FDDCC4;
+
+$btn-bg-active-color: #1bc9f5;
+
+$btn-bg: #F1CDB3;
+
+$submit-btn-bg: #ffe13e;
+
+//--- Main-backgrounds...
+
+$body-bg: #FFFFFF;
+
+$background-colr-1: #ffffff;
+
+$background-colr-2: #f6f6f6;
+
+$background-colr-3: #FAFAFA;
+
+$btn-background-color: #d15030;
+
+//--- Border colors...
+
+$main-border-color: #2d2d2d;
+
+$disabled-border: #CDCDCD;
+
+//--- Animation...
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+}
+

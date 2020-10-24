@@ -1,0 +1,130 @@
+@import '../../../common-styles-scss/mixin';
+@import '../../../common-styles-scss/variables';
+
+.intro {
+  background: radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%), #211F20;
+}
+
+.intro__wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  position: relative;
+  @include container();
+  padding-left: 40px;
+  padding-right: 40px;
+  margin-top: -180px;
+  min-height: 908px;
+}
+
+.intro__text-content {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  min-height: 500px;
+  padding-right: 10px;
+}
+
+.intro__title {
+  @include zero-style();
+  @include fontpref(2.75em, 58px, 400);
+  display: block;
+  font-family: 'Georgia Regular';
+  padding-top: 138px;
+  padding-bottom: 40px;
+  color: $second-font-color;
+  padding-right: 150px;
+  letter-spacing: 1.4px;
+}
+
+.intro__text-content p {
+  @include zero-style();
+  @include fontpref(1em, 160%, 400);
+  font-family: 'Arial Regular';
+  color: $third-font-color;
+  padding-bottom: 41px;
+}
+
+.intro__button {
+  @include link-btn();
+  @include fontpref(1.1em, 22px, 400);
+  letter-spacing: 1.3px;
+  margin-left: 0;
+  border-radius: 30px;
+}
+
+.intro__picture {
+  display: flex;
+  width: 60%;
+  align-items: flex-end;
+  align-self: flex-end;
+  padding-left: 25px;
+}
+
+@media ($tablet-widths) {
+  .intro__wrapper {
+    flex-direction: column;
+    align-items: center;
+    min-height: 1165px;
+  }
+
+  .intro__text-content {
+    padding-left: 12px;
+    width: 70%;
+  }
+
+
+  .intro__title {
+    @include fontpref(2.75em, 58px, 400);
+    padding-top: 150px;
+    padding-right: 10%;
+    padding-bottom: 40px;
+  }
+
+  .intro__button {
+    margin: 0 auto;
+  }
+
+  .intro__picture {
+    position: relative;
+    padding-left: 0;
+    left: 10px;
+    width: 83%;
+  }
+}
+
+@media ($mobile-widths) {
+  .intro__wrapper {
+    min-height: 823px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .intro__text-content {
+    width: 100%;
+  }
+
+  .intro__title {
+    @include fontpref(1.6em, 126%, 400);
+    padding-top: 153px;
+    padding-right: 0;
+    padding-bottom: 42px;
+    letter-spacing: 0.11rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .intro__text-content p {
+    text-align: center;
+  }
+
+  .intro__picture {
+    width: 81%;
+    left: -12px;
+  }
+}
+
+
+
+

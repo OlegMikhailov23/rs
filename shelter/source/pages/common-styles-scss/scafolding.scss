@@ -1,0 +1,61 @@
+@import "variables.scss";
+@import "mixin.scss";
+
+@font-face {
+  font-weight: 400;
+  font-family: 'Arial Regular';
+  font-style: normal;
+  src: url('../../assets/fonts/Arial-regular.ttf');
+}
+
+@font-face {
+  font-weight: 400;
+  font-family: 'Georgia Regular';
+  font-style: normal;
+  src: url('../../assets/fonts/Georgia-regular.ttf');
+}
+
+@font-face {
+  font-weight: 600;
+  font-family: 'Georgia Regular';
+  font-style: normal;
+  src: url('../../assets/fonts/georgiab.ttf');
+}
+
+html {
+  overflow-x: hidden;
+}
+
+
+body {
+  position: relative;
+  font-family: 'Georgia Regular', sans-serif;
+  font-weight: 400;
+  background-color: $body-bg;
+  font-size: $main-font-size;
+  line-height: $main-line-height;
+  color: $main-font-color;
+  overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.hidden {
+     opacity:0;
+}
+.visible {
+     opacity:1;
+}

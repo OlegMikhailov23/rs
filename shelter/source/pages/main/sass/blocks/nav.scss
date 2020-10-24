@@ -1,0 +1,239 @@
+@import '../../../common-styles-scss/mixin';
+@import '../../../common-styles-scss/variables';
+
+.main-header__wrapper {
+  position: relative;
+  @include container();
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-top: 60px;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 40px;
+  min-height: 180px;
+  will-change: transform;
+  z-index: 1;
+}
+
+.main-header__logo {
+  transition: all 0.2s ease-in-out;
+}
+
+.main-header__logo h1 {
+  @include zero-style();
+  @include fontpref(2em, 36px, 400);
+  color: $h1-color;
+  letter-spacing: 3px;
+}
+
+.main-header__logo span {
+  @include zero-style();
+  @include fontpref(0.9em, 36px, 400);
+  padding-left: 4px;
+  font-family: 'Arial';
+  color: $second-font-color;
+  letter-spacing: 1.1px;
+}
+
+.main-header__logo--nav {
+  display: none;
+}
+
+nav {
+  width: 37%;
+}
+
+nav .main-header__menu-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-top: 18px;
+  @include zero-style();
+  & a {
+    @include zero-style();
+    display: block;
+    @include fontpref(14px, 20px, 400);
+    font-family: 'Arial Regular';
+    color: #CDCDCD;
+    transition: all 0.3s ease-out;
+    letter-spacing: 0.5px;
+  }
+}
+
+nav .main-header__menu-list a:hover {
+  color: $hover-font-color;
+
+  &::before {
+    background-color: $hover-font-color;
+    transition: all 0.3s ease-out;
+  }
+}
+
+nav .main-header__menu-list .main-header__menu-list__item__link--active {
+  position: relative;
+  color: #fafafa;
+}
+
+.main-header__menu-list__item__link--active::before {
+  @include pseudo();
+  bottom: -5px;
+  left: 1px;
+  width: 100%;
+  height: 2px;
+  background-color: $fourth-font-color;
+}
+
+.modal-background {
+  display: none;
+}
+
+@media ($tablet-widths) {
+  .main-header__wrapper {
+    padding-top: 30px;
+    padding-left: 4%;
+    padding-right: 30px;
+    padding-bottom: 30px;
+  }
+
+  nav {
+    min-width: 62.5%;
+  }
+
+  nav .main-header__menu-list {
+    gap: 1.5rem;
+  }
+}
+
+@media ($mobile-widths) {
+  .main-header__wrapper {
+    padding-left: 10px;
+    z-index: 1;
+  }
+
+  .main-header__logo {
+    overflow: hidden;
+  }
+
+  .main-header__logo--nav {
+    display: block;
+    position: absolute;
+    top: 30px;
+    left: 10px;
+  }
+
+  nav {
+    position: absolute;
+    padding-top: 30%;
+    top: 0;
+    min-width: 320px;
+    width: 320px;
+    min-height: 100vh;
+    right: -320px;
+    transition: all 0.3s ease-in-out;
+    overflow-x: hidden;
+    display: none;
+  }
+
+  .nav-toggle {
+    display: block;
+    z-index: 10;
+    height: 22px;
+    cursor: pointer;
+    position: relative;
+    top: 20px;
+    right: 8%;
+    transition: all 0.2s ease;
+  }
+
+  .nav-toggle span {
+    position: relative;
+    display: block;
+    height: 2px;
+    width: 30px;
+    margin-bottom: 8px;
+    background-color: $fourth-font-color;
+    transition: all .25s;
+  }
+
+  .nav-toggle.open {
+    transform: rotate(90deg);
+  }
+
+  nav .main-header__menu-list {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 43.8%;
+    & a {
+      @include fontpref(2em , 145%, 400);
+      font-family: "Arial Regular";
+      letter-spacing: 0.06rem;
+      margin-bottom: 26px;
+    }
+  }
+
+  .main-header__menu-list__item__link--active::before {
+    height: 3px;
+  }
+
+  @keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translate3d(100%, 0, 0);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes fadeInLeft {
+    from {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    to {
+      opacity: 0;
+      transform: translate3d(100%, 0, 0);
+    }
+  }
+
+  nav.collapse {
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    padding-bottom: 5%;
+    top: 0;
+    right: 0;
+    width: 320px;
+    height: 100vh;
+    background-color: #545454;
+    animation: 0.2s fadeInRight ease;
+  }
+
+  nav.closed {
+    display: flex;
+    animation: 0.25s fadeInLeft ease;
+  }
+
+  .modal-background {
+    display: none;
+    position: fixed;
+    margin: auto;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(41, 41, 41, 0.6);
+    z-index: 0;
+    @include transit(all,.2s,linear);
+  }
+
+  .modal-background-show {
+    display: block;
+    @include transit(all, .2s, linear);
+  }
+}
