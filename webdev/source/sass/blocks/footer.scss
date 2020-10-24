@@ -1,0 +1,55 @@
+@import '../mixin';
+@import '../variables';
+
+.footer__wrapper {
+  position: relative;
+  display: flex;
+  padding-top: 60px;
+  padding-bottom: 75px;
+  justify-content: space-around;
+  @include container();
+  background-color: $background-colr-1;
+}
+
+.footer__nav ul {
+  position: relative;
+  left: -38px;
+  @include zero-style();
+  padding-top: 13px;
+  min-width: 236px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer__nav__link {
+  position: relative;
+  @include zero-style();
+  display: block;
+  @include fontpref(14px, 20px, 400);
+  color: $second-font-color;
+  transition: all 0.3s ease;
+  &:hover {
+    color: $hover-font-color;
+  }
+}
+
+.footer__nav li:nth-child(2) a::before,
+.footer__nav li:nth-child(3) a::before {
+  @include pseudo();
+  top: 7px;
+  left: -22px;
+  width: 1px;
+  height: 8px;
+  background-color: #4e4e4e;
+}
+
+.footer__logo {
+  position: relative;
+  left: -32px;
+}
+
+.footer__credits {
+  position: relative;
+  left: 39px;
+  padding-top: 14px;
+}

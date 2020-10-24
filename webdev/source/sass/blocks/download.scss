@@ -1,0 +1,78 @@
+@import '../mixin';
+@import '../variables';
+
+.download__wrapper {
+  @include container();
+  padding-top: 121px;
+  padding-bottom: 180px;
+  background-color: #F5F6F7;
+}
+
+.download__title {
+  @include zero-style();
+  padding-bottom: 20px;
+  @include fontpref(24px, 28px, 700);
+  color: $h2-color;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.download__wrapper p {
+  @include zero-style();
+  @include fontpref(14px, 20px, 400);
+  padding-left: 35%;
+  padding-right: 35%;
+  padding-bottom: 30px;
+  color: $main-font-color;
+  text-align: center;
+}
+
+.download__button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.download__button-container__button {
+  position: relative;
+  @include zero-style();
+  padding-left: 19px;
+  padding-top: 16px;
+  padding-bottom: 14px;
+  width: 186px;
+  height: 46px;
+  background-color: $btn-bg;
+  @include fontpref(14px, 16px, 500);
+  text-transform: uppercase;
+  color: $second-font-color;
+  transition: all 0.3s ease;
+  &:nth-child(2) {
+    margin-left: 30px;
+  }
+  &::before {
+    @include pseudo();
+    right: 0;
+    top: 0;
+    width: 60px;
+    height: 46px;
+    background-color: $hover-font-color;
+  }
+  &:hover {
+    background-color: $btn-bg-hover-color;
+  }
+}
+
+.download__button-container__button-apple::before {
+  @include cover-background("assets/img/icon-apple.svg", top, center, scroll);
+  background-size: 29% 44%;
+  background-position: center;
+  background-color: $hover-font-color;
+}
+
+.download__button-container__button-android::before {
+  @include cover-background("assets/img/icon-android.svg", top, center, scroll);
+  background-size: 33% 48%;
+  background-position: center;
+  background-color: $hover-font-color;
+}
+

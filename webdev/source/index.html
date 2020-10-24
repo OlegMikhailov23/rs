@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=1600">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Webdev</title>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="style.min.css">
+</head>
+<body>
+<header class="main-header">
+    <h1 class="hidden-title hidden">webdev</h1>
+    <div class="main-header__wrapper">
+        <div class="main-header__logo">
+            <a href="#" title="Home">Home</a>
+        </div>
+        <nav>
+            <ul class="main-header__menu-list">
+                <li class="main-header__menu-list__item"><a class="main-header__menu-list__item__link main-header__menu-list__item__link--active" href="#">About</a></li>
+                <li class="main-header__menu-list__item"><a class="main-header__menu-list__item__link" href="#">Syllabus</a></li>
+                <li class="main-header__menu-list__item"><a class="main-header__menu-list__item__link" href="#">Projects</a></li>
+                <li class="main-header__menu-list__item"><a class="main-header__menu-list__item__link" href="#">FAQ</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<main>
+
+    <section class="intro">
+        <div class="intro__wrapper">
+            <h2 class="intro__title">Your life is webdev</h2>
+            <p class="intro__sub-title">Whatever the approach to development may be, the final program must satisfy some fundamental properties</p>
+            <a class="intro__button" href="">Get started</a>
+            <ul class="intro__social-link-list">
+                <li><a class="intro__social-link-list__link intro__social-link-list__link--mail" href="#">Email</a></li>
+                <li><a class="intro__social-link-list__link intro__social-link-list__link--fb" href="#">Facebook</a></li>
+                <li><a class="intro__social-link-list__link intro__social-link-list__link--inst" href="#">Instagram</a></li>
+                <li><a class="intro__social-link-list__link intro__social-link-list__link--telegram" href="#">Telegram</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="advantage">
+        <div class="advantage__wrapper">
+            <div class="advantage__text-content">
+                <h2 class="advantage__text-content__title">Rappresent your idea with a smart Design</h2>
+                <p class="advantage__text-content__text">Tasks accompanying and related to programming include: testing, debugging, source code maintenance, <strong>implementation of build systems</strong>, and management of derived artifacts, such as the machine code of computer programs.</p>
+                <a class="advantage__button" href="#">Get started</a>
+            </div>
+            <div class="advantage__picture">
+                <figure>
+                    <img src="assets/img/content-image-1.jpg" width="407" height="582" alt="Rappresent your idea">
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <section class="community">
+        <div class="community__wrapper">
+            <div class="community__text">
+                <figure class="community__text__avatar">
+                    <img src="assets/img/Frame 6.png" width="45" height="45" alt="Our community">
+                </figure>
+                <h2 class="community__title">Our community</h2>
+                <p>A hacker is any skilled computer expert that uses their technical knowledge to overcome a problem, but it can also mean a security hacker in common language</p>
+            </div>
+
+            <div class="slider__navigation">
+                <button type="button" class="slider__navigation__prev-btn" title="Previous">Previous</button>
+                <span>1</span><span>/</span><span>5</span>
+                <button type="button" class="slider__navigation__next-btn" title="Next">Next</button>
+            </div>
+            <div class="community__slider">
+                <div>
+                    <figure><img src="assets/img/slider-item1.jpg" alt="Slider picture 1"></figure>
+                </div>
+                <div>
+                    <figure><img src="assets/img/slider-item2.jpg" alt="Slider picture 1"></figure>
+                </div>
+                <div>
+                    <figure><img src="assets/img/slider-item3.jpg" alt="Slider picture 1"></figure>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="advantage--reversed">
+        <div class="advantage__wrapper advantage__wrapper--reversed">
+            <div class="advantage__text-content advantage__text-content--reversed">
+                <h2 class="advantage__text-content__title">Implement right Code</h2>
+                <p class="advantage__text-content__text">These might be considered part of the <strong>programming process</strong>, but often the term software development is used for this larger process with the term programming, implementation</p>
+                <a class="advantage__button" href="#">Learn more</a>
+            </div>
+            <div class="advantage__picture advantage__picture--reversed">
+                <figure>
+                    <img src="assets/img/content-image-2.jpg" width="407" height="582" alt="Rappresent your idea">
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <section class="sign-up-form">
+        <div class="sign-up-form__wrapper">
+            <h2 class="sign-up-form__title">Sign up for our newsletter</h2>
+            <form class="sign-up-form__form" action="#">
+                <label>Email:
+                    <input type="email" name="e-mail" placeholder="E-mail" pattern="/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/" required>
+                </label>
+                 <button type="submit" title="Submit">Submit</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="download">
+        <div class="download__wrapper">
+            <h2 class="download__title">Download the App</h2>
+            <p>Machine code was the language of early programs, written in the instruction set of the particular machine, often in binary notation.</p>
+            <div class="download__button-container">
+                <a class="download__button-container__button download__button-container__button-apple" href="#" title="Download from Apple Store">Apple Store</a>
+                <a class="download__button-container__button download__button-container__button-android" href="#" title="Download from Play Market">Play Market</a>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="footer__wrapper">
+            <div class="footer__nav">
+                <ul>
+                    <li><a class="footer__nav__link" href="#">Credits</a></li>
+                    <li><a class="footer__nav__link" href="#">Privacy</a></li>
+                    <li><a class="footer__nav__link" href="#">Our teams</a></li>
+                </ul>
+            </div>
+            <div class="footer__logo">
+                <img src="assets/img/logo.svg" width="44" height="45" alt="Webdev logo">
+            </div>
+            <div class="footer__credits">
+                <span>by TonYem for RSS at 2020</span>
+            </div>
+        </div>
+    </footer>
+</main>
+</body>
+</html>

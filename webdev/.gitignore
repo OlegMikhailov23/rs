@@ -10,13 +10,3 @@ Thumbs.db
 # Вспомогательные файлы
 *.log*
 node_modules/
-gulpfile.js
-*.json
-
-
-# Папка с dev файлами проекта
-source/
-
-# Файлы сборки
-public/bundle.js
-public/bundle.js.map

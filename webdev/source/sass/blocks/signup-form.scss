@@ -1,0 +1,71 @@
+@import '../mixin';
+@import '../variables';
+
+.sign-up-form__wrapper {
+  @include container();
+  padding-top: 201px;
+  padding-bottom: 220px;
+  @include cover-background("assets/img/form-bg.jpg", top, center, scroll);
+}
+
+.sign-up-form__title {
+  @include zero-style();
+  margin-bottom: 4px;
+  @include fontpref(24px, 28px, 500);
+  color: $second-font-color;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.sign-up-form__form {
+  position: relative;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.sign-up-form label {
+  font-size: 0;
+}
+
+.sign-up-form input {
+  min-width: 406px;
+  @include fontpref(14px, 20px, 400);
+  color: #373737;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  padding-left: 24px;
+  border: none;
+  display: block;
+  margin: 0 auto;
+  outline: none;
+  &::placeholder {
+    color: #9d9d9d;
+  }
+  &::-ms-input-placeholder {
+    color: #9d9d9d;
+  }
+  &::-ms-input-placeholder {
+    color: #9d9d9d;
+  }
+}
+
+.sign-up-form button {
+  position: absolute;
+  display: block;
+  right: 47px;
+  top: 25px;
+  width: 66px;
+  height: 46px;
+  font-size: 0;
+  border: 0;
+  margin: 0 auto;
+  background-color: $btn-bg;
+  cursor: pointer;
+  @include cover-background("assets/img/check.svg", top, center, scroll);
+  background-size: 28% 28%;
+  background-position: center;
+  transition: all 0.3s ease-out;
+  &:hover {
+    background-color: $btn-bg-hover-color;
+  }
+}

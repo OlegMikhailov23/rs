@@ -1,0 +1,72 @@
+@import '../mixin';
+@import '../variables';
+
+.intro__wrapper {
+  position: relative;
+  @include container();
+  margin-top: -101px;
+  min-height: 744px;
+  padding-top: 258px;
+  @include cover-background("assets/img/bg-image.jpg", top, center, scroll);
+}
+
+.intro__title {
+  @include zero-style();
+  @include fontpref(64px, auto, 700);
+  padding-bottom: 3%;
+  color: $second-font-color;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 4.5px;
+}
+
+.intro__sub-title {
+  @include zero-style();
+  @include fontpref(1.13rem, 140%, 500);
+  margin-bottom: 30px;
+  display: block;
+  margin: 0 auto;
+  max-width: 490px;
+  color: $second-font-color;
+  text-align: center;
+}
+
+.intro__button {
+  @include link-btn();
+}
+
+.intro__social-link-list {
+  @include zero-style();
+  margin: auto;
+  margin-top: 183px;
+  display: flex;
+  justify-content: space-between;
+  max-width: 170px;
+  & .intro__social-link-list__link {
+    font-size: 0;
+    display: block;
+    width: 20px;
+    height: 20px;
+    transition: all 0.3s ease-out;
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+}
+
+.intro__social-link-list__link--mail {
+  @include cover-background("assets/img/mail_fff.svg", top, center, scroll);
+}
+
+.intro__social-link-list__link--fb {
+  @include cover-background("assets/img/facebook_fff.svg", top, center, scroll);
+}
+
+.intro__social-link-list__link--inst {
+  @include cover-background("assets/img/inst.svg", top, center, scroll);
+}
+
+.intro__social-link-list__link--telegram {
+  @include cover-background("assets/img/telegram_fff.svg", top, center, scroll);
+
+}

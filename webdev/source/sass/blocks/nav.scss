@@ -1,0 +1,92 @@
+@import '../mixin';
+@import '../variables';
+
+.hidden-title {
+  position: absolute;
+}
+
+.main-header__wrapper {
+  position: relative;
+  @include container();
+  padding-top: 39px;
+  padding-bottom: 37px;
+  min-height: 95px;
+  background-color: transparent;
+  will-change: transform;
+  z-index: 1;
+}
+
+.main-header__logo {
+  position: absolute;
+  top: 25px;
+  left: 50%;
+  margin-left: -22px;
+  font-size: 0;
+  & a {
+    display: block;
+    width: 45px;
+    height: 45px;
+    @include cover-background("assets/img/logo.svg", top, center, scroll);
+    transition: all 0.3s ease-out;
+
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+}
+
+nav {
+  width: 598px;
+  margin: 0 auto;
+}
+
+nav .main-header__menu-list {
+  @include zero-style();
+  font-size: 0;
+  & a{
+    @include zero-style();
+    display: block;
+    @include fontpref(14px, 20px, 400);
+    color: $second-font-color;
+    transition: all 0.3s ease-out;
+  }
+}
+
+nav .main-header__menu-list a:hover {
+  color: $hover-font-color;
+  &::before {
+    background-color: $hover-font-color;
+    transition: all 0.3s ease-out;
+  }
+}
+
+.main-header__menu-list__item {
+  display: inline-block;
+  margin-right: 85px;
+}
+
+.main-header__menu-list__item:nth-child(2) {
+}
+
+.main-header__menu-list__item:nth-child(3) {
+  margin-left: 163px;
+  margin-right: 85px;
+}
+
+.main-header__menu-list__item:nth-child(4) {
+  margin-right: 0;
+}
+
+.main-header__menu-list__item__link--active {
+  position: relative;
+}
+
+.main-header__menu-list__item__link--active::before {
+  @include pseudo();
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: $second-font-color;
+}
+
