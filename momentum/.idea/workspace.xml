@@ -34,7 +34,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1603638311999</updated>
-      <workItem from="1603638316096" duration="10556000" />
+      <workItem from="1603638316096" duration="12701000" />
     </task>
     <servers />
   </component>
@@ -52,7 +52,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/main.js</url>
-          <line>59</line>
+          <line>61</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="1" />
         </line-breakpoint>

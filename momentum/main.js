@@ -6,11 +6,13 @@ const time = document.querySelector('#time');
 const greeting = document.querySelector('#greeting');
 const userName = document.querySelector('#name');
 const focus = document.querySelector('#focus');
-const dateDay =document.querySelector('#date')
-const monthList = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Декабря']
+const dateDay =document.querySelector('#date');
+const monthList = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Декабря'];
+const nextScreenBtn = document.querySelector('.switcher');
 
-let bGcount = 0;
+let bgCount = 0;
 let prevOur = '';
+const SCREENN_AMOUNT = 20;
 // Option
 
 const showAmPm = true;
@@ -49,8 +51,8 @@ const addZero = (numb) => {
 // Set Backgrounds and Greeting
 
 const changeBg = (part) => {
-    bGcount++;
-    document.body.style.backgroundImage = "url('assets/images/" + part + "/" + `${addZero(bGcount)}`+ ".jpg')";
+    bgCount === SCREENN_AMOUNT ? bgCount = 1 : bgCount++;
+    document.body.style.backgroundImage = "url('assets/images/" + part + "/" + `${addZero(bgCount)}`+ ".jpg')";
 }
 
 const setBackgroundGreet = () => {
@@ -124,16 +126,30 @@ const setFocus = (evt) => {
     if (evt.type === 'keypress') {
         // Make sure enter is pressed
         if (evt.which == 13 || evt.keyCode == 13) {
-            localStorage.setItem('focus', evt.target.innerText);
+            if (focus.innerHTML === '') {
+                focus.textContent = localStorage.getItem('focus');
+            } else localStorage.setItem('focus', evt.target.innerText);
             focus.blur();
         }
     } else {
-        localStorage.setItem('focus', evt.target.innerText);
+        if (focus.innerHTML === '') {
+            focus.textContent = localStorage.getItem('focus')
+        } else {
+            localStorage.setItem('focus', evt.target.innerText);
+        }
     }
 }
 
 const clearField = () => {
     userName.textContent = '';
+}
+
+const clearFocus = () => {
+    focus.textContent = '';
+}
+
+const changeScreen = () => {
+    setBackgroundGreet()
 }
 
 
@@ -142,11 +158,13 @@ userName.addEventListener('focus', clearField);
 userName.addEventListener('keypress', setName);
 userName.addEventListener('blur', setName);
 
+focus.addEventListener('click', clearFocus);
+focus.addEventListener('focus', clearFocus);
 focus.addEventListener('keypress', setFocus);
 focus.addEventListener('blur', setFocus);
 
+nextScreenBtn.addEventListener('click', changeScreen);
 // Run
-setBackgroundGreet();
 showTime();
 getName();
 getFocus();
