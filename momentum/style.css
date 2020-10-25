@@ -7,6 +7,8 @@
 body {
   font-family: 'Quicksand', sans-serif;
   display: flex;
+  padding-left: 1%;
+  padding-right: 1%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -15,6 +17,7 @@ body {
   background-size: cover;
   color: #FAFAFA;
   transition: all 0.5s ease-in-out;
+  text-shadow: 2px 2px 10px rgba(81, 81, 81, 0.8);
 }
 
 .name {
@@ -26,7 +29,9 @@ body {
 }
 
 .date {
-  font-size: 4rem;
+  font-size: 2rem;
+  margin-bottom: 3%;
+
 }
 
 h1 {
@@ -42,11 +47,15 @@ h2 {
   border: 2px solid #FAFAFA;
   padding: 1%;
   border-radius: 5px;
+  margin-bottom: 3%;
+  opacity: 1;
 }
 
 .switcher {
   display: block;
-  margin-top: 5%;
+  margin-top: 8%;
+  /*margin-right: 3%;*/
+  align-self: flex-end;
   min-width: 150px;
   background-color: transparent;
   color: #FAFAFA;
@@ -61,14 +70,56 @@ h2 {
 
 .quotes {
   color: #FAFAFA;
-  /*text-decoration: underline;*/
-  width: 50%;
+  width: 65%;
   font-size: 2rem;
-  margin-top: 2%;
+  margin-top: 4%;
 }
 
-@media (max-width: 700px) {
+.author {
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
   .time {
     font-size: 6rem;
+  }
+
+  .date {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 450px) {
+  .time {
+    font-size: 4.8rem;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .focus  {
+    border: 2px solid #FAFAFA;
+    padding: 1% 2% 1% 2%;
+    border-radius: 5px;
+    margin-bottom: 3%;
+    opacity: 1;
+  }
+
+  .quotes {
+    color: #FAFAFA;
+    width: 98%;
+    font-size: 1.2rem;
+    margin-top: 4%;
+    opacity: 0.8;
+  }
+
+  .author {
+    align-self: flex-end;
   }
 }

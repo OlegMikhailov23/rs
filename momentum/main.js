@@ -41,9 +41,7 @@ setTimeout(() => {
 
 }, 1000);
 
-// Show Time
 const showTime = () => {
-    // let today = new Date(2019, 6, 10, 20, 59,59);
     let today = new Date();
     let hour = today.getHours();
     if (prevOur !== today.getHours()) {
@@ -61,18 +59,14 @@ const showTime = () => {
 
 
     // Output Date
-    dateDay.innerHTML = `${getDay}, ${getDate} ${readableMonth}`;
+    dateDay.innerHTML = `${getDay}, ${getDate} ${readableMonth}`.toUpperCase();
 
     setTimeout(showTime, 1000);
 }
 
-// Add Zero
-
 const addZero = (numb) => {
     return (parseInt(numb, 10) < 10 ? '0' : '') + numb;
 }
-
-// Set Backgrounds and Greeting
 
 const changeBg = (part) => {
     bgCount === SCREEN_AMOUNT ? bgCount = 1 : bgCount++;
@@ -103,8 +97,6 @@ const setBackgroundGreet = () => {
     }
 }
 
-// Get name
-
 const getName = () => {
     if (localStorage.getItem('name') === null) {
         userName.textContent = '[Введите имя]'
@@ -113,17 +105,14 @@ const getName = () => {
     }
 }
 
-// Get Focus
-
 const getFocus = () => {
     if (localStorage.getItem('focus') === null) {
-        focus.textContent = '[Enter Focus]'
+        focus.textContent = '[Введите задачу]'
     } else {
         focus.textContent = localStorage.getItem('focus');
     }
 }
 
-// Set name
 const setName = (evt) => {
     if (evt.type === 'keypress') {
         // Make sure enter is pressed
@@ -143,8 +132,6 @@ const setName = (evt) => {
         }
     }
 }
-
-// Set Focus
 
 const setFocus = (evt) => {
     if (evt.type === 'keypress') {
@@ -176,7 +163,6 @@ const changeScreen = () => {
     setBackgroundGreet()
 }
 
-
 userName.addEventListener('click', clearField);
 userName.addEventListener('focus', clearField);
 userName.addEventListener('keypress', setName);
@@ -188,7 +174,7 @@ focus.addEventListener('keypress', setFocus);
 focus.addEventListener('blur', setFocus);
 
 nextScreenBtn.addEventListener('click', changeScreen);
-// Run
+
 showTime();
 getName();
 getFocus();
