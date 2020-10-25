@@ -20,6 +20,15 @@ body {
   text-shadow: 2px 2px 10px rgba(81, 81, 81, 0.8);
 }
 
+.preload {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
 .name {
   min-width: 100px;
 }
