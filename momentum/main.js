@@ -10,6 +10,7 @@ const monthList = ['Января', 'Февраля', 'Марта', 'Апреля
 const nextScreenBtn = document.querySelector('.switcher');
 const auth = document.querySelector('.author');
 const quotes = document.querySelector('#quote');
+const imgPreloader = document.querySelector('.preload');
 
 let bgCount = 0;
 let prevOur = '';
@@ -33,12 +34,11 @@ const shuffle = (arr) => {
 fetch('https://type.fit/api/quotes')
     .then(res => res.json())
     .then(data => quotesList = shuffle(data));
+
 setTimeout(() => {
     let index = getRandomeNumber(0, quotesList.length);
-
     quotes.textContent = quotesList[index].text;
     auth.textContent = quotesList[index].author;
-
 }, 1000);
 
 const showTime = () => {
@@ -54,11 +54,7 @@ const showTime = () => {
     let getDay = new Intl.DateTimeFormat('ru-Ru', options).format(today);
     let getDate = today.getDate();
     let readableMonth = monthList[today.getMonth()];
-    // Output time
     time.innerHTML = `${hour}<span>:</span>${addZero(minutes)}<span>:</span>${addZero(seconds)}`;
-
-
-    // Output Date
     dateDay.innerHTML = `${getDay}, ${getDate} ${readableMonth}`.toUpperCase();
 
     setTimeout(showTime, 1000);
@@ -70,6 +66,7 @@ const addZero = (numb) => {
 
 const changeBg = (part) => {
     bgCount === SCREEN_AMOUNT ? bgCount = 1 : bgCount++;
+    imgPreloader.style.backgroundImage = "url('assets/images/" + part + "/" + `${addZero(bgCount + 1)}`+ ".jpg')";
     document.body.style.backgroundImage = "url('assets/images/" + part + "/" + `${addZero(bgCount)}`+ ".jpg')";
 }
 
