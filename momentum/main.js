@@ -6,27 +6,36 @@ const time = document.querySelector('#time');
 const greeting = document.querySelector('#greeting');
 const userName = document.querySelector('#name');
 const focus = document.querySelector('#focus');
+const dateDay =document.querySelector('#date')
+const monthList = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Декабря']
 
+let bGcount = 0;
+let prevOur = '';
 // Option
 
 const showAmPm = true;
 
 // Show Time
 const showTime = () => {
-
+    // let today = new Date(2019, 6, 10, 20, 59,59);
     let today = new Date();
     let hour = today.getHours();
+    if (prevOur !== today.getHours()) {
+        setBackgroundGreet();
+    }
+    prevOur = hour;
     let minutes = today.getMinutes();
     let seconds = today.getSeconds();
-
-    // AM or PM???
-    const amPm = hour >= 12 ? 'PM' : 'AM'
-
-    // 12hr Format
-    hour = hour % 12 || 12;
-
+    let options = { weekday: 'long'};
+    let getDay = new Intl.DateTimeFormat('ru-Ru', options).format(today);
+    let getDate = today.getDate();
+    let readableMonth = monthList[today.getMonth()];
     // Output time
-    time.innerHTML = `${hour}<span>:</span>${addZero(minutes)}<span>:</span>${addZero(seconds)} ${showAmPm ? amPm : ''}`;
+    time.innerHTML = `${hour}<span>:</span>${addZero(minutes)}<span>:</span>${addZero(seconds)}`;
+
+
+    // Output Date
+    dateDay.innerHTML = `${getDay}, ${getDate} ${readableMonth}`;
 
     setTimeout(showTime, 1000);
 }
@@ -39,26 +48,31 @@ const addZero = (numb) => {
 
 // Set Backgrounds and Greeting
 
+const changeBg = (part) => {
+    bGcount++;
+    document.body.style.backgroundImage = "url('assets/images/" + part + "/" + `${addZero(bGcount)}`+ ".jpg')";
+}
+
 const setBackgroundGreet = () => {
     let today = new Date();
-    // let today = new Date(2020, 10,24, 7, 20, 20 );
     let hour = today.getHours();
-
-    if (hour < 12) {
-        // Morning
-        console.log('morning')
-        greeting.textContent = 'Good Morning!';
-        document.body.style.backgroundImage = "url('assets/images/morning/01.jpg')";
+    let part = '';
+    if (hour < 6){
+        greeting.textContent = 'Доброй ночи!';
+        part = 'night'
+        changeBg(part);
+    }else if (hour < 12) {
+        greeting.textContent = 'Доброе утро!';
+        part = 'morning';
+        changeBg(part);
     } else if (hour < 18) {
-        // Afternoon
-        console.log(hour, 'Afternoon')
-        greeting.textContent = 'Good Afternoon!';
-        document.body.style.backgroundImage = "url('assets/images/day/01.jpg')";
-    } else {
-        // Evening
-        console.log('Evening')
-        greeting.textContent = 'Good Evening!';
-        document.body.style.backgroundImage = "url('assets/images/evening/01.jpg')";
+        greeting.textContent = 'Добрый день!';
+        part = 'day';
+        changeBg(part);
+    } else if (hour < 24) {
+        greeting.textContent = 'Добрый вечер!';
+        part = 'evening';
+        changeBg(part);
         document.body.style.color = '#ffffff';
     }
 }
@@ -67,7 +81,7 @@ const setBackgroundGreet = () => {
 
 const getName = () => {
     if (localStorage.getItem('name') === null) {
-        userName.textContent = '[Enter Name]'
+        userName.textContent = '[Введите имя]'
     } else {
         userName.textContent = localStorage.getItem('name');
     }
@@ -88,11 +102,19 @@ const setName = (evt) => {
     if (evt.type === 'keypress') {
         // Make sure enter is pressed
         if (evt.which == 13 || evt.keyCode == 13) {
-            localStorage.setItem('name', evt.target.innerText);
-            userName.blur();
+            if (userName.innerHTML === '') {
+                userName.textContent = localStorage.getItem('name');
+            } else {
+                localStorage.setItem('name', evt.target.innerText);
+                userName.blur();
+            }
         }
     } else {
-        localStorage.setItem('name', evt.target.innerText);
+        if (userName.innerHTML === '') {
+            userName.textContent = localStorage.getItem('name');
+        } else {
+            localStorage.setItem('name', evt.target.innerText);
+        }
     }
 }
 
@@ -110,6 +132,13 @@ const setFocus = (evt) => {
     }
 }
 
+const clearField = () => {
+    userName.textContent = '';
+}
+
+
+userName.addEventListener('click', clearField);
+userName.addEventListener('focus', clearField);
 userName.addEventListener('keypress', setName);
 userName.addEventListener('blur', setName);
 

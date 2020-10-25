@@ -13,11 +13,20 @@ body {
   text-align: center;
   height: 100vh;
   background-size: cover;
-  color: #000000;
+  color: #FAFAFA;
+  transition: all 0.3s ease-in-out;
+}
+
+.name {
+  min-width: 100px;
 }
 
 .time {
   font-size: 8rem;
+}
+
+.date {
+  font-size: 4rem;
 }
 
 h1 {
