@@ -133,9 +133,10 @@ gulp.task('copy-data', function async() {
 gulp.task("minjs", function () {
     return gulp.src([
         'source/js/nav.js',
+        'source/js/pop-up-main.js',
+        'source/js/render-pagination.js',
         'source/js/swiper.js',
         'source/js/render-main-slider.js',
-        'source/js/pop-up-main.js'
     ]) // Берем все необходимые js файлы(перечисляем их)
         .pipe(babel({
             presets: ["@babel/preset-env"]

@@ -409,9 +409,20 @@ nav .pets-header__menu-list .pets-header__menu-list__item__link--active
 {
     position: relative;
 
-    display: flex;
+    overflow: hidden; 
 
+    height: 910px;
     margin-bottom: 5.6%;
+}
+
+.looking-for__container .page-container
+{
+    position: absolute;
+
+    display: flex;
+    overflow: hidden;
+
+    transition: all .3s ease; 
 
     flex-wrap: wrap;
     justify-content: center;
@@ -432,7 +443,6 @@ nav .pets-header__menu-list .pets-header__menu-list__item__link--active
 
     border-radius: 10px;
     background-color: #fafafa; 
-    box-shadow: 0 2px 35px 14px rgba(13, 13, 13, .04);
 
     align-items: center;
     justify-content: flex-start;
@@ -1024,6 +1034,7 @@ footer a
     }
     .looking-for__container
     {
+        height: 1365px; 
         margin-bottom: 15.5%;
     }
     .looking-for__controls

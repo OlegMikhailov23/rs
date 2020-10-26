@@ -7,7 +7,6 @@
     <title>Shelter - Pets</title>
     <link rel="shortcut icon" href="../../favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="normalize.css">
-    <link rel="stylesheet" href="../libs/swiper/swiper.min.css">
     <link rel="stylesheet" href="style.min.css">
 </head>
 <body>
@@ -49,55 +48,16 @@
         <div class="looking-for__wrapper">
             <h1 class="looking-for__title">Our friends who<br> are looking for a house</h1>
             <div class="looking-for__container">
-                <div class="looking-for__container__item">
-                    <img class="looking-for__container__item__picture" src="../../assets/images/freddie.png" alt="Katrine" width="270" height="270">
-                    <span class="looking-for__container__item__name">Katrine</span>
-                    <a class="looking-for__container__item__button" href="#">Learn more</a>
-                </div>
-                <div class="looking-for__container__item">
-                    <img class="looking-for__container__item__picture" src="../../assets/images/jennifer.png" alt="Jennifer" width="270" height="270">
-                    <span class="looking-for__container__item__name">Jennifer</span>
-                    <a class="looking-for__container__item__button" href="#">Learn more</a>
-                </div>
-                <div class="looking-for__container__item">
-                    <img class="looking-for__container__item__picture" src="../../assets/images/woody.png" alt="Woody" width="270" height="270">
-                    <span class="looking-for__container__item__name">Woody</span>
-                    <a class="looking-for__container__item__button" href="#">Learn more</a>
-                </div>
-                <div class="looking-for__container__item extractable-mobile">
-                    <img class="looking-for__container__item__picture" src="../../assets/images/sophia.png" alt="Sophia" width="270" height="270">
-                    <span class="looking-for__container__item__name">Sophia</span>
-                    <a class="looking-for__container__item__button" href="#">Learn more</a>
-                </div>
+                <div class="page-container" id="petsContainer">
 
-                <div class="looking-for__container__item extractable-mobile">
-                    <img class="looking-for__container__item__picture" src="../../assets/images/timmy.png" alt="Timmy" width="270" height="270">
-                    <span class="looking-for__container__item__name">Timmy</span>
-                    <a class="looking-for__container__item__button" href="#">Learn more</a>
                 </div>
-                <div class="looking-for__container__item extractable-mobile">
-                    <img class="looking-for__container__item__picture" src="../../assets/images/charly.png" alt="Charly" width="270" height="270">
-                    <span class="looking-for__container__item__name">Charly</span>
-                    <a class="looking-for__container__item__button" href="#">Learn more</a>
-                </div>
-                <div class="looking-for__container__item extractable-tablet">
-                    <img class="looking-for__container__item__picture" src="../../assets/images/scarlett.png" alt="Scarlet" width="270" height="270">
-                    <span class="looking-for__container__item__name">Scarlett</span>
-                    <a class="looking-for__container__item__button" href="#">Learn more</a>
-                </div>
-                <div class="looking-for__container__item extractable-tablet">
-                    <img class="looking-for__container__item__picture" src="../../assets/images/katrine.png" alt="Katrine" width="270" height="270">
-                    <span class="looking-for__container__item__name">Freddie</span>
-                    <a class="looking-for__container__item__button" href="#">Learn more</a>
-                </div>
-
             </div>
             <div class="looking-for__controls">
-                <button class="looking-for__controls__button looking-for__controls__button--disabled" title="Go back" disabled>&lt;&lt;</button>
-                <button class="looking-for__controls__button looking-for__controls__button--disabled" title="Previous" disabled>&lt;</button>
-                <button class="looking-for__controls__button looking-for__controls__button--active" title="Page number">1</button>
-                <button class="looking-for__controls__button" title="Next">></button>
-                <button class="looking-for__controls__button" title="Go forward">>></button>
+                <button class="looking-for__controls__button looking-for__controls__button--disabled" title="Go back" id="goBack">&lt;&lt;</button>
+                <button class="looking-for__controls__button looking-for__controls__button--disabled" title="Previous" id="prevPage">&lt;</button>
+                <button class="looking-for__controls__button looking-for__controls__button--active" title="Page number" id="pageId">1</button>
+                <button class="looking-for__controls__button" title="Next" id="nextPage">></button>
+                <button class="looking-for__controls__button" title="Go forward" id="goFrw">>></button>
             </div>
         </div>
     </section>
@@ -125,46 +85,7 @@
     </div>
 </footer>
 <div class="modal-background"></div>
-<script>
-    const hamburgerButton = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('nav');
-    const navMenuLink = document.querySelectorAll('nav a');
-    const modalBackground = document.querySelector('.modal-background');
-    const headerLogo = document.querySelector('.main-header__logo');
 
-    const closeNav = () => {
-        navMenu.classList.add('closed');
-        headerLogo.style.width = 'auto';
-        headerLogo.style.height = 'auto';
-        document.querySelector('body').style.overflow = 'visible';
-        setTimeout(() => {
-            navMenu.classList.remove('collapse');
-            navMenu.classList.remove('closed');
-            hamburgerButton.classList.remove('open');
-            modalBackground.classList.remove('modal-background-show');
-            headerLogo.style.opacity = '1';
-        }, 199)
-    }
-
-    hamburgerButton.addEventListener('click', (evt) => {
-        if(navMenu.classList.contains('collapse')) {
-            closeNav();
-        } else {
-            hamburgerButton.classList.add('open');
-            navMenu.classList.add('collapse');
-            modalBackground.classList.add('modal-background-show');
-            document.querySelector('body').style.overflow = 'hidden';
-            headerLogo.style.opacity = '0';
-            headerLogo.style.width = '0';
-            headerLogo.style.height = '0';
-        }
-    })
-
-    navMenuLink.forEach((link) => {
-        link.addEventListener('click', closeNav)
-    });
-
-    modalBackground.addEventListener('click', closeNav);
-</script>
+<script src="../../js/minjs.js"></script>
 </body>
 </html>

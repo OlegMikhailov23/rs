@@ -1179,7 +1179,7 @@ nav .main-header__menu-list .main-header__menu-list__item__link--active
 }
 .donation__text-content a:hover
 {
-    font-weight: 700;
+    font-weight: 400;
 
     transition: .3s;
 
