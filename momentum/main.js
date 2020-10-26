@@ -13,7 +13,7 @@ const quotes = document.querySelector('#quote');
 const imgPreloader = document.querySelector('.preload');
 
 const cityName = document.querySelector('.weather__city');
-cityName.value = 'Санкт-Петербург';
+localStorage.getItem('city') ? cityName.value = localStorage.getItem('city') : cityName.value = 'Санкт-Петербург';
 
 const getWeather = () => {
     fetch('https://api.openweathermap.org/data/2.5/weather?q=' + cityName.value + '&lang=ru&appid=9211ad9ce1a71636a44f8e6fff1fa63b').then(function (resp) {return resp.json() }).then(function (data) {
@@ -23,7 +23,6 @@ const getWeather = () => {
         document.querySelector('.weather__icon').innerHTML = `<img src="https://openweathermap.org/img/wn/${data.weather[0].icon}.png">`;
         document.querySelector('.weather__humidity').textContent = data.main.humidity + '%';
         document.querySelector('.weather__wind-speed').textContent = 'Ветер ' + data.wind.speed + ' м/с';
-        console.log('success');
     })
         .catch(function () {
             throw new Error('Oohh, something goes wrong!')
