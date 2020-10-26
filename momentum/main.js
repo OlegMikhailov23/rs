@@ -16,7 +16,7 @@ const cityName = document.querySelector('.weather__city');
 cityName.value = 'Санкт-Петербург';
 
 const getWeather = () => {
-    fetch('http://api.openweathermap.org/data/2.5/weather?q=' + cityName.value + '&lang=ru&appid=9211ad9ce1a71636a44f8e6fff1fa63b').then(function (resp) {return resp.json() }).then(function (data) {
+    fetch('https://api.openweathermap.org/data/2.5/weather?q=' + cityName.value + '&lang=ru&appid=9211ad9ce1a71636a44f8e6fff1fa63b').then(function (resp) {return resp.json() }).then(function (data) {
         document.querySelector('.weather__city').textContent = data.name;
         document.querySelector('.weather__forecast').innerHTML = Math.round(data.main.temp - 273) + '&deg;';
         document.querySelector('.weather__desk').textContent = data.weather[0].description;
