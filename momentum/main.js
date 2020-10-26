@@ -12,6 +12,28 @@ const auth = document.querySelector('.author');
 const quotes = document.querySelector('#quote');
 const imgPreloader = document.querySelector('.preload');
 
+const cityName = document.querySelector('.weather__city');
+cityName.value = localStorage.getItem('city');
+
+const getWeather = () => {
+    fetch('http://api.openweathermap.org/data/2.5/weather?q=' + cityName.value + '&lang=ru&appid=9211ad9ce1a71636a44f8e6fff1fa63b').then(function (resp) {return resp.json() }).then(function (data) {
+        document.querySelector('.weather__city').textContent = data.name;
+        document.querySelector('.weather__forecast').innerHTML = Math.round(data.main.temp - 273) + '&deg;';
+        document.querySelector('.weather__desk').textContent = data.weather[0].description;
+        document.querySelector('.weather__icon').innerHTML = `<img src="https://openweathermap.org/img/wn/${data.weather[0].icon}.png">`;
+        document.querySelector('.weather__humidity').textContent = data.main.humidity + '%';
+        document.querySelector('.weather__wind-speed').textContent = 'Ветер ' + data.wind.speed + ' м/с';
+        console.log('success');
+    })
+        .catch(function () {
+            throw new Error('Oohh, something goes wrong!')
+        });
+}
+
+getWeather();
+
+cityName.addEventListener('change', getWeather);
+
 let bgCount = 0;
 let prevOur = '';
 const SCREEN_AMOUNT = 20;
@@ -112,7 +134,6 @@ const getFocus = () => {
 
 const setName = (evt) => {
     if (evt.type === 'keypress') {
-        // Make sure enter is pressed
         if (evt.which == 13 || evt.keyCode == 13) {
             if (userName.innerHTML === '') {
                 userName.textContent = localStorage.getItem('name');
@@ -132,7 +153,6 @@ const setName = (evt) => {
 
 const setFocus = (evt) => {
     if (evt.type === 'keypress') {
-        // Make sure enter is pressed
         if (evt.which == 13 || evt.keyCode == 13) {
             if (focus.innerHTML === '') {
                 focus.textContent = localStorage.getItem('focus');
@@ -144,6 +164,23 @@ const setFocus = (evt) => {
             focus.textContent = localStorage.getItem('focus')
         } else {
             localStorage.setItem('focus', evt.target.innerText);
+        }
+    }
+}
+
+const setCity = (evt) => {
+    if (evt.type === 'keypress') {
+        if (evt.which == 13 || evt.keyCode == 13) {
+            if (cityName.value === '' || cityName.value === undefined) {
+                cityName.value = localStorage.getItem('city');
+            } else localStorage.setItem('city', evt.target.value);
+            cityName.blur();
+        }
+    } else {
+        if (cityName.value === '' || cityName.value === undefined) {
+            cityName.value = localStorage.getItem('city')
+        } else {
+            localStorage.setItem('city', evt.target.value);
         }
     }
 }
@@ -171,6 +208,9 @@ focus.addEventListener('keypress', setFocus);
 focus.addEventListener('blur', setFocus);
 
 nextScreenBtn.addEventListener('click', changeScreen);
+
+cityName.addEventListener('keypress', setCity);
+cityName.addEventListener('blur', setCity);
 
 showTime();
 getName();
