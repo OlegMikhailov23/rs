@@ -91,7 +91,7 @@ h2 {
 
 .switcher {
   display: block;
-  margin-top: 8%;
+  margin-top: 4%;
   align-self: flex-end;
   min-width: 150px;
   background-color: transparent;
@@ -107,9 +107,9 @@ h2 {
 
 .quotes {
   color: #FAFAFA;
-  width: 65%;
-  font-size: 2rem;
-  margin-top: 4%;
+  width: 70%;
+  font-size: 1.4rem;
+  margin-top: 3%;
 }
 
 .author {
