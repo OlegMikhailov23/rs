@@ -86,12 +86,12 @@ gulp.task('serve', async function () {
     });
     gulp.watch('source/pages/**/**/**/*.s[ac]ss', gulp.parallel('styles'));
     gulp.watch('source/pages/**/s[ac]ss/**/*.s[ac]ss', gulp.parallel('styles'));
-    gulp.watch("source/js/**/*.js", gulp.parallel('minjs')).on('change', server.reload);
+    gulp.watch("source/js/**/*.js", gulp.series('clean', 'copy-html','copyIndex', 'copy-fonts', 'copy-img', 'copy-libs', 'styles', 'copy-js', 'copy-data', 'optimizeImgs')).on('change', server.reload);
     gulp.watch('source/pages/**/*.html', gulp.parallel('copy-html')).on('change', server.reload);
     gulp
         .watch(
             'source/assets/images/**/*.{png,jpg,gif,svg}',
-            gulp.series('clean', 'copy-html', 'copyIndex', 'copy-fonts', 'copy-img', 'copy-libs', 'minjs', 'styles', 'optimizeImgs'),
+            gulp.series('clean', 'copy-html', 'copyIndex', 'copy-fonts', 'copy-img', 'copy-libs', 'copy-js', 'styles', 'optimizeImgs'),
         )
         .on('change', server.reload);
 });
@@ -126,30 +126,34 @@ gulp.task('copy-libs', function async() {
     return gulp.src('source/libs/**/*.*').pipe(gulp.dest('build/libs'));
 });
 
+gulp.task('copy-js', function async() {
+    return gulp.src('source/js/*.js').pipe(gulp.dest('build/js'));
+});
+
 gulp.task('copy-data', function async() {
     return gulp.src('source/data/*.json').pipe(gulp.dest('build/data'));
 });
 
-gulp.task("minjs", function () {
-    return gulp.src([
-        'source/js/nav.js',
-        'source/js/pop-up-main.js',
-        'source/js/render-pagination.js',
-        'source/js/swiper.js',
-        'source/js/render-main-slider.js',
-    ]) // Берем все необходимые js файлы(перечисляем их)
-        .pipe(babel({
-            presets: ["@babel/preset-env"]
-        }))
-        .pipe(concat("minjs.js")) // Собираем их в кучу в новом файле minjs.js
-        .pipe(uglify()) // Сжимаем JS файл
-        .pipe(gulp.dest("build/js")); // Выгружаем в папку build/libs
-});
+// gulp.task("minjs", function () {
+//     return gulp.src([
+//         'source/js/nav.js',
+//         'source/js/pop-up-main.js',
+//         'source/js/render-pagination.js',
+//         'source/js/swiper.js',
+//         'source/js/render-main-slider.js',
+//     ]) // Берем все необходимые js файлы(перечисляем их)
+//         .pipe(babel({
+//             presets: ["@babel/preset-env"]
+//         }))
+//         .pipe(concat("minjs.js")) // Собираем их в кучу в новом файле minjs.js
+//         .pipe(uglify()) // Сжимаем JS файл
+//         .pipe(gulp.dest("build/js")); // Выгружаем в папку build/libs
+// });
 
 gulp.task('clean', async function () {
     return del('build');
 });
 
-gulp.task('build', gulp.series('clean', 'copy-html','copyIndex', 'copy-fonts', 'copy-img', 'copy-libs', 'styles', 'minjs', 'copy-data', 'optimizeImgs'));
+gulp.task('build', gulp.series('clean', 'copy-html','copyIndex', 'copy-fonts', 'copy-img', 'copy-libs', 'styles', 'copy-js', 'copy-data', 'optimizeImgs'));
 
 
