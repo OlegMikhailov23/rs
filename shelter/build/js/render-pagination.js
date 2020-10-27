@@ -112,7 +112,7 @@ nextPage.addEventListener('click', (e) => {
 goForward.addEventListener('click', () => {
     prevPage.classList.remove('looking-for__controls__button--disabled');
     goBack.classList.remove('looking-for__controls__button--disabled');
-    pageId.innerHTML = Math.ceil(petsContainer.offsetHeight / 933 - 1);
+    pageId.innerHTML = Math.ceil(petsContainer.offsetHeight / 933);
     pageCounter = Math.ceil(petsContainer.offsetHeight / 933 - 1);
     petsContainer.style.top = `calc(${-933 * Math.ceil(petsContainer.offsetHeight / 933 - 1)}px)`;
 })
