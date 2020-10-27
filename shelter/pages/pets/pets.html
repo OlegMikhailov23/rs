@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Shelter - Pets</title>
+    <link rel="shortcut icon" href="../../favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="style.min.css">
+</head>
+<body>
+<header class="pets-header pets-header--disable-sticky">
+    <div class="pets-header__wrapper">
+        <div class="modal-background"></div>
+        <div class="main-header__logo pets-header__logo">
+            <h1>Cozy House</h1>
+            <span>Shelter for pets in Boston</span>
+        </div>
+        <a class ="nav-toggle" title="Open/Close menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </a>
+        <nav>
+            <div class="pets-header__logo pets-header__logo--nav">
+                <h1>Cozy House</h1>
+                <span>Shelter for pets in Boston</span>
+            </div>
+            <ul class="pets-header__menu-list">
+                <li class="pets-header__menu-list__item"><a class="pets-header__menu-list__item__link" href="../main/main.html" target="_blank">About
+                    the shelter</a></li>
+                <li class="pets-header__menu-list__item"><a
+                        class="pets-header__menu-list__item__link pets-header__menu-list__item__link--active" href="#">Our
+                    pets</a></li>
+                <li class="pets-header__menu-list__item"><a class="pets-header__menu-list__item__link" style="pointer-events: none;">Help the
+                    shelter</a></li>
+                <li class="pets-header__menu-list__item"><a class="pets-header__menu-list__item__link" style="pointer-events: none;">Contacts</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main>
+
+    <section class="looking-for">
+        <div class="looking-for__wrapper">
+            <h1 class="looking-for__title">Our friends who<br> are looking for a house</h1>
+            <div class="looking-for__container">
+                <div class="page-container" id="petsContainer">
+
+                </div>
+            </div>
+            <div class="looking-for__controls">
+                <button class="looking-for__controls__button looking-for__controls__button--disabled" title="Go back" id="goBack">&lt;&lt;</button>
+                <button class="looking-for__controls__button looking-for__controls__button--disabled" title="Previous" id="prevPage">&lt;</button>
+                <button class="looking-for__controls__button looking-for__controls__button--active" title="Page number" id="pageId">1</button>
+                <button class="looking-for__controls__button" title="Next" id="nextPage">></button>
+                <button class="looking-for__controls__button" title="Go forward" id="goFrw">>></button>
+            </div>
+        </div>
+    </section>
+
+</main>
+<footer>
+    <div class="footer__wrapper">
+        <div class="footer__contact">
+            <span>For questions and suggestions</span>
+            <a class="footer__contact__mail" href="mailto:email@shelter.com">email@shelter.com</a>
+            <a class="footer__contact__phone" href="tel:+136745677554">+13 674 567 75 54</a>
+        </div>
+        <div class="footer__location">
+            <span>We are waiting for your visit</span>
+            <a class="footer__location__address"
+               href="https://www.google.ru/maps/place/%D0%A1%D0%B0%D0%BD-%D0%A4%D1%80%D0%B0%D0%BD%D1%86%D0%B8%D1%81%D0%BA%D0%BE,+%D0%9A%D0%B0%D0%BB%D0%B8%D1%84%D0%BE%D1%80%D0%BD%D0%B8%D1%8F,+%D0%A1%D0%A8%D0%90/@37.7577627,-122.4726194,13z/data=!3m1!4b1!4m5!3m4!1s0x80859a6d00690021:0x4a501367f076adff!8m2!3d37.7749295!4d-122.4194155"
+               target="_blank">1 Central Street, Boston (entrance from the store)</a>
+            <a class="footer__location__address"
+               href="https://www.google.ru/maps/place/%D0%A2%D0%BE%D0%BA%D0%B8%D0%BE,+%D0%AF%D0%BF%D0%BE%D0%BD%D0%B8%D1%8F/@35.6684415,139.6007845,11z/data=!3m1!4b1!4m5!3m4!1s0x60188b857628235d:0xcdd8aef709a2b520!8m2!3d35.6803997!4d139.7690174"
+               target="_blank">18 South Park, London </a>
+        </div>
+        <div class="footer__picture">
+            <img src="../../assets/images/footer-puppy.png" alt="Puppy">
+        </div>
+    </div>
+</footer>
+<div class="modal-background"></div>
+
+<script src="../../js/nav.js"></script>
+<script src="../../js/render-pagination.js"></script>
+</body>
+</html>
