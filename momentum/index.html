@@ -1,35 +1,38 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
-  <title>momentum</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css"/>
+    <title>momentum</title>
 </head>
 <body>
-  <div class="preload"></div>
-  <time class="time" id="time"></time>
-  <h1>
+<div class="preload"></div>
+<time class="time" id="time"></time>
+<h1>
     <span class="greeting" id="greeting"></span>
     <span class="name" id="name" contenteditable="true"></span>
-  </h1>
-  <span class="date" id="date"></span>
-  <h2>Над чем сегодня поработаем?</h2>
-  <h2 class="focus" id="focus" contenteditable="true"></h2>
-  <div class="weather">
+</h1>
+<span class="date" id="date"></span>
+<h2>Над чем сегодня поработаем?</h2>
+<h2 class="focus" id="focus" contenteditable="true"></h2>
+<div class="weather">
     <input class="weather__city" placeholder="Название города" title="Погода">
     <div class="weather__block weather__icon"></div>
     <div class="weather__block weather__forecast"></div>
     <div class="weather__block weather__desk"></div>
     <div class="weather__block weather__humidity"></div>
     <div class="weather__block weather__wind-speed"></div>
-  </div>
-  <span class="quotes" id="quote"></span>
-  <span class="author" id=""author></span>
-  <button class="switcher" id="nextBg">
+</div>
+<div class="quote-container">
+    <span class="quotes" id="quote"></span>
+    <span class="author" id="" author></span>
+    <button id="changeQuote" title="Изменить цитату дня">Мне повезет)</button>
+</div>
+<button class="switcher" id="nextBg">
     Следующий экран
-  </button>
-  <script src="main.js"></script>
+</button>
+<script src="main.js"></script>
 </body>
 </html>
