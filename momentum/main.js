@@ -29,7 +29,9 @@ const getWeather = () => {
         document.querySelector('.weather__wind-speed').textContent = 'Ветер ' + data.wind.speed + ' м/с';
     })
         .catch(function () {
-            throw new Error('Oohh, something goes wrong!')
+            cityName.value = 'Санкт-Петербург';
+            getWeather()
+            alert('Укажите корректный город, например Санкт-петербург');
         });
 }
 
