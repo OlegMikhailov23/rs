@@ -276,7 +276,13 @@ h2 {
 
   #changeQuote {
     left: 30px;
-    bottom: 20px;
+    top: 20px;
+  }
+
+  .switcher {
+    top: 5px;
+    right: 20px;
+    bottom: unset;
   }
 
   greeteting-name {
