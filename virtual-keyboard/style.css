@@ -27,6 +27,7 @@
 
 .keyboard__keys {
   text-align: center;
+  transition: all 0.3s ease-in-out;
 }
 
 .keyboard__key {
@@ -48,6 +49,7 @@
   padding: 0;
   -webkit-tap-highlight-color: transparent;
   position: relative;
+  transition: all 0.3s ease-in-out;
 }
 
 .keyboard__key:active {
@@ -76,6 +78,7 @@
 
 .keyboard__key--active::after {
   background: #08ff00;
+  transition: all 0.3s ease;
 }
 
 .keyboard__key--dark {
