@@ -22,16 +22,16 @@ const Keyboard = {
     keyEnLayout: [
         "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "backspace",
         "q", "w", "e", "r", "t", "y", "u", "i", "o", "p",
-        "caps", "a", "s", "d", "f", "g", "h", "j", "k", "l", "enter",
+        "a", "s", "d", "f", "g", "h", "j", "k", "l", "enter",
         "done", "z", "x", "c", "v", "b", "n", "m", ",", ".", "?",
-        "en","shift", "space"
+        "caps","en", "shift", "space", "left", "right"
     ],
     keyRuLayout: [
         "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "backspace",
         "й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "х", "ъ",
-        "caps", "ф", "ы", "в", "а", "п", "р", "о", "л", "д", "ж", "э", "ё", "enter",
+        "ф", "ы", "в", "а", "п", "р", "о", "л", "д", "ж", "э", "ё", "enter",
         "done", "я", "ч", "с", "м", "и", "т", "ь", "б", "ю", "<", ">", "/",
-        "ru","shift", "space"
+        "caps","ru", "shift", "space", "left", "right"
     ],
 
     eventHandlers: {
@@ -195,6 +195,26 @@ const Keyboard = {
 
                     break;
 
+                case "left":
+                    keyElement.classList.add("keyboard__key--wide");
+                    keyElement.innerHTML = createIconHTML("keyboard_arrow_left");
+                    keyElement.addEventListener('click', () => {
+                            const area = document.getElementsByName('textarea').item(0);
+                                area.selectionEnd = area.selectionEnd - 1;
+                                area.focus();
+                    })
+                    break;
+
+                case "right":
+                    keyElement.classList.add("keyboard__key--wide");
+                    keyElement.innerHTML = createIconHTML("keyboard_arrow_right");
+                    keyElement.addEventListener('click', () => {
+                        const area = document.getElementsByName('textarea').item(0);
+                            area.selectionStart = area.selectionEnd +1;
+                            area.focus();
+                    })
+                    break;
+
                 default:
                     keyElement.textContent = key.toLowerCase();
                     keyElement.addEventListener("click", () => {
@@ -240,7 +260,6 @@ const Keyboard = {
             let j = 0;
             for (let i = 0; i < document.querySelectorAll('.keyboard__key').length; i++) {
                 if (this.elements.keys[i].textContent.search(/[a-zа-яёA-ZА-ЯЁ]/) === -1 && this.elements.keys[i].childElementCount === 0) {
-                    console.log(this.language.value)
                     this.language.value === 'en' ? this.elements.keys[i].textContent = this.alternativeKeyboard[j] : this.elements.keys[i].textContent = this.alternativeRuKeyboard[j];
                     j++
                 }
