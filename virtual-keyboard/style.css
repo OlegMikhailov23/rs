@@ -1,12 +1,32 @@
+body {
+  background-image: url("assets/bg2.jpg");
+  background-position: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-color: #004134;
+}
+
+
 .use-keyboard-input {
+  font-family: 'VT323', monospace, sans-serif;
   display: block;
-  width: 90%;
+  width: 93%;
   margin: 30px auto;
   padding: 10px;
   font-size: 20px;
-  height: calc(100vh - 380px);
+  height: calc(100vh - 290px);
   min-height: 300px;
   outline: none;
+  color: #12bb1a;
+  border-radius: 5%;
+  background-color: #000000;
+  background-image: url("assets/input-bg.png");
+  background-position: center;
+  background-size: 135% 135%;
+  background-repeat: no-repeat;
+  letter-spacing: 0.06rem;
+  font-size: 2rem;
+  resize: none;
 }
 
 .keyboard {
