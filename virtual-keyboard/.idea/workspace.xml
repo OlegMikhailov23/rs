@@ -23,6 +23,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +64,7 @@
       <option name="presentableId" value="Default" />
       <updated>1603992628694</updated>
       <workItem from="1603992633077" duration="9776000" />
-      <workItem from="1604229492947" duration="29067000" />
+      <workItem from="1604229492947" duration="47846000" />
     </task>
     <servers />
   </component>
@@ -80,5 +81,11 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="2065" y="241" width="670" height="676" key="search.everywhere.popup" timestamp="1604344245596">
+      <screen x="1440" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2065" y="241" width="670" height="676" key="search.everywhere.popup/1440.0.1920.1080/0.0.1440.900@1440.0.1920.1080" timestamp="1604344245596" />
   </component>
 </project>
