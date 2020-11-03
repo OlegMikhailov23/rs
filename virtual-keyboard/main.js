@@ -24,14 +24,14 @@ const Keyboard = {
         "q", "w", "e", "r", "t", "y", "u", "i", "o", "p",
         "a", "s", "d", "f", "g", "h", "j", "k", "l", "enter",
         "done", "z", "x", "c", "v", "b", "n", "m", ",", ".", "?",
-        "caps", "en", "shift", "space", "left", "right"
+        "caps", "en", "shift", "space", "speechRecord", "left", "right"
     ],
     keyRuLayout: [
         "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "backspace",
         "й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "х", "ъ",
         "ф", "ы", "в", "а", "п", "р", "о", "л", "д", "ж", "э", "ё", "enter",
         "done", "я", "ч", "с", "м", "и", "т", "ь", "б", "ю", "<", ">", "/",
-        "caps", "ru", "shift", "space", "left", "right"
+        "caps", "ru", "shift", "space", "speechRecord", "left", "right"
     ],
 
     eventHandlers: {
@@ -43,6 +43,7 @@ const Keyboard = {
         value: "",
         capsLock: false,
         shift: false,
+        record: false
     },
 
     language: {
@@ -172,6 +173,7 @@ const Keyboard = {
                     this.listenKeyboardButton('capslock', keyElement, capsSwitcher);
 
                     break;
+
                 case "enter":
                     keyElement.classList.add("keyboard__key--wide");
                     keyElement.innerHTML = createIconHTML("keyboard_return");
@@ -201,7 +203,6 @@ const Keyboard = {
                 case "done":
                     keyElement.classList.add("keyboard__key--wide", "keyboard__key--dark");
                     keyElement.innerHTML = createIconHTML("check_circle");
-
                     keyElement.addEventListener("click", () => {
                         this.close();
                         this._triggerEvent("onclose");
@@ -221,6 +222,7 @@ const Keyboard = {
                     }
                     keyElement.addEventListener('click', moveCursorLeft);
                     this.listenKeyboardButton('arrowleft', keyElement, moveCursorLeft);
+
                     break;
 
                 case "right":
@@ -234,6 +236,41 @@ const Keyboard = {
                     }
                     keyElement.addEventListener('click', moveCursorRigth);
                     this.listenKeyboardButton('arrowright', keyElement, moveCursorRigth);
+
+                    break;
+
+                case "speechRecord":
+                    keyElement.classList.add("keyboard__key--wide", "keyboard__key--activatable");
+                    keyElement.innerHTML = createIconHTML("record_voice_over");
+                    window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                    keyElement.addEventListener('click', (e) => {
+                        this.soundEl('assets/sound/record.mp3')
+                        this.properties.record = !this.properties.record;
+                        keyElement.classList.toggle("keyboard__key--active--record", this.properties.record);
+                        const recognition = new SpeechRecognition();
+                        recognition.interimResults = true;
+                        recognition.lang = this.language.value + '-' + this.language.value.toUpperCase();
+                        recognition.addEventListener('result', e => {
+                            const transcript = Array.from(e.results)
+                                .map(result => result[0])
+                                .map(result => result.transcript)
+                                .join('');
+
+                            if (e.results[0].isFinal) {
+                                this.properties.value += transcript + " ";
+                                this._triggerEvent("oninput");
+                            }
+                        });
+
+                        recognition.addEventListener('end', () => {
+                            this.properties.record = !this.properties.record;
+                            keyElement.classList.toggle("keyboard__key--active--record", this.properties.record);
+                            recognition.stop();
+                        })
+
+                        recognition.start();
+                    })
+
                     break;
 
                 default:
@@ -251,19 +288,24 @@ const Keyboard = {
                         this.language.value === 'en' ? this.soundEl('assets/sound/keydownEn.mp3') : this.soundEl('assets/sound/keydownRu.mp3');
                     }
 
-                    keyElement.addEventListener("click", () => {typeFromKeyboard(keyElement.textContent)});
+                    keyElement.addEventListener("click", () => {
+                        typeFromKeyboard(keyElement.textContent)
+                    });
+
                     // Не мог избавится от размножения eventListener, поэтому пришлось делать такой костыль
-                    function lighting(e) {
-                        document.querySelectorAll('.keyboard__key').forEach((key) => {
-                            if (key.textContent.toLowerCase() === e.key) {
-                                typeFromKeyboard(key.textContent);
-                                key.style.backgroundColor = '#798179';
-                                setTimeout(() => {
-                                    key.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
-                                }, 100)
-                            }
-                        })
-                    }
+                function lighting(e) {
+                    document.querySelectorAll('.keyboard__key').forEach((key) => {
+                        if (key.textContent.toLowerCase() === e.key) {
+                            typeFromKeyboard(key.textContent);
+                            key.style.backgroundColor = '#4a4a4a';
+                            key.style.backgroundColor = 'box-shadow: 0px 3px 1px 0 #151414 inset'
+                            setTimeout(() => {
+                                key.style.backgroundColor = '#8d8d8d';
+                            }, 200)
+                        }
+                    })
+                }
+
                     document.querySelector('.use-keyboard-input').onkeydown = lighting;
 
                     break;
@@ -346,9 +388,9 @@ const Keyboard = {
             evt.preventDefault();
             let target = evt.key.toLowerCase();
             if (target === el) {
-                keyEl.style.backgroundColor = '#798179';
+                keyEl.style.backgroundColor = '#4a4a4a';
                 setTimeout(() => {
-                    keyEl.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+                    keyEl.style.backgroundColor = '#8d8d8d';
                 }, 100)
                 cb();
             }
@@ -357,7 +399,7 @@ const Keyboard = {
 
     soundEl(src) {
         const audio = new Audio();
-        audio.src = src; // Указываем путь к звуку "клика"
+        audio.src = src;
         audio.autoplay = true;
     }
 };

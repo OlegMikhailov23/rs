@@ -1,20 +1,22 @@
 body {
+  position: relative;
   background-image: url("assets/bg2.jpg");
   background-position: center;
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  background-color: #004134;
+  background-color: #cccccc;
 }
 
 
 .use-keyboard-input {
   font-family: 'VT323', monospace, sans-serif;
   display: block;
+  position: relative;
   width: 93%;
   margin: 30px auto;
   padding: 10px;
   font-size: 20px;
-  height: calc(100vh - 290px);
+  height: calc(100vh - 330px);
   min-height: 300px;
   outline: none;
   color: #12bb1a;
@@ -35,10 +37,26 @@ body {
   bottom: 0;
   width: 100%;
   padding: 5px 0;
-  background: #004134;
+  background: url("assets/pattern-dark.jpg");
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
   user-select: none;
   transition: bottom 0.4s;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  bottom: -295px;
+  left: 0;
+  width: calc(100% + 16px);
+  margin-left: -8px;
+  height: 265px;
+  background-image: url("assets/wooden-texture.jpg");
+  background-position: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+
+  z-index: 0;
 }
 
 .keyboard--hidden {
@@ -57,8 +75,8 @@ body {
   margin: 3px;
   border-radius: 4px;
   border: none;
-  background: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
+  background: #8d8d8d;
+  color: #101110;
   font-size: 1.05rem;
   outline: none;
   cursor: pointer;
@@ -69,19 +87,20 @@ body {
   padding: 0;
   -webkit-tap-highlight-color: transparent;
   position: relative;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 .keyboard__key:active {
-  background: rgba(255, 255, 255, 0.12);
+  background: #606060;
+  box-shadow: 0px 3px 1px 0 #151414 inset;
 }
 
 .keyboard__key--wide {
-  width: 12%;
+  width: 10%;
 }
 
 .keyboard__key--extra-wide {
-  width: 36%;
+  width: 30%;
   max-width: 500px;
 }
 
@@ -101,8 +120,13 @@ body {
   transition: all 0.3s ease;
 }
 
+.keyboard__key--active--record::after {
+  background: red;
+  transition: all 0.3s ease;
+}
+
 .keyboard__key--dark {
-  background: rgba(0, 0, 0, 0.25);
+  background: #E94433;
 }
 
 .cursor:before {
