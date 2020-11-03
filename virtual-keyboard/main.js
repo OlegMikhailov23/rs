@@ -85,8 +85,8 @@ const Keyboard = {
         const createIconHTML = (iconName) => {
             return `<i class="material-icons">${iconName}</i>`;
         };
-
         layout.forEach(key => {
+
             const keyElement = document.createElement("button");
             const insertLineBreak = ["backspace", "ъ", "p", "enter", "?", "/"].indexOf(key) !== -1;
 
@@ -238,39 +238,42 @@ const Keyboard = {
 
                 default:
                     keyElement.textContent = key.toLowerCase();
-                    const type = () => {
+
+                    const typeFromKeyboard = (el) => {
                         if (this.properties.capsLock && !this.properties.shift) {
-                            this.properties.value += keyElement.textContent.toUpperCase();
+                            this.properties.value += el.toUpperCase();
                         } else if (!this.properties.capsLock && this.properties.shift) {
-                            this.properties.value += keyElement.textContent.toUpperCase();
+                            this.properties.value += el.toUpperCase();
                         } else {
-                            this.properties.value += keyElement.textContent.toLowerCase();
+                            this.properties.value += el.toLowerCase();
                         }
                         this._triggerEvent("oninput");
                         this.language.value === 'en' ? this.soundEl('assets/sound/keydownEn.mp3') : this.soundEl('assets/sound/keydownRu.mp3');
                     }
-                    keyElement.addEventListener("click", type);
-                    document.addEventListener('keydown', (evt) => {
-                        if (keyElement.textContent.toLowerCase() === evt.key) {
-                            evt.preventDefault()
-                            type();
-                            keyElement.style.backgroundColor = '#798179';
-                            setTimeout(() => {
-                                keyElement.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
-                            }, 100)
-                        };
-                    });
+
+                    keyElement.addEventListener("click", () => {typeFromKeyboard(keyElement.textContent)});
+                    // Не мог избавится от размножения eventListener, поэтому пришлось делать такой костыль
+                    function lighting(e) {
+                        document.querySelectorAll('.keyboard__key').forEach((key) => {
+                            if (key.textContent.toLowerCase() === e.key) {
+                                typeFromKeyboard(key.textContent);
+                                key.style.backgroundColor = '#798179';
+                                setTimeout(() => {
+                                    key.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+                                }, 100)
+                            }
+                        })
+                    }
+                    document.querySelector('.use-keyboard-input').onkeydown = lighting;
 
                     break;
             }
-
             fragment.appendChild(keyElement);
 
             if (insertLineBreak) {
                 fragment.appendChild(document.createElement('br'));
             }
         });
-
         return fragment;
     },
 
@@ -362,3 +365,4 @@ const Keyboard = {
 window.addEventListener('DOMContentLoaded', () => {
     Keyboard.init();
 })
+
