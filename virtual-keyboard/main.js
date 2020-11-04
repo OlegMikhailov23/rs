@@ -147,18 +147,7 @@ const Keyboard = {
                     }
                     keyElement.addEventListener("click", doShift);
 
-                    function shiftFromKeyboard(e) {
-                        console.log(e.key, keyElement.textContent)
-                        if (e.key === 'Shift'){
-                            doShift();
-                            keyElement.style.backgroundColor = '#4a4a4a';
-                            keyElement.style.backgroundColor = 'box-shadow: 0px 3px 1px 0 #151414 inset'
-                            setTimeout(() => {
-                                keyElement.style.backgroundColor = '#8d8d8d';
-                            }, 200)
-                        }
-                    }
-
+                    this.listenKeyboardButton('shift', keyElement, doShift);
                     break;
 
                 case "backspace":
