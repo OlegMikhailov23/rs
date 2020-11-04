@@ -146,7 +146,19 @@ const Keyboard = {
                         this.soundEl('assets/sound/caps-shift-lang.mp3');
                     }
                     keyElement.addEventListener("click", doShift);
-                    this.listenKeyboardButton('shift', keyElement, doShift);
+
+                    function shiftFromKeyboard(e) {
+                        console.log(e.key, keyElement.textContent)
+                        if (e.key === 'Shift'){
+                            doShift();
+                            keyElement.style.backgroundColor = '#4a4a4a';
+                            keyElement.style.backgroundColor = 'box-shadow: 0px 3px 1px 0 #151414 inset'
+                            setTimeout(() => {
+                                keyElement.style.backgroundColor = '#8d8d8d';
+                            }, 200)
+                        }
+                    }
+
                     break;
 
                 case "backspace":
@@ -182,7 +194,19 @@ const Keyboard = {
                         this.soundEl('assets/sound/caps-shift-lang.mp3')
                     }
                     keyElement.addEventListener("click", capsSwitcher);
-                    this.listenKeyboardButton('capslock', keyElement, capsSwitcher);
+
+                    function capsFromKeyboard(e) {
+                        if (e.key === 'CapsLock') {
+                            capsSwitcher();
+                            keyElement.style.backgroundColor = '#4a4a4a';
+                            keyElement.style.backgroundColor = 'box-shadow: 0px 3px 1px 0 #151414 inset'
+                            setTimeout(() => {
+                                keyElement.style.backgroundColor = '#8d8d8d';
+                            }, 200)
+                        }
+                    }
+
+                    document.querySelector('html').onkeyup = capsFromKeyboard;
 
                     break;
 
@@ -207,7 +231,6 @@ const Keyboard = {
                     }
 
                     document.querySelector('body').onkeydown = returnLineFromKeyboard;
-                    // this.listenKeyboardButton('enter', keyElement, returnLine);
 
                     break;
 
@@ -220,7 +243,18 @@ const Keyboard = {
                         this.soundEl('assets/sound/return.mp3');
                     }
                     keyElement.addEventListener("click", spaceButton);
-                    this.listenKeyboardButton(' ', keyElement, spaceButton);
+                function spaceFromKeyboard(e) {
+                    if (e.key === ' ') {
+                        spaceButton()
+                        keyElement.style.backgroundColor = '#4a4a4a';
+                        keyElement.style.backgroundColor = 'box-shadow: 0px 3px 1px 0 #151414 inset'
+                        setTimeout(() => {
+                            keyElement.style.backgroundColor = '#8d8d8d';
+                        }, 200)
+                    }
+                }
+
+                    document.querySelector('body').onkeyup = spaceFromKeyboard;
 
                     break;
 
