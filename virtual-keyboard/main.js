@@ -419,7 +419,6 @@ const Keyboard = {
                     keyEl.style.backgroundColor = '#8d8d8d';
                 }, 100)
                 cb();
-
             }
         });
     },
