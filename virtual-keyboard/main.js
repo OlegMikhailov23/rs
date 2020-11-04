@@ -160,7 +160,6 @@ const Keyboard = {
                     keyElement.addEventListener("click", eraseSimbol);
 
                     function eraseFromKeyboard(e) {
-                        var enable_keydown = document.onkeydown;
                         if (keyElement.textContent.toLowerCase() === e.key.toLowerCase()){
                             eraseSimbol();
                             keyElement.style.backgroundColor = '#4a4a4a';
@@ -169,7 +168,6 @@ const Keyboard = {
                                 keyElement.style.backgroundColor = '#8d8d8d';
                             }, 200)
                         }
-                        document.onkeydown = enable_keydown;
                     }
                     document.querySelector('html').onkeydown = eraseFromKeyboard;
 
