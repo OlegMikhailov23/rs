@@ -158,7 +158,21 @@ const Keyboard = {
                         this.soundEl('assets/sound/backspace.mp3');
                     }
                     keyElement.addEventListener("click", eraseSimbol);
-                    this.listenKeyboardButton('backspace', keyElement, eraseSimbol);
+
+                    function eraseFromKeyboard(e) {
+                        var enable_keydown = document.onkeydown;
+                        if (keyElement.textContent.toLowerCase() === e.key.toLowerCase()){
+                            eraseSimbol();
+                            keyElement.style.backgroundColor = '#4a4a4a';
+                            keyElement.style.backgroundColor = 'box-shadow: 0px 3px 1px 0 #151414 inset'
+                            setTimeout(() => {
+                                keyElement.style.backgroundColor = '#8d8d8d';
+                            }, 200)
+                        }
+                        document.onkeydown = enable_keydown;
+                    }
+                    document.querySelector('html').onkeydown = eraseFromKeyboard;
+
                     break;
 
                 case "caps":
@@ -183,7 +197,19 @@ const Keyboard = {
                         this.soundEl('assets/sound/space.mp3');
                     }
                     keyElement.addEventListener("click", returnLine);
-                    this.listenKeyboardButton('enter', keyElement, returnLine);
+                    function returnLineFromKeyboard(e) {
+                        if (e.key === 'Enter') {
+                            returnLine()
+                            keyElement.style.backgroundColor = '#4a4a4a';
+                            keyElement.style.backgroundColor = 'box-shadow: 0px 3px 1px 0 #151414 inset'
+                            setTimeout(() => {
+                                keyElement.style.backgroundColor = '#8d8d8d';
+                            }, 200)
+                        }
+                    }
+
+                    document.querySelector('body').onkeydown = returnLineFromKeyboard;
+                    // this.listenKeyboardButton('enter', keyElement, returnLine);
 
                     break;
 
@@ -393,6 +419,7 @@ const Keyboard = {
                     keyEl.style.backgroundColor = '#8d8d8d';
                 }, 100)
                 cb();
+
             }
         });
     },
