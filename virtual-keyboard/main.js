@@ -146,7 +146,6 @@ const Keyboard = {
                         this.soundEl('assets/sound/caps-shift-lang.mp3');
                     }
                     keyElement.addEventListener("click", doShift);
-
                     this.listenKeyboardButton('shift', keyElement, doShift);
                     break;
 
