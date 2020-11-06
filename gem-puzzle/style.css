@@ -1,0 +1,75 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 100%;
+    font-family: 'Share Tech Mono', monospace, sans-serif;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); grid-auto-rows: 1fr;
+    position: relative;
+    margin: 0 auto;
+    margin-top: 10%;
+    max-width: 420px;
+    grid-gap: 2px;
+    background: #8ed790;
+    padding: 2px;
+    border: 1px solid #444;
+    transition: all .5s ease-in;
+    -webkit-transition: all .5s ease-in;
+    -moz-transition: all .5s ease-in;
+    -ms-transition: all .5s ease-in;
+    -o-transition: all .5s ease-in;
+}
+
+
+.game-board::before {
+    content: '';
+    width: 0;
+    padding-bottom: 100%;
+    grid-row: 1 / 1;
+    grid-column: 1 / 1;
+}
+
+.game-board > *:first-child {
+    grid-row: 1 / 1;
+    grid-column: 1 / 1;
+}
+
+.game-board::before {
+    content: '';
+    width: 0;
+    padding-bottom: 100%;
+    grid-row: 1 / 1;
+    grid-column: 1 / 1;
+}
+
+.dice {
+    border: 1px solid #444;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    background: rgb(228, 228, 228);
+    user-select: none;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    cursor: grab;
+    transition: 0.5s all ease-in-out;
+}
+
+.empty {
+    background-color: transparent;
+    cursor: none;
+    border: none;
+    z-index: -1;
+}
+
+
