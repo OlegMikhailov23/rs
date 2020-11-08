@@ -21,14 +21,14 @@ const Keyboard = {
 
     keyEnLayout: [
         "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "backspace",
-        "q", "w", "e", "r", "t", "y", "u", "i", "o", "p",
+        "sound", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p",
         "a", "s", "d", "f", "g", "h", "j", "k", "l", "enter",
         "done", "z", "x", "c", "v", "b", "n", "m", ",", ".", "?",
         "caps", "en", "shift", "space", "speechRecord", "left", "right"
     ],
     keyRuLayout: [
         "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "backspace",
-        "й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "х", "ъ",
+        "sound", "й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "х", "ъ",
         "ф", "ы", "в", "а", "п", "р", "о", "л", "д", "ж", "э", "ё", "enter",
         "done", "я", "ч", "с", "м", "и", "т", "ь", "б", "ю", "<", ">", "/",
         "caps", "ru", "shift", "space", "speechRecord", "left", "right"
@@ -43,7 +43,8 @@ const Keyboard = {
         value: "",
         capsLock: false,
         shift: false,
-        record: false
+        record: false,
+        sound: false,
     },
 
     language: {
@@ -143,7 +144,7 @@ const Keyboard = {
                     const doShift = () => {
                         this._toggleShift();
                         keyElement.classList.toggle("keyboard__key--active", this.properties.shift);
-                        this.soundEl('assets/sound/caps-shift-lang.mp3');
+                        this.soundEl('assets/sound/shift.mp3');
                     }
                     keyElement.addEventListener("click", doShift);
                     this.listenKeyboardButton('shift', keyElement, doShift);
@@ -253,6 +254,16 @@ const Keyboard = {
                         this.close();
                         this._triggerEvent("onclose");
                         this.soundEl('assets/sound/done.mp3');
+                    });
+
+                    break;
+
+                case "sound":
+                    keyElement.classList.add("keyboard__key--wide", "keyboard__key--activatable");
+                    keyElement.innerHTML = createIconHTML("surround_sound");
+                    keyElement.addEventListener("click", () => {
+                        this.properties.sound = !this.properties.sound;
+                        keyElement.classList.toggle("keyboard__key--active", this.properties.sound);
                     });
 
                     break;
@@ -444,9 +455,13 @@ const Keyboard = {
     },
 
     soundEl(src) {
-        const audio = new Audio();
-        audio.src = src;
-        audio.autoplay = true;
+        if (this.properties.sound) {
+            const audio = new Audio();
+            audio.src = src;
+            audio.autoplay = true;
+        } else {
+            return
+        }
     }
 };
 

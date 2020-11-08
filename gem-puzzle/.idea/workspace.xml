@@ -19,10 +19,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="873f72e8-d7d9-4b68-a8f5-2ac33128f6a7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="f7c7f32a-7b89-44e1-bad1-ec01a7e176ca" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +30,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectId" id="1jYszjjeikP60Ae7g7N2KGzEI0z" />
+  <component name="ProjectId" id="1jueAwMO6DByUzyndXz64WCKEZ0" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -45,7 +43,7 @@
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RunManager">
-    <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/virtual-keyboard/index.html" useBuiltInWebServerPort="true">
+    <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/gem-puzzle/index.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
     <recent_temporary>
@@ -57,18 +55,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="873f72e8-d7d9-4b68-a8f5-2ac33128f6a7" name="Default Changelist" comment="" />
-      <created>1603992628694</created>
+      <changelist id="f7c7f32a-7b89-44e1-bad1-ec01a7e176ca" name="Default Changelist" comment="" />
+      <created>1604658263477</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1603992628694</updated>
-      <workItem from="1603992633077" duration="9776000" />
-      <workItem from="1604229492947" duration="73874000" />
-      <workItem from="1604511803658" duration="5238000" />
-      <workItem from="1604518872285" duration="629000" />
-      <workItem from="1604520283660" duration="3666000" />
-      <workItem from="1604657928459" duration="334000" />
-      <workItem from="1604832889501" duration="5910000" />
+      <updated>1604658263477</updated>
+      <workItem from="1604658264945" duration="16459000" />
     </task>
     <servers />
   </component>
@@ -85,13 +77,17 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="2065" y="241" width="670" height="676" key="search.everywhere.popup" timestamp="1604522681618">
-      <screen x="1440" y="0" width="1920" height="1080" />
-    </state>
-    <state x="2065" y="241" width="670" height="676" key="search.everywhere.popup/1440.0.1920.1080/0.0.1440.900@1440.0.1920.1080" timestamp="1604522003620" />
-    <state x="2065" y="241" width="670" height="676" key="search.everywhere.popup/1440.0.1920.1080/0.23.1440.877@1440.0.1920.1080" timestamp="1604522681618" />
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/main.js</url>
+          <line>99</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

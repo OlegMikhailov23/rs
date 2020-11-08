@@ -15,7 +15,6 @@ body {
   width: 93%;
   margin: 30px auto;
   padding: 10px;
-  font-size: 20px;
   height: calc(100vh - 330px);
   min-height: 300px;
   outline: none;
