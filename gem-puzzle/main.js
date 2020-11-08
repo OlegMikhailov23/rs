@@ -47,11 +47,11 @@ const Gameboard = {
             diceElement.textContent = `${layout[ind]}`;
             const getContent = diceElement.textContent;
             switch (getContent) {
-                case '' :
+                case '' : // if empty
                     diceElement.textContent = '';
                     diceElement.classList.add('empty');
                     break
-                default:
+                default: // if dice with number
                     diceElement.textContent = layout[ind];
                     diceElement.addEventListener('click', (e) => {
                         this.move(e.target);
@@ -61,6 +61,7 @@ const Gameboard = {
 
             fragment.appendChild(diceElement);
         });
+
         return fragment
     },
 
@@ -79,14 +80,15 @@ const Gameboard = {
         }
         let emptyPosition = [...document.querySelectorAll('.dice')].findIndex(n => n.classList.contains('empty')); // Let to know where are we
             if (el.previousElementSibling && el.previousElementSibling.textContent === '') {
+                console.log(el.parentNode.childNodes[emptyPosition - 3], el.parentNode.childNodes[emptyPosition + 5]);
                 emptyPosition = emptyPosition + 2;
-                console.log('Ходим назад', emptyPosition);
                     let previous = findPrevious(el);
                     if (previous) {
                         el.parentNode.insertBefore(el, previous);
                 }
             } else if (el.nextElementSibling.textContent === '') {
-                console.log('Ходим вперед', emptyPosition);
+                console.log(emptyPosition);
+                console.log(el.parentNode.childNodes[emptyPosition -5], el.parentNode.childNodes[emptyPosition + 3]);
                 let next = findNext(el);
                 if (next) {
                     el.parentNode.insertBefore(el.nextElementSibling, el);
