@@ -324,7 +324,6 @@ const Keyboard = {
                             keyElement.classList.toggle("keyboard__key--active--record", this.properties.record);
                             recognition.stop();
                         })
-
                         recognition.start();
                     })
 
