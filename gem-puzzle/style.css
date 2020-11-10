@@ -9,6 +9,7 @@ html {
 }
 
 .game-board {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(4, 1fr); grid-auto-rows: 1fr;
     position: relative;
@@ -80,5 +81,30 @@ html {
     margin-top: 10%;
     margin-bottom: 1%;
 }
+
+.overlay {
+    /*padding-top: 50px;*/
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.overlay--show {
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.overlay button {
+    display: block;
+    width: 30%;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+
+
+
 
 

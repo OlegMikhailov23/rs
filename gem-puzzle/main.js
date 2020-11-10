@@ -3,6 +3,7 @@
 const Gameboard = {
     elements: {
         diceContainer: null,
+        gameBoardOverlay: null,
         dices: []
     },
 
@@ -18,6 +19,9 @@ const Gameboard = {
         currentSequence: [],
         minutes: '00',
         seconds: '00',
+        moves: '0',
+        isPaused: false,
+        timerId: null,
     },
 
     getPosition(el, containEl) {
@@ -37,7 +41,11 @@ const Gameboard = {
     init() {
         this.elements.diceContainer = document.createElement("div"); // Create container for dices
 
+        this.elements.gameBoardOverlay = document.createElement("div"); // Create overlay
+
         this.elements.diceContainer.classList.add("game-board");
+
+        this.elements.gameBoardOverlay.classList.add("overlay");
 
         this.elements.diceContainer.appendChild(this.createDices(this.layout));
 
@@ -45,15 +53,15 @@ const Gameboard = {
 
         this.renderTemplate(document.querySelector('body'), this.createControls()); // Create control's board
 
-        let seconds = document.querySelector('#seconds');
-
-        let minutes = document.querySelector('#seconds');
-
-        seconds.innerHTML = this.properties.seconds;
-
-        minutes.innerHTML = this.properties.minutes;
-
         document.body.appendChild(this.elements.diceContainer);
+
+        this.elements.diceContainer.appendChild(this.elements.gameBoardOverlay);
+
+        this.renderTemplate(document.querySelector('.overlay'), this.createOverlayMenu()); // Create overlay menu
+
+        const pauseGameButton = document.querySelector('#pauseButton');
+
+        const newGameButton = document.querySelector('#newGame')
 
         const emptyDice = document.querySelector('.empty');
 
@@ -61,7 +69,12 @@ const Gameboard = {
         this.properties.verticalNeighborAbove = emptyDice.parentNode.childNodes[this.properties.emptyPosition - 4];
         this.properties.verticalNeighborUnder = emptyDice.parentNode.childNodes[this.properties.emptyPosition + 4];
 
-        this.startTimer();
+        this.properties.timerId = setInterval(this.startTimer, 1000);
+
+        this.pauseGame();
+
+        pauseGameButton.addEventListener('click', this.pauseGame);
+        newGameButton.addEventListener('click', this.beginNewGame);
     },
 
     createDices(layout) {
@@ -112,6 +125,7 @@ const Gameboard = {
             if (el.offsetTop !== el.previousElementSibling.offsetTop) { // Check that empty and clicked dices on one line
                 return
             }
+            this.countMove();
             this.properties.emptyPosition = this.getPosition('.dice', 'empty');
             this.properties.emptyPosition = this.properties.emptyPosition + 2;
             this.properties.verticalNeighborUnder = el.parentNode.childNodes[this.properties.emptyPosition + 3];
@@ -124,6 +138,7 @@ const Gameboard = {
             if (el.offsetTop !== el.nextElementSibling.offsetTop) { // Check that empty and clicked dices on one line
                 return
             }
+            this.countMove();
             this.properties.emptyPosition = this.getPosition('.dice', 'empty');
             this.properties.verticalNeighborUnder = el.parentNode.childNodes[this.properties.emptyPosition + 3];
             this.properties.verticalNeighborAbove = el.parentNode.childNodes[this.properties.emptyPosition - 5];
@@ -132,11 +147,13 @@ const Gameboard = {
                 el.parentNode.insertBefore(el.nextElementSibling, el);
             }
         } else if (el === this.properties.verticalNeighborAbove) {
+            this.countMove();
             this.properties.emptyPosition = this.getPosition('.dice', 'empty');
             this.swapElements(el, document.querySelector('.empty'));
             this.properties.verticalNeighborUnder = this.properties.verticalNeighborAbove;
             this.properties.verticalNeighborAbove = el.parentNode.childNodes[this.properties.emptyPosition - 8];
         } else if (el === this.properties.verticalNeighborUnder) {
+            this.countMove();
             this.properties.emptyPosition = this.getPosition('.dice', 'empty');
             this.swapElements(el, document.querySelector('.empty'));
             this.properties.verticalNeighborAbove = this.properties.verticalNeighborUnder;
@@ -174,31 +191,65 @@ const Gameboard = {
             `    <div class="game-controls">
         <div class="time"><span id="minutes">${this.properties.minutes}</span>:<span id="seconds">${this.properties.seconds}</span></div>
         <div class="game-controls__move">
-           <span>Moves: </span><span id="moveCount">0</span>
+           <span>Moves: </span><span id="moveCount">${this.properties.moves}</span>
         </div>
-        <button>Pause</button>
+        <button id="pauseButton">Pause</button>
     </div>`
         )
     },
+
+    createOverlayMenu() {
+        return(
+            `<button id="newGame">New Game</button>`
+        )
+    },
+
+    // Game function
 
     startTimer() {
         const addZero = (numb) => {
             return (parseInt(numb, 10) < 10 ? '0' : '') + numb;
         }
-
-        let second = document.querySelector('#seconds');
-        let minute = document.querySelector('#minutes');
-        if (Number(Gameboard.properties.seconds) === 59) {
-            Gameboard.properties.minutes++
-            minute.innerHTML = Gameboard.properties.minutes;
-            minute.innerHTML = addZero(minute.innerHTML);
-            Gameboard.properties.seconds = 0;
-            second.innerHTML = Gameboard.properties.second;
+        if (!Gameboard.properties.isPaused) {
+            let second = document.querySelector('#seconds');
+            let minute = document.querySelector('#minutes');
+            if (Number(Gameboard.properties.seconds) === 59) {
+                Gameboard.properties.minutes++
+                minute.innerHTML = Gameboard.properties.minutes;
+                minute.innerHTML = addZero(minute.innerHTML);
+                Gameboard.properties.seconds = 0;
+                second.innerHTML = Gameboard.properties.second;
+            }
+            Gameboard.properties.seconds++
+            second.innerHTML = Gameboard.properties.seconds;
+            second.innerHTML = addZero(second.innerHTML);
         }
-        Gameboard.properties.seconds++
-        second.innerHTML = Gameboard.properties.seconds;
-        second.innerHTML = addZero(second.innerHTML);
-        setInterval(this.startTimer, 1000);
+    },
+
+    countMove() {
+        let moveCount = document.querySelector('#moveCount');
+        Gameboard.properties.moves++;
+        moveCount.innerHTML = Gameboard.properties.moves
+    },
+
+    pauseGame() {
+        Gameboard.properties.isPaused = !Gameboard.properties.isPaused;
+        Gameboard.elements.gameBoardOverlay.classList.toggle('overlay--show');
+    },
+
+    beginNewGame() {
+        Gameboard.elements.diceContainer.remove();
+        Gameboard.elements.diceContainer = null;
+        Gameboard.elements.gameBoardOverlay.remove();
+        Gameboard.elements.gameBoardOverlay = null;
+        document.querySelector('.game-controls').remove();
+        Gameboard.properties.minutes = '00';
+        Gameboard.properties.seconds = '00';
+        Gameboard.properties.moves = '0';
+        clearInterval(Gameboard.properties.timerId);
+        Gameboard.init();
+        Gameboard.properties.isPaused = false;
+        Gameboard.elements.gameBoardOverlay.classList.remove('overlay--show');
     }
 }
 
