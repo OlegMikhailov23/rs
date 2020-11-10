@@ -24,6 +24,7 @@
             isPaused: false,
             timerId: null,
             savedSequence: {},
+            isSoundOn: true
         },
 
         getPosition(el, containEl) {
@@ -76,6 +77,7 @@
             this.properties.timerId = setInterval(this.startTimer, 1000);
 
             this.pauseGame();
+            this.soundThis('assets/sound/main-theme.mp3');
 
             pauseGameButton.addEventListener('click', this.pauseGame);
             newGameButton.addEventListener('click', this.beginNewGame);
@@ -130,6 +132,7 @@
                 if (el.offsetTop !== el.previousElementSibling.offsetTop) { // Check that empty and clicked dices on one line
                     return
                 }
+
                 this.countMove();
                 this.properties.emptyPosition = this.getPosition('.dice', 'empty');
                 this.properties.emptyPosition = this.properties.emptyPosition + 2;
@@ -266,6 +269,17 @@
             // Save all Saves back to local storage
             existingSaveGames.push(Gameboard.properties);
             localStorage.setItem('saveGames', JSON.stringify(existingSaveGames));
+        },
+
+        soundThis(src) {
+            if (this.properties.isSoundOn) {
+                const audio = new Audio();
+                audio.src = src;
+                audio.autoplay = true;
+                audio.loop = true;
+            } else {
+                return
+            }
         }
     }
 
