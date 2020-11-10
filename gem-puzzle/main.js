@@ -15,7 +15,9 @@ const Gameboard = {
         emptyPosition: null,
         verticalNeighborAbove: null,
         verticalNeighborUnder: null,
-        currentSequence: []
+        currentSequence: [],
+        minutes: '00',
+        seconds: '00',
     },
 
     getPosition(el, containEl) {
@@ -41,6 +43,16 @@ const Gameboard = {
 
         this.elements.dices = this.elements.diceContainer.querySelectorAll('.dice');
 
+        this.renderTemplate(document.querySelector('body'), this.createControls()); // Create control's board
+
+        let seconds = document.querySelector('#seconds');
+
+        let minutes = document.querySelector('#seconds');
+
+        seconds.innerHTML = this.properties.seconds;
+
+        minutes.innerHTML = this.properties.minutes;
+
         document.body.appendChild(this.elements.diceContainer);
 
         const emptyDice = document.querySelector('.empty');
@@ -48,13 +60,14 @@ const Gameboard = {
         this.properties.emptyPosition = [...document.querySelectorAll('.dice')].findIndex(n => n.classList.contains('empty'));
         this.properties.verticalNeighborAbove = emptyDice.parentNode.childNodes[this.properties.emptyPosition - 4];
         this.properties.verticalNeighborUnder = emptyDice.parentNode.childNodes[this.properties.emptyPosition + 4];
+
+        this.startTimer();
     },
 
     createDices(layout) {
         const fragment = document.createDocumentFragment();
         let gameLayout = this.layout.slice();
         gameLayout = this.shuffleArray(gameLayout); // Shuffle dice
-        console.log(gameLayout);
         gameLayout.forEach((dice, ind) => {
             const diceElement = document.createElement("div");
 
@@ -149,6 +162,43 @@ const Gameboard = {
             alert('Поздравляем, Вы победили!!! Ура');
         };
         this.properties.currentSequence = [];
+    },
+
+    // Generate templates
+    renderTemplate(container, template, place = `beforeend`) {
+        container.insertAdjacentHTML(place, template);
+    },
+
+    createControls() {
+        return (
+            `    <div class="game-controls">
+        <div class="time"><span id="minutes">${this.properties.minutes}</span>:<span id="seconds">${this.properties.seconds}</span></div>
+        <div class="game-controls__move">
+           <span>Moves: </span><span id="moveCount">0</span>
+        </div>
+        <button>Pause</button>
+    </div>`
+        )
+    },
+
+    startTimer() {
+        const addZero = (numb) => {
+            return (parseInt(numb, 10) < 10 ? '0' : '') + numb;
+        }
+
+        let second = document.querySelector('#seconds');
+        let minute = document.querySelector('#minutes');
+        if (Number(Gameboard.properties.seconds) === 59) {
+            Gameboard.properties.minutes++
+            minute.innerHTML = Gameboard.properties.minutes;
+            minute.innerHTML = addZero(minute.innerHTML);
+            Gameboard.properties.seconds = 0;
+            second.innerHTML = Gameboard.properties.second;
+        }
+        Gameboard.properties.seconds++
+        second.innerHTML = Gameboard.properties.seconds;
+        second.innerHTML = addZero(second.innerHTML);
+        setInterval(this.startTimer, 1000);
     }
 }
 
