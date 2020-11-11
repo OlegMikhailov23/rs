@@ -51,6 +51,7 @@ html {
 .dice {
     border: 1px solid #444;
     display: flex;
+    position: relative;
     justify-content: center;
     align-items: center;
     font-size: 2rem;
@@ -62,7 +63,6 @@ html {
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
     cursor: grab;
-    transition: 0.5s all ease-in-out;
 }
 
 .empty {

@@ -24,7 +24,10 @@
             isPaused: false,
             timerId: null,
             savedSequence: {},
-            isSoundOn: true
+            isMusicOn: false,
+            isSoundOn: false,
+            mainThemeMusic: '',
+            swapSound: ''
         },
 
         getPosition(el, containEl) {
@@ -39,6 +42,11 @@
                 arr[j] = t;
             }
             return arr;
+        },
+
+        getRandomNumber(min, max) {
+            let rand = min + Math.random() * (max + 1 - min);
+            return Math.floor(rand);
         },
 
         init() {
@@ -64,6 +72,10 @@
 
             const pauseGameButton = document.querySelector('#pauseButton');
 
+            const musicButton = document.querySelector('#musicButton');
+
+            const soundButton = document.querySelector('#soundButton');
+
             const newGameButton = document.querySelector('#newGame')
 
             const emptyDice = document.querySelector('.empty');
@@ -77,8 +89,9 @@
             this.properties.timerId = setInterval(this.startTimer, 1000);
 
             this.pauseGame();
-            this.soundThis('assets/sound/main-theme.mp3');
 
+            musicButton.addEventListener('click', this.switchMusic);
+            soundButton.addEventListener('click', this.switchSound);
             pauseGameButton.addEventListener('click', this.pauseGame);
             newGameButton.addEventListener('click', this.beginNewGame);
             saveGameButton.addEventListener('click', this.saveGame);
@@ -99,12 +112,46 @@
                     case '' : // if empty
                         diceElement.textContent = '';
                         diceElement.classList.add('empty');
+
+
                         break
                     default: // if dice with number
                         diceElement.textContent = gameLayout[ind];
-                        diceElement.addEventListener('click', (e) => {
-                            this.move(e.target);
-                        })
+                        const diceElementCondition = {
+                            moved: null,
+                            pressed: null
+                        }
+
+                        const downListener = () => {
+                            diceElementCondition.moved = false;
+                            diceElementCondition.pressed = true;
+                            diceElement.addEventListener('mousemove',  moveListener)
+                        }
+
+                        diceElement.addEventListener('mousedown', downListener)
+
+                        const moveListener = (e) => {
+                            if (diceElementCondition.pressed) { // if we are grabbing dice
+                                this.dragAndDrop(e, diceElement)
+                                diceElement.removeEventListener('mousemove',  moveListener)
+                            }
+                        }
+
+                        const upListener = (e) => {
+                            if (diceElementCondition.moved) {
+                                return;
+                            } else {
+                                this.move(e.target);
+                            }
+                        }
+
+                        diceElement.addEventListener('mouseup', (e) => {
+                            upListener(e);
+                            diceElementCondition.pressed = false;
+                            diceElementCondition.moved = false;
+                        });
+
+
                         break
                 }
 
@@ -134,6 +181,7 @@
                 }
 
                 this.countMove();
+                this.playSoundEffect('assets/sound/swap.mp3');
                 this.properties.emptyPosition = this.getPosition('.dice', 'empty');
                 this.properties.emptyPosition = this.properties.emptyPosition + 2;
                 this.properties.verticalNeighborUnder = el.parentNode.childNodes[this.properties.emptyPosition + 3];
@@ -147,6 +195,7 @@
                     return
                 }
                 this.countMove();
+                this.playSoundEffect('assets/sound/swap.mp3');
                 this.properties.emptyPosition = this.getPosition('.dice', 'empty');
                 this.properties.verticalNeighborUnder = el.parentNode.childNodes[this.properties.emptyPosition + 3];
                 this.properties.verticalNeighborAbove = el.parentNode.childNodes[this.properties.emptyPosition - 5];
@@ -156,12 +205,14 @@
                 }
             } else if (el === this.properties.verticalNeighborAbove) {
                 this.countMove();
+                this.playSoundEffect('assets/sound/swap.mp3');
                 this.properties.emptyPosition = this.getPosition('.dice', 'empty');
                 this.swapElements(el, document.querySelector('.empty'));
                 this.properties.verticalNeighborUnder = this.properties.verticalNeighborAbove;
                 this.properties.verticalNeighborAbove = el.parentNode.childNodes[this.properties.emptyPosition - 8];
             } else if (el === this.properties.verticalNeighborUnder) {
                 this.countMove();
+                this.playSoundEffect('assets/sound/swap.mp3');
                 this.properties.emptyPosition = this.getPosition('.dice', 'empty');
                 this.swapElements(el, document.querySelector('.empty'));
                 this.properties.verticalNeighborAbove = this.properties.verticalNeighborUnder;
@@ -186,7 +237,8 @@
             this.properties.savedSequence = JSON.stringify(this.properties.currentSequence); // Let's save it
             if (this.properties.currentSequence.join(' ') === this.layout.join(' ')) {
                 alert('Поздравляем, Вы победили!!! Ура');
-            };
+            }
+            ;
             this.properties.currentSequence.length = 0;
         },
 
@@ -202,6 +254,8 @@
         <div class="game-controls__move">
            <span>Moves: </span><span id="moveCount">${this.properties.moves}</span>
         </div>
+        <button id="musicButton">Music</button>
+        <button id="soundButton">Sound</button>
         <button id="pauseButton">Pause</button>
     </div>`
             )
@@ -247,7 +301,19 @@
             Gameboard.elements.gameBoardOverlay.classList.toggle('overlay--show');
         },
 
+        switchMusic() {
+            Gameboard.properties.mainThemeMusic.autoplay = true;
+            Gameboard.properties.isMusicOn = !Gameboard.properties.isMusicOn;
+            Gameboard.properties.isMusicOn ? Gameboard.properties.mainThemeMusic.play() : Gameboard.properties.mainThemeMusic.pause();
+        },
+
+        switchSound() {
+            Gameboard.properties.isSoundOn = !Gameboard.properties.isSoundOn;
+            console.log(Gameboard.properties.isSoundOn);
+        },
+
         beginNewGame() {
+            Gameboard.playSoundEffect('assets/sound/new-game.mp3')
             Gameboard.elements.diceContainer.remove();
             Gameboard.elements.diceContainer = null;
             Gameboard.elements.gameBoardOverlay.remove();
@@ -257,6 +323,7 @@
             Gameboard.properties.seconds = '00';
             Gameboard.properties.moves = '0';
             clearInterval(Gameboard.properties.timerId);
+            !Gameboard.properties.mainThemeMusic ? Gameboard.playMusic(`assets/sound/${Gameboard.getRandomNumber(1, 3)}.mp3`) : '';
             Gameboard.init();
             Gameboard.properties.isPaused = false;
             Gameboard.elements.gameBoardOverlay.classList.remove('overlay--show');
@@ -264,22 +331,75 @@
 
         saveGame() {
             let existingSaveGames = JSON.parse(localStorage.getItem("saveGames"));
-            if(existingSaveGames === null)
+            if (existingSaveGames === null)
                 existingSaveGames = [];
             // Save all Saves back to local storage
             existingSaveGames.push(Gameboard.properties);
             localStorage.setItem('saveGames', JSON.stringify(existingSaveGames));
         },
 
-        soundThis(src) {
-            if (this.properties.isSoundOn) {
-                const audio = new Audio();
-                audio.src = src;
-                audio.autoplay = true;
-                audio.loop = true;
-            } else {
-                return
+        playMusic(src) {
+            this.properties.mainThemeMusic = new Audio();
+            this.properties.mainThemeMusic.src = src;
+            this.properties.mainThemeMusic.addEventListener('ended', () => {
+                this.properties.mainThemeMusic.src = `assets/sound/${this.getRandomNumber(1, 3)}.mp3`;
+                this.properties.mainThemeMusic.play();
+            })
+            if (this.properties.isMusicOn) {
+                this.properties.mainThemeMusic.autoplay = true;
             }
+        },
+
+        playSoundEffect(src) {
+            if (!this.properties.swapSound)
+                this.properties.swapSound = new Audio();
+            this.properties.swapSound.src = src;
+            if (this.properties.isSoundOn)
+                this.properties.swapSound.play();
+        },
+
+        dragAndDrop(evt, draggableEl) {
+            let createCopy = draggableEl.cloneNode(true);
+            document.body.append(createCopy);
+            draggableEl.classList.add('empty');
+            let startCoordinate = {
+                x: evt.clientX,
+                y: evt.clientY
+            }
+            let shiftX = evt.clientX - draggableEl.getBoundingClientRect().left;
+            let shiftY = evt.clientY - draggableEl.getBoundingClientRect().top;
+
+            createCopy.style.position = 'absolute';
+            createCopy.style.width = '101px';
+            createCopy.style.height = '101px';
+            createCopy.style.zIndex = 1000;
+            let dragged = false;
+            moveAt(evt.pageX, evt.pageY);
+
+            function moveAt(pageX, pageY) {
+                createCopy.style.left = pageX - shiftX + 'px';
+                createCopy.style.top = pageY - shiftY + 'px';
+            }
+
+            function onMouseMove(evt) {
+                dragged = true;
+                moveAt(evt.pageX, evt.pageY);
+            }
+
+            document.addEventListener('mousemove', onMouseMove);
+
+            createCopy.onmouseup = function () {
+                document.removeEventListener('mousemove', onMouseMove);
+                moveAt(startCoordinate.x, startCoordinate.y);
+                createCopy.remove();
+                draggableEl.classList.remove('empty');
+                createCopy.onmouseup = null;
+            };
+
+            createCopy.ondragstart = function () {
+                return false;
+            }
+            createCopy.ondragstart();
         }
     }
 
