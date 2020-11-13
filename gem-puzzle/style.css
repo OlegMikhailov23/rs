@@ -83,6 +83,10 @@ html {
     z-index: 1;
 }
 
+.hide {
+    display: none !important;
+}
+
 .game-controls {
     display: flex;
     flex-direction: row;
