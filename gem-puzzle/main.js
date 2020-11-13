@@ -23,7 +23,7 @@
             moves: '0',
             isPaused: false,
             timerId: null,
-            savedSequence: {},
+            savedSequence: null,
             isMusicOn: false,
             isSoundOn: false,
             mainThemeMusic: '',
@@ -113,17 +113,14 @@
                         diceElement.textContent = '';
                         diceElement.classList.add('empty');
 
-
                         break
                     default: // if dice with number
                         diceElement.textContent = gameLayout[ind];
                         const diceElementCondition = {
-                            moved: null,
                             pressed: null
                         }
 
                         const downListener = () => {
-                            diceElementCondition.moved = false;
                             diceElementCondition.pressed = true;
                             diceElement.addEventListener('mousemove',  moveListener)
                         }
@@ -138,19 +135,13 @@
                         }
 
                         const upListener = (e) => {
-                            if (diceElementCondition.moved) {
-                                return;
-                            } else {
                                 this.move(e.target);
-                            }
                         }
 
                         diceElement.addEventListener('mouseup', (e) => {
                             upListener(e);
                             diceElementCondition.pressed = false;
-                            diceElementCondition.moved = false;
                         });
-
 
                         break
                 }
@@ -218,6 +209,7 @@
                 this.properties.verticalNeighborAbove = this.properties.verticalNeighborUnder;
                 this.properties.verticalNeighborUnder = document.querySelector('.empty').parentNode.childNodes[this.properties.emptyPosition + 8];
             }
+
             this.checkForWin();
         },
 
@@ -361,7 +353,7 @@
         dragAndDrop(evt, draggableEl) {
             let createCopy = draggableEl.cloneNode(true);
             document.body.append(createCopy);
-            draggableEl.classList.add('empty');
+            draggableEl.classList.add('hidden');
             let startCoordinate = {
                 x: evt.clientX,
                 y: evt.clientY
@@ -381,18 +373,29 @@
                 createCopy.style.top = pageY - shiftY + 'px';
             }
 
+            let droppableBelow = null;
+
             function onMouseMove(evt) {
                 dragged = true;
                 moveAt(evt.pageX, evt.pageY);
+                createCopy.style.zIndex = '-1';
+                let elementBelow = document.elementFromPoint(evt.clientX, evt.clientY);
+                createCopy.style.zIndex = '1';
+
+                droppableBelow = elementBelow.closest('.empty');
             }
 
             document.addEventListener('mousemove', onMouseMove);
 
             createCopy.onmouseup = function () {
                 document.removeEventListener('mousemove', onMouseMove);
-                moveAt(startCoordinate.x, startCoordinate.y);
+                if (droppableBelow) { // If there is needed empty cell, we move
+                    Gameboard.move(evt.target);
+                } else {
+                    moveAt(startCoordinate.x, startCoordinate.y);
+                }
                 createCopy.remove();
-                draggableEl.classList.remove('empty');
+                draggableEl.classList.remove('hidden');
                 createCopy.onmouseup = null;
             };
 

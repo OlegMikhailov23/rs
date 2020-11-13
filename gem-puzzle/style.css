@@ -69,7 +69,18 @@ html {
     background-color: transparent;
     cursor: none;
     border: none;
-    z-index: -1;
+    cursor: inherit;
+    font-size: 0;
+    z-index: 0;
+}
+
+.hidden {
+    background-color: transparent;
+    cursor: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0;
+    z-index: 1;
 }
 
 .game-controls {
@@ -83,7 +94,6 @@ html {
 }
 
 .overlay {
-    /*padding-top: 50px;*/
     display: none;
     width: 100%;
     height: 100%;
