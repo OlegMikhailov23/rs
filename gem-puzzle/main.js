@@ -13,6 +13,8 @@
         ],
 
         properties: {
+            isGameBegin: false,
+            isGameFromSave: false,
             fieldSize: 16,
             emptyPosition: null,
             verticalNeighborAbove: null,
@@ -23,11 +25,12 @@
             moves: '0',
             isPaused: false,
             timerId: null,
-            savedSequence: {},
+            savedSequence: null,
             isMusicOn: false,
             isSoundOn: false,
             mainThemeMusic: '',
-            swapSound: ''
+            effectSound: '',
+            SOUND_TRACKS_AMOUNT: 4
         },
 
         getPosition(el, containEl) {
@@ -58,7 +61,7 @@
 
             this.elements.gameBoardOverlay.classList.add("overlay");
 
-            this.elements.diceContainer.appendChild(this.createDices(this.layout));
+            this.properties.isGameFromSave ? this.elements.diceContainer.appendChild(this.createDices(this.properties.savedSequence)) : this.elements.diceContainer.appendChild(this.createDices(this.layout)); // If we sart from save, we take saved sequence
 
             this.elements.dices = this.elements.diceContainer.querySelectorAll('.dice');
 
@@ -72,11 +75,15 @@
 
             const pauseGameButton = document.querySelector('#pauseButton');
 
+            const resumeButton = document.querySelector('#resumeGame');
+
             const musicButton = document.querySelector('#musicButton');
 
             const soundButton = document.querySelector('#soundButton');
 
-            const newGameButton = document.querySelector('#newGame')
+            const newGameButton = document.querySelector('#newGame');
+
+            const loadGameButton = document.querySelector('#loadGame');
 
             const emptyDice = document.querySelector('.empty');
 
@@ -92,15 +99,19 @@
 
             musicButton.addEventListener('click', this.switchMusic);
             soundButton.addEventListener('click', this.switchSound);
-            pauseGameButton.addEventListener('click', this.pauseGame);
+            if (this.properties.isGameBegin) {
+                pauseGameButton.addEventListener('click', this.pauseGame);
+                resumeButton.addEventListener('click', this.pauseGame);
+            }
             newGameButton.addEventListener('click', this.beginNewGame);
+            loadGameButton.addEventListener('click', this.openLoadGame);
             saveGameButton.addEventListener('click', this.saveGame);
         },
 
         createDices(layout) {
             const fragment = document.createDocumentFragment();
-            let gameLayout = this.layout.slice();
-            gameLayout = this.shuffleArray(gameLayout); // Shuffle dice
+            let gameLayout = layout.slice();
+            !this.properties.isGameFromSave ? gameLayout = this.shuffleArray(gameLayout) : ''; // Shuffle dice if it needed
             gameLayout.forEach((dice, ind) => {
                 const diceElement = document.createElement("div");
 
@@ -113,17 +124,14 @@
                         diceElement.textContent = '';
                         diceElement.classList.add('empty');
 
-
                         break
                     default: // if dice with number
                         diceElement.textContent = gameLayout[ind];
                         const diceElementCondition = {
-                            moved: null,
                             pressed: null
                         }
 
                         const downListener = () => {
-                            diceElementCondition.moved = false;
                             diceElementCondition.pressed = true;
                             diceElement.addEventListener('mousemove',  moveListener)
                         }
@@ -138,19 +146,13 @@
                         }
 
                         const upListener = (e) => {
-                            if (diceElementCondition.moved) {
-                                return;
-                            } else {
                                 this.move(e.target);
-                            }
                         }
 
                         diceElement.addEventListener('mouseup', (e) => {
                             upListener(e);
                             diceElementCondition.pressed = false;
-                            diceElementCondition.moved = false;
                         });
-
 
                         break
                 }
@@ -218,6 +220,7 @@
                 this.properties.verticalNeighborAbove = this.properties.verticalNeighborUnder;
                 this.properties.verticalNeighborUnder = document.querySelector('.empty').parentNode.childNodes[this.properties.emptyPosition + 8];
             }
+
             this.checkForWin();
         },
 
@@ -263,8 +266,16 @@
 
         createOverlayMenu() {
             return (
-                `<button id="newGame">New Game</button>
-                 <button id="saveGame">Save Game</button>`
+                `<button class="menu-button menu-button--main" id="newGame">New Game</button>
+                 <button class="menu-button menu-button--main" id="saveGame">Save Game</button>
+                 <button class="menu-button menu-button--main" id="loadGame">Load Game</button>
+                 <button class="menu-button menu-button--main" id="resumeGame">Resume</button>`
+            )
+        },
+
+        createLoadMenu(numb) {
+            return (
+                `<button class="menu-button menu-button--sub" data-id="${numb}">Game: ${numb}</button>`
             )
         },
 
@@ -309,11 +320,12 @@
 
         switchSound() {
             Gameboard.properties.isSoundOn = !Gameboard.properties.isSoundOn;
-            console.log(Gameboard.properties.isSoundOn);
         },
 
         beginNewGame() {
-            Gameboard.playSoundEffect('assets/sound/new-game.mp3')
+            Gameboard.properties.isGameFromSave = false;
+            Gameboard.properties.isGameBegin = true;
+            Gameboard.playSoundEffect('assets/sound/new-game.mp3');
             Gameboard.elements.diceContainer.remove();
             Gameboard.elements.diceContainer = null;
             Gameboard.elements.gameBoardOverlay.remove();
@@ -329,10 +341,87 @@
             Gameboard.elements.gameBoardOverlay.classList.remove('overlay--show');
         },
 
+        openLoadGame() {
+            Gameboard.playSoundEffect('assets/sound/click.mp3');
+            const saveGamesList = JSON.parse(localStorage.getItem('saveGames'));
+            const loadMenuContainer = document.createElement('div');
+            loadMenuContainer.classList.add('load-menu-container');
+            document.querySelector('.overlay').appendChild(loadMenuContainer);
+            document.querySelectorAll('.menu-button--main').forEach(button => button.classList.toggle('hide'));
+            if (saveGamesList) {
+            for (let i = 1; i <= saveGamesList.length; i++) {
+                Gameboard.renderTemplate(loadMenuContainer, Gameboard.createLoadMenu(i))
+            }
+            }
+            const deleteSaveGame = document.createElement('button');
+            deleteSaveGame.classList.add('delete-button');
+            deleteSaveGame.innerHTML = 'Delete Games';
+
+            const backButton = document.createElement('button');
+            backButton.classList.add('back-button');
+            backButton.innerHTML = 'Go Back';
+
+            loadMenuContainer.appendChild(deleteSaveGame);
+            loadMenuContainer.appendChild(backButton);
+
+            deleteSaveGame.addEventListener('click', (e) => {
+                Gameboard.playSoundEffect('assets/sound/delete.mp3');
+                localStorage.removeItem('saveGames');
+                loadMenuContainer.remove();
+                document.querySelectorAll('.menu-button--main').forEach(button => button.classList.toggle('hide'));
+                // alert('All saves has been deleted. Have a nice day:)')
+            });
+
+            backButton.addEventListener('click', (e) => {
+                Gameboard.playSoundEffect('assets/sound/click.mp3');
+                loadMenuContainer.remove();
+                document.querySelectorAll('.menu-button--main').forEach(button => button.classList.toggle('hide'));
+            });
+
+            document.querySelectorAll('.menu-button--sub').forEach(game => {
+                game.addEventListener('click', (e) => {
+                    const saveId = e.target.getAttribute('data-id');
+                    Gameboard.beginLoadGame(saveGamesList, saveId);
+                });
+            })
+        },
+
+        beginLoadGame(data, id) {
+            console.log(data, id);
+            Gameboard.properties.isGameBegin = true;
+            Gameboard.properties.isGameFromSave = true;
+            Gameboard.playSoundEffect('assets/sound/new-game.mp3')
+            Gameboard.elements.diceContainer.remove();
+            Gameboard.elements.diceContainer = null;
+            Gameboard.elements.gameBoardOverlay.remove();
+            Gameboard.elements.gameBoardOverlay = null;
+            document.querySelector('.game-controls').remove();
+
+            Gameboard.properties.minutes = data[id - 1].minutes;
+            Gameboard.properties.seconds = data[id - 1].seconds;
+            Gameboard.properties.moves = data[id - 1].moves;
+            Gameboard.properties.savedSequence = JSON.parse(data[id -1].savedSequence);
+            console.log(Gameboard.properties.savedSequence);
+            clearInterval(Gameboard.properties.timerId);
+
+            Gameboard.init();
+            Gameboard.properties.isPaused = false;
+            Gameboard.elements.gameBoardOverlay.classList.remove('overlay--show');
+        },
+
         saveGame() {
+            if (!Gameboard.properties.isGameBegin) {
+                return
+            }
+            Gameboard.playSoundEffect('assets/sound/click.mp3');
             let existingSaveGames = JSON.parse(localStorage.getItem("saveGames"));
             if (existingSaveGames === null)
                 existingSaveGames = [];
+            console.log(existingSaveGames.length);
+            if (existingSaveGames.length === 5) {
+                alert('To much save Games. Please, delete your previous games :)')
+                return
+            }
             // Save all Saves back to local storage
             existingSaveGames.push(Gameboard.properties);
             localStorage.setItem('saveGames', JSON.stringify(existingSaveGames));
@@ -342,7 +431,7 @@
             this.properties.mainThemeMusic = new Audio();
             this.properties.mainThemeMusic.src = src;
             this.properties.mainThemeMusic.addEventListener('ended', () => {
-                this.properties.mainThemeMusic.src = `assets/sound/${this.getRandomNumber(1, 3)}.mp3`;
+                this.properties.mainThemeMusic.src = `assets/sound/${this.getRandomNumber(1, this.properties.SOUND_TRACKS_AMOUNT)}.mp3`;
                 this.properties.mainThemeMusic.play();
             })
             if (this.properties.isMusicOn) {
@@ -351,48 +440,54 @@
         },
 
         playSoundEffect(src) {
-            if (!this.properties.swapSound)
-                this.properties.swapSound = new Audio();
-            this.properties.swapSound.src = src;
+            if (!this.properties.effectSound)
+                this.properties.effectSound = new Audio();
+            this.properties.effectSound.src = src;
             if (this.properties.isSoundOn)
-                this.properties.swapSound.play();
+                this.properties.effectSound.play();
         },
 
-        dragAndDrop(evt, draggableEl) {
+        dragAndDrop(e, draggableEl) {
             let createCopy = draggableEl.cloneNode(true);
             document.body.append(createCopy);
-            draggableEl.classList.add('empty');
+            draggableEl.classList.add('hidden');
             let startCoordinate = {
-                x: evt.clientX,
-                y: evt.clientY
+                x: e.clientX,
+                y: e.clientY
             }
-            let shiftX = evt.clientX - draggableEl.getBoundingClientRect().left;
-            let shiftY = evt.clientY - draggableEl.getBoundingClientRect().top;
+            let shiftX = e.clientX - draggableEl.getBoundingClientRect().left;
+            let shiftY = e.clientY - draggableEl.getBoundingClientRect().top;
 
             createCopy.style.position = 'absolute';
             createCopy.style.width = '101px';
             createCopy.style.height = '101px';
-            createCopy.style.zIndex = 1000;
             let dragged = false;
-            moveAt(evt.pageX, evt.pageY);
+            moveAt(e.pageX, e.pageY);
 
             function moveAt(pageX, pageY) {
                 createCopy.style.left = pageX - shiftX + 'px';
                 createCopy.style.top = pageY - shiftY + 'px';
             }
 
-            function onMouseMove(evt) {
+            let droppableBelow = null;
+
+            function onMouseMove(e) {
                 dragged = true;
-                moveAt(evt.pageX, evt.pageY);
+                moveAt(e.pageX, e.pageY);
+                createCopy.style.zIndex = '-1';
+                let elementBelow = document.elementFromPoint(e.clientX, e.clientY);
+                createCopy.style.zIndex = '1';
+
+                droppableBelow = elementBelow.closest('.empty');
             }
 
             document.addEventListener('mousemove', onMouseMove);
 
             createCopy.onmouseup = function () {
                 document.removeEventListener('mousemove', onMouseMove);
-                moveAt(startCoordinate.x, startCoordinate.y);
+                droppableBelow ? Gameboard.move(e.target) : moveAt(startCoordinate.x, startCoordinate.y);
                 createCopy.remove();
-                draggableEl.classList.remove('empty');
+                draggableEl.classList.remove('hidden');
                 createCopy.onmouseup = null;
             };
 
