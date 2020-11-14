@@ -8,6 +8,15 @@ html {
     font-family: 'Share Tech Mono', monospace, sans-serif;
 }
 
+body {
+    height: 100vh;
+    width: 100%;
+    background-image: url("assets/bg/1.gif");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+}
+
 .game-board {
     position: relative;
     display: grid;
@@ -16,7 +25,7 @@ html {
     margin: 0 auto;
     max-width: 420px;
     grid-gap: 2px;
-    background: #8ed790;
+    background: #069bff;
     padding: 2px;
     border: 1px solid #444;
     transition: all .5s ease-in;
@@ -49,6 +58,7 @@ html {
 }
 
 .dice {
+    font-family: 'VT323', monospace, sans-serif;
     border: 1px solid #444;
     display: flex;
     position: relative;
@@ -98,23 +108,76 @@ html {
 }
 
 .overlay {
-    display: none;
-    width: 100%;
+    font-family: 'VT323', monospace, sans-serif;
+    display: block;
+    opacity: 0;
+    width: 1px;
     height: 100%;
+
     position: absolute;
     background-color: rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+    transition: all 0.3s ease;
 }
 
 .overlay--show {
-    display: block;
+    opacity: 1;
+    width: 100%;
+    height: 100%;
     transition: all 0.3s ease;
 }
 
 .overlay button {
+    font-family: 'VT323', monospace, sans-serif;
     display: block;
-    width: 30%;
+    width: 40%;
     margin: 0 auto;
-    margin-top: 50px;
+    margin-top: 8%;
+    font-size: 1.4rem;
+    line-height: 120%;
+    cursor: pointer;
+    letter-spacing: 0.08rem;
+    color: #12bb1a;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.overlay button:hover {
+    color: #e5b90a;
+}
+
+.menu-button.menu-button--sub {
+    margin-top: 4%;
+    color: #f75be6;
+    font-size: 1.2rem;
+}
+
+.best-player {
+    width: 40%;
+    margin: 0 auto;
+    margin-top: 8%;
+    color: #f75be6;
+    font-size: 1.2rem;
+    line-height: 120%;
+}
+
+.game-controls button {
+    width: 36px;
+    height: 36px;
+    font-size: 0.8rem;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}
+
+.game-controls div {
+    color: #fcfcfc;
+    font-size: 1.3rem;
+    line-height: 120%;
+    padding: 0 2% 0 2%;
+    background-color: rgba(0, 0, 0 , 0.3);
 }
 
 

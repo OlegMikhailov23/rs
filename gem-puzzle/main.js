@@ -30,7 +30,8 @@
             isSoundOn: false,
             mainThemeMusic: '',
             effectSound: '',
-            SOUND_TRACKS_AMOUNT: 4
+            SOUND_TRACKS_AMOUNT: 4,
+            AMOUNT_OF_BEST_PLAYERS: 10
         },
 
         getPosition(el, containEl) {
@@ -87,7 +88,9 @@
 
             const emptyDice = document.querySelector('.empty');
 
-            const saveGameButton = document.querySelector('#saveGame')
+            const saveGameButton = document.querySelector('#saveGame');
+
+            const resultButton = document.querySelector('#bestResult');
 
             this.properties.emptyPosition = [...document.querySelectorAll('.dice')].findIndex(n => n.classList.contains('empty'));
             this.properties.verticalNeighborAbove = emptyDice.parentNode.childNodes[this.properties.emptyPosition - 4];
@@ -97,15 +100,16 @@
 
             this.pauseGame();
 
-            musicButton.addEventListener('click', this.switchMusic);
-            soundButton.addEventListener('click', this.switchSound);
             if (this.properties.isGameBegin) {
+                musicButton.addEventListener('click', this.switchMusic);
+                soundButton.addEventListener('click', this.switchSound);
                 pauseGameButton.addEventListener('click', this.pauseGame);
                 resumeButton.addEventListener('click', this.pauseGame);
             }
             newGameButton.addEventListener('click', this.beginNewGame);
             loadGameButton.addEventListener('click', this.openLoadGame);
             saveGameButton.addEventListener('click', this.saveGame);
+            resultButton.addEventListener('click', this.showResult);
         },
 
         createDices(layout) {
@@ -133,7 +137,7 @@
 
                         const downListener = () => {
                             diceElementCondition.pressed = true;
-                            diceElement.addEventListener('mousemove',  moveListener)
+                            diceElement.addEventListener('mousemove', moveListener)
                         }
 
                         diceElement.addEventListener('mousedown', downListener)
@@ -141,12 +145,12 @@
                         const moveListener = (e) => {
                             if (diceElementCondition.pressed) { // if we are grabbing dice
                                 this.dragAndDrop(e, diceElement)
-                                diceElement.removeEventListener('mousemove',  moveListener)
+                                diceElement.removeEventListener('mousemove', moveListener)
                             }
                         }
 
                         const upListener = (e) => {
-                                this.move(e.target);
+                            this.move(e.target);
                         }
 
                         diceElement.addEventListener('mouseup', (e) => {
@@ -239,9 +243,43 @@
             document.querySelectorAll('.dice').forEach(it => this.properties.currentSequence.push(it.textContent));
             this.properties.savedSequence = JSON.stringify(this.properties.currentSequence); // Let's save it
             if (this.properties.currentSequence.join(' ') === this.layout.join(' ')) {
-                alert('Поздравляем, Вы победили!!! Ура');
-            }
-            ;
+            this.pauseGame();
+            const winContainer = document.createElement('div');
+            winContainer.classList.add('win-container');
+            document.querySelector('.overlay').appendChild(winContainer);
+
+            const winMessage = document.createElement('span');
+            winContainer.classList.add('win-message');
+            winMessage.innerHTML = `Congratulation, you have resolved puzzle in ${this.properties.moves} turns! <br> Your time is: ${this.properties.minutes} : ${this.properties.seconds}.`;
+            winContainer.appendChild(winMessage);
+
+            const winName = document.createElement('input');
+            winName.classList.add('winner-name');
+            winName.setAttribute('placeholder', 'Inter your name');
+            winName.setAttribute('required', 'required');
+            winContainer.appendChild(winName);
+
+            const winConfirm = document.createElement('button');
+            winConfirm.classList.add('menu-button--sub');
+            winConfirm.innerHTML = `Confirm`;
+            winContainer.appendChild(winConfirm);
+
+            document.querySelectorAll('.menu-button--main').forEach(button => button.classList.toggle('hide'));
+
+            winConfirm.addEventListener('click', (e) => {
+                if (winName.value) {
+                    this.savePlayerResult(winName.value, `${this.properties.minutes} : ${this.properties.seconds}`, this.properties.moves, `${(this.properties.minutes * 60) + this.properties.seconds}`);
+                    winContainer.remove();
+                    document.querySelectorAll('.menu-button--main').forEach(button => button.classList.toggle('hide'));
+                    this.beginNewGame();
+                    this.pauseGame();
+                } else {
+                    alert('Please, inter your name...');
+
+                    return
+                }
+            });
+            };
             this.properties.currentSequence.length = 0;
         },
 
@@ -257,9 +295,9 @@
         <div class="game-controls__move">
            <span>Moves: </span><span id="moveCount">${this.properties.moves}</span>
         </div>
-        <button id="musicButton">Music</button>
-        <button id="soundButton">Sound</button>
-        <button id="pauseButton">Pause</button>
+        <button id="musicButton"><span class="material-icons">music_note</span></button>
+        <button id="soundButton" title="Effects"><span class="material-icons">volume_mute</span></button>
+        <button id="pauseButton"><span class="material-icons">pause_circle_filled</span></button>
     </div>`
             )
         },
@@ -269,6 +307,7 @@
                 `<button class="menu-button menu-button--main" id="newGame">New Game</button>
                  <button class="menu-button menu-button--main" id="saveGame">Save Game</button>
                  <button class="menu-button menu-button--main" id="loadGame">Load Game</button>
+                 <button class="menu-button menu-button--main" id="bestResult">Best Result</button>
                  <button class="menu-button menu-button--main" id="resumeGame">Resume</button>`
             )
         },
@@ -335,10 +374,46 @@
             Gameboard.properties.seconds = '00';
             Gameboard.properties.moves = '0';
             clearInterval(Gameboard.properties.timerId);
-            !Gameboard.properties.mainThemeMusic ? Gameboard.playMusic(`assets/sound/${Gameboard.getRandomNumber(1, 3)}.mp3`) : '';
+            !Gameboard.properties.mainThemeMusic ? Gameboard.playMusic(`assets/sound/${Gameboard.getRandomNumber(1, Gameboard.properties.SOUND_TRACKS_AMOUNT)}.mp3`) : '';
             Gameboard.init();
             Gameboard.properties.isPaused = false;
             Gameboard.elements.gameBoardOverlay.classList.remove('overlay--show');
+        },
+
+        showResult() {
+            Gameboard.playSoundEffect('assets/sound/click.mp3');
+            const bestPlayersList = JSON.parse(localStorage.getItem('result'));
+            const bestResultContainer = document.createElement('div');
+            bestResultContainer.classList.add('result-container');
+            document.querySelector('.overlay').appendChild(bestResultContainer);
+            document.querySelectorAll('.menu-button--main').forEach(button => button.classList.toggle('hide'));
+            if (!bestPlayersList) {
+                const bestPlayer = document.createElement('div');
+                bestPlayer.classList.add('best-player');
+                bestPlayer.innerHTML = `THERE IS NO BEST PLAYERS YET :(`;
+                bestResultContainer.appendChild(bestPlayer);
+            } else {
+                bestPlayersList.sort((a, b) => Number(a.timeValue) > Number(b.timeValue) ? 1 : -1);
+                let amountOfBestPlayers;
+                bestPlayersList.length > Gameboard.properties.AMOUNT_OF_BEST_PLAYERS ? amountOfBestPlayers = Gameboard.properties.AMOUNT_OF_BEST_PLAYERS : amountOfBestPlayers = bestPlayersList.length;
+                for (let j = 0; j < amountOfBestPlayers; j++) {
+                    const bestPlayer = document.createElement('div');
+                    bestPlayer.classList.add('best-player');
+                    bestPlayer.innerHTML = `${bestPlayersList[j].name} : ${bestPlayersList[j].time}`;
+                    bestResultContainer.appendChild(bestPlayer);
+                }
+            }
+
+            const backButton = document.createElement('button');
+            backButton.classList.add('back-button');
+            backButton.innerHTML = 'Go Back';
+            bestResultContainer.appendChild(backButton);
+
+            backButton.addEventListener('click', (e) => {
+                Gameboard.playSoundEffect('assets/sound/click.mp3');
+                bestResultContainer.remove();
+                document.querySelectorAll('.menu-button--main').forEach(button => button.classList.toggle('hide'));
+            });
         },
 
         openLoadGame() {
@@ -349,9 +424,9 @@
             document.querySelector('.overlay').appendChild(loadMenuContainer);
             document.querySelectorAll('.menu-button--main').forEach(button => button.classList.toggle('hide'));
             if (saveGamesList) {
-            for (let i = 1; i <= saveGamesList.length; i++) {
-                Gameboard.renderTemplate(loadMenuContainer, Gameboard.createLoadMenu(i))
-            }
+                for (let i = 1; i <= saveGamesList.length; i++) {
+                    Gameboard.renderTemplate(loadMenuContainer, Gameboard.createLoadMenu(i))
+                }
             }
             const deleteSaveGame = document.createElement('button');
             deleteSaveGame.classList.add('delete-button');
@@ -369,7 +444,7 @@
                 localStorage.removeItem('saveGames');
                 loadMenuContainer.remove();
                 document.querySelectorAll('.menu-button--main').forEach(button => button.classList.toggle('hide'));
-                // alert('All saves has been deleted. Have a nice day:)')
+                alert('All saves has been deleted. Have a nice day:)')
             });
 
             backButton.addEventListener('click', (e) => {
@@ -387,7 +462,6 @@
         },
 
         beginLoadGame(data, id) {
-            console.log(data, id);
             Gameboard.properties.isGameBegin = true;
             Gameboard.properties.isGameFromSave = true;
             Gameboard.playSoundEffect('assets/sound/new-game.mp3')
@@ -400,13 +474,26 @@
             Gameboard.properties.minutes = data[id - 1].minutes;
             Gameboard.properties.seconds = data[id - 1].seconds;
             Gameboard.properties.moves = data[id - 1].moves;
-            Gameboard.properties.savedSequence = JSON.parse(data[id -1].savedSequence);
-            console.log(Gameboard.properties.savedSequence);
+            Gameboard.properties.savedSequence = JSON.parse(data[id - 1].savedSequence);
             clearInterval(Gameboard.properties.timerId);
 
             Gameboard.init();
             Gameboard.properties.isPaused = false;
             Gameboard.elements.gameBoardOverlay.classList.remove('overlay--show');
+        },
+
+        savePlayerResult(name, time, moves, timeValue) {
+            let existingResult = JSON.parse(localStorage.getItem("result"));
+            if (existingResult === null)
+                existingResult = [];
+            const player = {
+                name: name,
+                time: time,
+                moves: moves,
+                timeValue: timeValue,
+            }
+            existingResult.push(player);
+            localStorage.setItem('result', JSON.stringify(existingResult));
         },
 
         saveGame() {
@@ -417,7 +504,6 @@
             let existingSaveGames = JSON.parse(localStorage.getItem("saveGames"));
             if (existingSaveGames === null)
                 existingSaveGames = [];
-            console.log(existingSaveGames.length);
             if (existingSaveGames.length === 5) {
                 alert('To much save Games. Please, delete your previous games :)')
                 return
