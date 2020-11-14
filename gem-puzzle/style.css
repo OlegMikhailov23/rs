@@ -179,6 +179,36 @@ body {
     padding: 0 2% 0 2%;
     background-color: rgba(0, 0, 0 , 0.3);
 }
+.win-container {
+    width: 65%;
+    margin: 0 auto;
+    padding-top: 20%;
+    text-align: center;
+}
+
+.win-container span {
+    font-size: 1.3rem;
+    line-height: 120%;
+    color: #f75be6;
+    margin-bottom: 5%;
+    letter-spacing: 0.08rem;
+}
+
+.win-container input {
+    display: block;
+    font-family: 'Share Tech Mono', monospace, sans-serif;
+    margin-top: 5%;
+    padding: 2%;
+    color: #f75be6;
+    font-size: 1.3rem;
+    line-height: 120%;
+    border: 2px solid #12bb1a;
+    border-radius: 5px;
+    background-color: transparent;
+    outline: none;
+}
+
+
 
 
 
