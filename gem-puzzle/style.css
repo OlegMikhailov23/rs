@@ -27,7 +27,7 @@ body {
     margin: 0 auto;
     max-width: 420px;
     grid-gap: 0;
-    background: #069bff;
+    background-color: rgba(55, 56, 57, .95);
     padding: 2px;
     border: 1px solid #444;
     transition: all .5s ease-in;
@@ -89,7 +89,6 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    cursor: -webkit-grab;
     cursor: grab;
 }
 
