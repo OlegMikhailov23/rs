@@ -31,7 +31,9 @@
             mainThemeMusic: '',
             effectSound: '',
             SOUND_TRACKS_AMOUNT: 4,
-            AMOUNT_OF_BEST_PLAYERS: 10
+            AMOUNT_OF_BEST_PLAYERS: 10,
+            AMOUNT_OF_GAME_PICTURE: 4,
+            currentGamePicture: null
         },
 
         getPosition(el, containEl) {
@@ -62,7 +64,7 @@
 
             this.elements.gameBoardOverlay.classList.add("overlay");
 
-            this.properties.isGameFromSave ? this.elements.diceContainer.appendChild(this.createDices(this.properties.savedSequence)) : this.elements.diceContainer.appendChild(this.createDices(this.layout)); // If we sart from save, we take saved sequence
+            this.properties.isGameFromSave ? this.elements.diceContainer.appendChild(this.createDices(this.properties.savedSequence)) : this.elements.diceContainer.appendChild(this.createDices(this.layout)); // If we start from save, we take saved sequence
 
             this.elements.dices = this.elements.diceContainer.querySelectorAll('.dice');
 
@@ -92,6 +94,8 @@
 
             const resultButton = document.querySelector('#bestResult');
 
+            const hintButton = document.querySelector('#hintButton');
+
             this.properties.emptyPosition = [...document.querySelectorAll('.dice')].findIndex(n => n.classList.contains('empty'));
             this.properties.verticalNeighborAbove = emptyDice.parentNode.childNodes[this.properties.emptyPosition - 4];
             this.properties.verticalNeighborUnder = emptyDice.parentNode.childNodes[this.properties.emptyPosition + 4];
@@ -110,18 +114,20 @@
             loadGameButton.addEventListener('click', this.openLoadGame);
             saveGameButton.addEventListener('click', this.saveGame);
             resultButton.addEventListener('click', this.showResult);
+            hintButton.addEventListener('click', this.showHint);
         },
 
         createDices(layout) {
             const fragment = document.createDocumentFragment();
             let gameLayout = layout.slice();
             !this.properties.isGameFromSave ? gameLayout = this.shuffleArray(gameLayout) : ''; // Shuffle dice if it needed
+            !this.properties.isGameFromSave ? this.properties.currentGamePicture = this.getRandomNumber(1, this.properties.AMOUNT_OF_GAME_PICTURE) : '';
             gameLayout.forEach((dice, ind) => {
                 const diceElement = document.createElement("div");
-
                 // Add classes
                 diceElement.classList.add("dice");
                 diceElement.textContent = `${gameLayout[ind]}`;
+                diceElement.textContent !== '' ? diceElement.style.backgroundImage = `url('assets/dice-bg/${this.properties.currentGamePicture}/${diceElement.textContent - 1}.jpg')` : diceElement.style.backgroundImage = `url('assets/dice-bg/${this.properties.currentGamePicture}/${this.layout.length - 1}.jpg')`;
                 const getContent = diceElement.textContent;
                 switch (getContent) {
                     case '' : // if empty
@@ -241,45 +247,48 @@
 
         checkForWin() {
             document.querySelectorAll('.dice').forEach(it => this.properties.currentSequence.push(it.textContent));
+            this.properties.currentSequence.length > this.layout.length ? this.properties.currentSequence.pop() : ''; // Fix clone problem after drag-n-drop action
             this.properties.savedSequence = JSON.stringify(this.properties.currentSequence); // Let's save it
             if (this.properties.currentSequence.join(' ') === this.layout.join(' ')) {
-            this.pauseGame();
-            const winContainer = document.createElement('div');
-            winContainer.classList.add('win-container');
-            document.querySelector('.overlay').appendChild(winContainer);
+                document.querySelector('.empty').classList.remove('empty');
+                this.pauseGame();
+                const winContainer = document.createElement('div');
+                winContainer.classList.add('win-container');
+                document.querySelector('.overlay').appendChild(winContainer);
 
-            const winMessage = document.createElement('span');
-            winContainer.classList.add('win-message');
-            winMessage.innerHTML = `Congratulation, you have resolved puzzle in ${this.properties.moves} turns! <br> Your time is: ${this.properties.minutes} : ${this.properties.seconds}.`;
-            winContainer.appendChild(winMessage);
+                const winMessage = document.createElement('span');
+                winContainer.classList.add('win-message');
+                winMessage.innerHTML = `Congratulation, you have resolved puzzle in ${this.properties.moves} turns! <br> Your time is: ${this.properties.minutes} : ${this.properties.seconds}.`;
+                winContainer.appendChild(winMessage);
 
-            const winName = document.createElement('input');
-            winName.classList.add('winner-name');
-            winName.setAttribute('placeholder', 'Inter your name');
-            winName.setAttribute('required', 'required');
-            winContainer.appendChild(winName);
+                const winName = document.createElement('input');
+                winName.classList.add('winner-name');
+                winName.setAttribute('placeholder', 'Inter your name');
+                winName.setAttribute('required', 'required');
+                winContainer.appendChild(winName);
 
-            const winConfirm = document.createElement('button');
-            winConfirm.classList.add('menu-button--sub');
-            winConfirm.innerHTML = `Confirm`;
-            winContainer.appendChild(winConfirm);
+                const winConfirm = document.createElement('button');
+                winConfirm.classList.add('menu-button--sub');
+                winConfirm.innerHTML = `Confirm`;
+                winContainer.appendChild(winConfirm);
 
-            document.querySelectorAll('.menu-button--main').forEach(button => button.classList.toggle('hide'));
+                document.querySelectorAll('.menu-button--main').forEach(button => button.classList.toggle('hide'));
 
-            winConfirm.addEventListener('click', (e) => {
-                if (winName.value) {
-                    this.savePlayerResult(winName.value, `${this.properties.minutes} : ${this.properties.seconds}`, this.properties.moves, `${(this.properties.minutes * 60) + this.properties.seconds}`);
-                    winContainer.remove();
-                    document.querySelectorAll('.menu-button--main').forEach(button => button.classList.toggle('hide'));
-                    this.beginNewGame();
-                    this.pauseGame();
-                } else {
-                    alert('Please, inter your name...');
+                winConfirm.addEventListener('click', (e) => {
+                    if (winName.value) {
+                        this.savePlayerResult(winName.value, `${this.properties.minutes} : ${this.properties.seconds}`, this.properties.moves, `${(this.properties.minutes * 60) + this.properties.seconds}`);
+                        winContainer.remove();
+                        document.querySelectorAll('.menu-button--main').forEach(button => button.classList.toggle('hide'));
+                        this.beginNewGame();
+                        this.pauseGame();
+                    } else {
+                        alert('Please, inter your name...');
 
-                    return
-                }
-            });
-            };
+                        return
+                    }
+                });
+            }
+            ;
             this.properties.currentSequence.length = 0;
         },
 
@@ -298,6 +307,7 @@
         <button id="musicButton"><span class="material-icons">music_note</span></button>
         <button id="soundButton" title="Effects"><span class="material-icons">volume_mute</span></button>
         <button id="pauseButton"><span class="material-icons">pause_circle_filled</span></button>
+        <button id="hintButton"><span class="material-icons">remove_red_eye</span></button>
     </div>`
             )
         },
@@ -373,6 +383,7 @@
             Gameboard.properties.minutes = '00';
             Gameboard.properties.seconds = '00';
             Gameboard.properties.moves = '0';
+            Gameboard.properties.currentGamePicture = null;
             clearInterval(Gameboard.properties.timerId);
             !Gameboard.properties.mainThemeMusic ? Gameboard.playMusic(`assets/sound/${Gameboard.getRandomNumber(1, Gameboard.properties.SOUND_TRACKS_AMOUNT)}.mp3`) : '';
             Gameboard.init();
@@ -414,6 +425,12 @@
                 bestResultContainer.remove();
                 document.querySelectorAll('.menu-button--main').forEach(button => button.classList.toggle('hide'));
             });
+        },
+
+        showHint() {
+            document.querySelectorAll('.dice').forEach(it => {
+                it.classList.toggle('dice--hint');
+            })
         },
 
         openLoadGame() {
@@ -474,6 +491,7 @@
             Gameboard.properties.minutes = data[id - 1].minutes;
             Gameboard.properties.seconds = data[id - 1].seconds;
             Gameboard.properties.moves = data[id - 1].moves;
+            Gameboard.properties.currentGamePicture = data[id - 1].currentGamePicture;
             Gameboard.properties.savedSequence = JSON.parse(data[id - 1].savedSequence);
             clearInterval(Gameboard.properties.timerId);
 
