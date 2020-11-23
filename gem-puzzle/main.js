@@ -18,9 +18,9 @@
       verticalNeighborAbove: null,
       verticalNeighborUnder: null,
       currentSequence: [],
-      minutes: '00',
-      seconds: '00',
-      moves: '0',
+      minutes: 0,
+      seconds: 0,
+      moves: 0,
       isPaused: false,
       timerId: null,
       savedSequence: null,
@@ -30,7 +30,7 @@
       effectSound: '',
       SOUND_TRACKS_AMOUNT: 4,
       AMOUNT_OF_BEST_PLAYERS: 10,
-      AMOUNT_OF_GAME_PICTURE: 4,
+      GAME_PICTURE: 4,
       currentGamePicture: null,
     },
 
@@ -39,13 +39,14 @@
     },
 
     shuffleArray(arr) {
-      for (let i = arr.length - 1; i > 0; i--) {
+      const modArr = arr.slice();
+      for (let i = modArr.length - 1; i > 0; i -= 1) {
         const j = Math.floor(Math.random() * (i + 1));
-        const t = arr[i];
-        arr[i] = arr[j];
-        arr[j] = t;
+        const t = modArr[i];
+        modArr[i] = modArr[j];
+        modArr[j] = t;
       }
-      return arr;
+      return modArr;
     },
 
     getRandomNumber(min, max) {
@@ -61,8 +62,11 @@
       this.elements.diceContainer.classList.add('game-board');
 
       this.elements.gameBoardOverlay.classList.add('overlay');
-
-      this.properties.isGameFromSave ? this.elements.diceContainer.appendChild(this.createDices(this.properties.savedSequence)) : this.elements.diceContainer.appendChild(this.createDices(this.layout)); // If we start from save, we take saved sequence
+      if (this.properties.isGameFromSave) {
+        this.elements.diceContainer.appendChild(this.createDices(this.properties.savedSequence));
+      } else {
+        this.elements.diceContainer.appendChild(this.createDices(this.layout));
+      }
 
       this.elements.dices = this.elements.diceContainer.querySelectorAll('.dice');
 
@@ -95,8 +99,10 @@
       const hintButton = document.querySelector('#hintButton');
 
       this.properties.emptyPosition = [...document.querySelectorAll('.dice')].findIndex((n) => n.classList.contains('empty'));
-      this.properties.verticalNeighborAbove = emptyDice.parentNode.childNodes[this.properties.emptyPosition - 4];
-      this.properties.verticalNeighborUnder = emptyDice.parentNode.childNodes[this.properties.emptyPosition + 4];
+      this.properties.verticalNeighborAbove = emptyDice.parentNode
+        .childNodes[this.properties.emptyPosition - 4];
+      this.properties.verticalNeighborUnder = emptyDice.parentNode
+        .childNodes[this.properties.emptyPosition + 4];
 
       this.properties.timerId = setInterval(this.startTimer, 1000);
 
@@ -118,15 +124,42 @@
     createDices(layout) {
       const fragment = document.createDocumentFragment();
       let gameLayout = layout.slice();
-      !this.properties.isGameFromSave ? gameLayout = this.shuffleArray(gameLayout) : ''; // Shuffle dice if it needed
-      !this.properties.isGameFromSave ? this.properties.currentGamePicture = this.getRandomNumber(1, this.properties.AMOUNT_OF_GAME_PICTURE) : '';
+      if (this.properties.isGameFromSave === false) {
+        gameLayout = this.shuffleArray(gameLayout);
+        this.properties.currentGamePicture = this.getRandomNumber(1, this.properties.GAME_PICTURE);
+      }
       gameLayout.forEach((dice, ind) => {
         const diceElement = document.createElement('div');
         // Add classes
         diceElement.classList.add('dice');
         diceElement.textContent = `${gameLayout[ind]}`;
-        diceElement.textContent !== '' ? diceElement.style.backgroundImage = `url('assets/dice-bg/${this.properties.currentGamePicture}/${diceElement.textContent - 1}.jpg')` : diceElement.style.backgroundImage = `url('assets/dice-bg/${this.properties.currentGamePicture}/${this.layout.length - 1}.jpg')`;
+        if (diceElement.textContent !== '') {
+          diceElement.style.backgroundImage = `url('assets/dice-bg/${this.properties.currentGamePicture}/${diceElement.textContent - 1}.jpg')`;
+        } else {
+          diceElement.style.backgroundImage = `url('assets/dice-bg/${this.properties.currentGamePicture}/${this.layout.length - 1}.jpg')`;
+        }
         const getContent = diceElement.textContent;
+        const diceElementCondition = {
+          pressed: null,
+        };
+
+        const moveListener = (e) => {
+          if (diceElementCondition.pressed) { // if we are grabbing dice
+            this.dragAndDrop(e, diceElement);
+            diceElement.removeEventListener('mousemove', moveListener);
+          }
+        };
+
+        const downListener = () => {
+          diceElementCondition.pressed = true;
+          diceElement.addEventListener('mousemove', moveListener);
+        };
+
+        diceElement.addEventListener('mousedown', downListener);
+
+        const upListener = (e) => {
+          this.move(e.target);
+        };
         switch (getContent) {
           case '': // if empty
             diceElement.textContent = '';
@@ -135,28 +168,6 @@
             break;
           default: // if dice with number
             diceElement.textContent = gameLayout[ind];
-            const diceElementCondition = {
-              pressed: null,
-            };
-
-            const downListener = () => {
-              diceElementCondition.pressed = true;
-              diceElement.addEventListener('mousemove', moveListener);
-            };
-
-            diceElement.addEventListener('mousedown', downListener);
-
-            const moveListener = (e) => {
-              if (diceElementCondition.pressed) { // if we are grabbing dice
-                this.dragAndDrop(e, diceElement);
-                diceElement.removeEventListener('mousemove', moveListener);
-              }
-            };
-
-            const upListener = (e) => {
-              this.move(e.target);
-            };
-
             diceElement.addEventListener('mouseup', (e) => {
               upListener(e);
               diceElementCondition.pressed = false;
@@ -172,43 +183,47 @@
     },
 
     move(el) {
-      document.querySelectorAll('dice');
-      const findPrevious = (el) => {
+      function findPrevious(obj) {
         do {
-          el = el.previousSibling;
-        } while (el && el.nodeType != 1);
-        return el;
-      };
-      const findNext = (el) => {
+          obj = obj.previousSibling;
+        } while (obj && obj.nodeType !== 1);
+        return obj;
+      }
+      const findNext = (obj) => {
         do {
-          el = el.nextElementSibling;
-        } while (el && el.nodeType != 1);
-        return el;
+          obj = obj.nextElementSibling;
+        } while (obj && obj.nodeType !== 1);
+        return obj;
       };
       if (el.previousElementSibling && el.previousElementSibling.textContent === '') {
-        if (el.offsetTop !== el.previousElementSibling.offsetTop) { // Check that empty and clicked dices on one line
+        if (el.offsetTop !== el.previousElementSibling.offsetTop) {
           return;
         }
 
         this.countMove();
         this.playSoundEffect('assets/sound/swap.mp3');
         this.properties.emptyPosition = this.getPosition('.dice', 'empty');
-        this.properties.emptyPosition = this.properties.emptyPosition + 2;
-        this.properties.verticalNeighborUnder = el.parentNode.childNodes[this.properties.emptyPosition + 3];
-        this.properties.verticalNeighborAbove = el.parentNode.childNodes[this.properties.emptyPosition - 5];
+        this.properties.emptyPosition += 2;
+        this.properties.verticalNeighborUnder = el.parentNode
+          .childNodes[this.properties.emptyPosition + 3];
+        this.properties.verticalNeighborAbove = el.parentNode
+          .childNodes[this.properties.emptyPosition - 5];
         const previous = findPrevious(el);
         if (previous) {
           el.parentNode.insertBefore(el, previous);
         }
       } else if (el.nextElementSibling && el.nextElementSibling.textContent === '') {
-        if (el.offsetTop !== el.nextElementSibling.offsetTop) { // Check that empty and clicked dices on one line
+        if (el.offsetTop !== el.nextElementSibling.offsetTop) {
+          // Check that empty and clicked dices on one line
           return;
         }
         this.countMove();
         this.playSoundEffect('assets/sound/swap.mp3');
         this.properties.emptyPosition = this.getPosition('.dice', 'empty');
-        this.properties.verticalNeighborUnder = el.parentNode.childNodes[this.properties.emptyPosition + 3];
-        this.properties.verticalNeighborAbove = el.parentNode.childNodes[this.properties.emptyPosition - 5];
+        this.properties.verticalNeighborUnder = el.parentNode
+          .childNodes[this.properties.emptyPosition + 3];
+        this.properties.verticalNeighborAbove = el.parentNode
+          .childNodes[this.properties.emptyPosition - 5];
         const next = findNext(el);
         if (next) {
           el.parentNode.insertBefore(el.nextElementSibling, el);
@@ -219,7 +234,8 @@
         this.properties.emptyPosition = this.getPosition('.dice', 'empty');
         this.swapElements(el, document.querySelector('.empty'));
         this.properties.verticalNeighborUnder = this.properties.verticalNeighborAbove;
-        this.properties.verticalNeighborAbove = el.parentNode.childNodes[this.properties.emptyPosition - 8];
+        this.properties.verticalNeighborAbove = el.parentNode
+          .childNodes[this.properties.emptyPosition - 8];
       } else if (el === this.properties.verticalNeighborUnder) {
         this.countMove();
         this.playSoundEffect('assets/sound/swap.mp3');
@@ -245,8 +261,12 @@
 
     checkForWin() {
       document.querySelectorAll('.dice').forEach((it) => this.properties.currentSequence.push(it.textContent));
-      this.properties.currentSequence.length > this.layout.length ? this.properties.currentSequence.pop() : ''; // Fix clone problem after drag-n-drop action
-      this.properties.savedSequence = JSON.stringify(this.properties.currentSequence); // Let's save it
+      // Fix clone problem after drag-n-drop action
+      if (this.properties.currentSequence.length > this.layout.length) {
+        this.properties.currentSequence.pop();
+      }
+      // Let's save it
+      this.properties.savedSequence = JSON.stringify(this.properties.currentSequence);
       if (this.properties.currentSequence.join(' ') === this.layout.join(' ')) {
         document.querySelector('.empty').classList.remove('empty');
         this.pauseGame();
@@ -272,7 +292,7 @@
 
         document.querySelectorAll('.menu-button--main').forEach((button) => button.classList.toggle('hide'));
 
-        winConfirm.addEventListener('click', (e) => {
+        winConfirm.addEventListener('click', () => {
           if (winName.value) {
             this.savePlayerResult(winName.value, `${this.properties.minutes} : ${this.properties.seconds}`, this.properties.moves, `${(this.properties.minutes * 60) + this.properties.seconds}`);
             winContainer.remove();
@@ -332,13 +352,13 @@
         const second = document.querySelector('#seconds');
         const minute = document.querySelector('#minutes');
         if (Number(Gameboard.properties.seconds) === 59) {
-          Gameboard.properties.minutes++;
+          Gameboard.properties.minutes = Number(Gameboard.properties.minutes) + 1;
           minute.innerHTML = Gameboard.properties.minutes;
           minute.innerHTML = addZero(minute.innerHTML);
           Gameboard.properties.seconds = 0;
           second.innerHTML = Gameboard.properties.second;
         }
-        Gameboard.properties.seconds++;
+        Gameboard.properties.seconds = Number(Gameboard.properties.seconds) + 1;
         second.innerHTML = Gameboard.properties.seconds;
         second.innerHTML = addZero(second.innerHTML);
       }
@@ -346,7 +366,7 @@
 
     countMove() {
       const moveCount = document.querySelector('#moveCount');
-      Gameboard.properties.moves++;
+      Gameboard.properties.moves = Number(Gameboard.properties.moves) + 1;
       moveCount.innerHTML = Gameboard.properties.moves;
     },
 
@@ -358,7 +378,11 @@
     switchMusic() {
       Gameboard.properties.mainThemeMusic.autoplay = true;
       Gameboard.properties.isMusicOn = !Gameboard.properties.isMusicOn;
-      Gameboard.properties.isMusicOn ? Gameboard.properties.mainThemeMusic.play() : Gameboard.properties.mainThemeMusic.pause();
+      if (Gameboard.properties.isMusicOn) {
+        Gameboard.properties.mainThemeMusic.play();
+      } else {
+        Gameboard.properties.mainThemeMusic.pause();
+      }
     },
 
     switchSound() {
@@ -379,7 +403,9 @@
       Gameboard.properties.moves = '0';
       Gameboard.properties.currentGamePicture = null;
       clearInterval(Gameboard.properties.timerId);
-      !Gameboard.properties.mainThemeMusic ? Gameboard.playMusic(`assets/sound/${Gameboard.getRandomNumber(1, Gameboard.properties.SOUND_TRACKS_AMOUNT)}.mp3`) : '';
+      if (!Gameboard.properties.mainThemeMusic) {
+        Gameboard.playMusic(`assets/sound/${Gameboard.getRandomNumber(1, Gameboard.properties.SOUND_TRACKS_AMOUNT)}.mp3`);
+      }
       Gameboard.init();
       Gameboard.properties.isPaused = false;
       Gameboard.elements.gameBoardOverlay.classList.remove('overlay--show');
@@ -400,8 +426,12 @@
       } else {
         bestPlayersList.sort((a, b) => (Number(a.timeValue) > Number(b.timeValue) ? 1 : -1));
         let amountOfBestPlayers;
-        bestPlayersList.length > Gameboard.properties.AMOUNT_OF_BEST_PLAYERS ? amountOfBestPlayers = Gameboard.properties.AMOUNT_OF_BEST_PLAYERS : amountOfBestPlayers = bestPlayersList.length;
-        for (let j = 0; j < amountOfBestPlayers; j++) {
+        if (bestPlayersList.length > Gameboard.properties.AMOUNT_OF_BEST_PLAYERS) {
+          amountOfBestPlayers = Gameboard.properties.AMOUNT_OF_BEST_PLAYERS;
+        } else {
+          amountOfBestPlayers = bestPlayersList.length;
+        }
+        for (let j = 0; j < amountOfBestPlayers; j += 1) {
           const bestPlayer = document.createElement('div');
           bestPlayer.classList.add('best-player');
           bestPlayer.innerHTML = `${bestPlayersList[j].name} : ${bestPlayersList[j].time}`;
@@ -414,7 +444,7 @@
       backButton.innerHTML = 'Go Back';
       bestResultContainer.appendChild(backButton);
 
-      backButton.addEventListener('click', (e) => {
+      backButton.addEventListener('click', () => {
         Gameboard.playSoundEffect('assets/sound/click.mp3');
         bestResultContainer.remove();
         document.querySelectorAll('.menu-button--main').forEach((button) => button.classList.toggle('hide'));
@@ -435,7 +465,7 @@
       document.querySelector('.overlay').appendChild(loadMenuContainer);
       document.querySelectorAll('.menu-button--main').forEach((button) => button.classList.toggle('hide'));
       if (saveGamesList) {
-        for (let i = 1; i <= saveGamesList.length; i++) {
+        for (let i = 1; i <= saveGamesList.length; i += 1) {
           Gameboard.renderTemplate(loadMenuContainer, Gameboard.createLoadMenu(i));
         }
       }
@@ -450,7 +480,7 @@
       loadMenuContainer.appendChild(deleteSaveGame);
       loadMenuContainer.appendChild(backButton);
 
-      deleteSaveGame.addEventListener('click', (e) => {
+      deleteSaveGame.addEventListener('click', () => {
         Gameboard.playSoundEffect('assets/sound/delete.mp3');
         localStorage.removeItem('saveGames');
         loadMenuContainer.remove();
@@ -458,7 +488,7 @@
         alert('All saves has been deleted. Have a nice day:)');
       });
 
-      backButton.addEventListener('click', (e) => {
+      backButton.addEventListener('click', () => {
         Gameboard.playSoundEffect('assets/sound/click.mp3');
         loadMenuContainer.remove();
         document.querySelectorAll('.menu-button--main').forEach((button) => button.classList.toggle('hide'));
@@ -566,10 +596,10 @@
 
       let droppableBelow = null;
 
-      function onMouseMove(e) {
-        moveAt(e.pageX, e.pageY);
+      function onMouseMove(evt) {
+        moveAt(evt.pageX, evt.pageY);
         createCopy.style.zIndex = '-1';
-        const elementBelow = document.elementFromPoint(e.clientX, e.clientY);
+        const elementBelow = document.elementFromPoint(evt.clientX, evt.clientY);
         createCopy.style.zIndex = '1';
 
         droppableBelow = elementBelow.closest('.empty');
@@ -579,7 +609,11 @@
 
       createCopy.onmouseup = function () {
         document.removeEventListener('mousemove', onMouseMove);
-        droppableBelow ? Gameboard.move(e.target) : moveAt(startCoordinate.x, startCoordinate.y);
+        if (droppableBelow) {
+          Gameboard.move(e.target);
+        } else {
+          moveAt(startCoordinate.x, startCoordinate.y);
+        }
         createCopy.remove();
         draggableEl.classList.remove('hidden');
         createCopy.onmouseup = null;
