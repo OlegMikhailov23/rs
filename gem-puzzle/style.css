@@ -1,0 +1,227 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 100%;
+    font-family: 'Share Tech Mono', monospace, sans-serif;
+}
+
+body {
+    height: 100vh;
+    width: 100%;
+    background-image: url("assets/bg/1.gif");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+}
+
+.game-board {
+    position: relative;
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 1fr 0 1fr 0 1fr 0 1fr;
+    grid-template-columns: repeat(4, 1fr); grid-auto-rows: 1fr;
+    margin: 0 auto;
+    max-width: 420px;
+    grid-gap: 0;
+    background-color: rgba(55, 56, 57, .95);
+    padding: 2px;
+    border: 1px solid #444;
+    transition: all .5s ease-in;
+    -webkit-transition: all .5s ease-in;
+    -moz-transition: all .5s ease-in;
+    -ms-transition: all .5s ease-in;
+    -o-transition: all .5s ease-in;
+}
+
+.game-board > .dice:first-child {
+    -ms-grid-row: 1;
+    grid-row: 1 / 1;
+    -ms-grid-column: 1;
+    grid-column: 1 / 1;
+}
+
+.game-board::before {
+    content: '';
+    width: 0;
+    padding-bottom: 100%;
+    -ms-grid-row: 1;
+    grid-row: 1 / 1;
+    -ms-grid-column: 1;
+    grid-column: 1 / 1;
+}
+
+.dice {
+    font-family: 'VT323', monospace, sans-serif;
+    border: 1px solid #444;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    position: relative;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    font-size: 0;
+    color: #fcfcfc;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.94);
+    background-color: rgb(228, 228, 228);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: grab;
+}
+
+.dice--hint {
+    font-size: 1.5rem;
+}
+
+.empty {
+    opacity: 0;
+}
+
+.hidden {
+    opacity: 0;
+    background-color: transparent;
+    background-image: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0;
+    z-index: 1;
+}
+
+.hide {
+    display: none !important;
+}
+
+.game-controls {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    max-width: 420px;
+    margin: auto;
+    margin-top: 10%;
+    margin-bottom: 1%;
+}
+
+.overlay {
+    font-family: 'VT323', monospace, sans-serif;
+    display: block;
+    opacity: 0;
+    width: 1px;
+    height: 100%;
+
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+    -webkit-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.overlay--show {
+    opacity: 1;
+    width: 100%;
+    height: 100%;
+    -webkit-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.overlay button {
+    font-family: 'VT323', monospace, sans-serif;
+    display: block;
+    width: 40%;
+    margin: 0 auto;
+    margin-top: 8%;
+    font-size: 1.4rem;
+    line-height: 120%;
+    cursor: pointer;
+    letter-spacing: 0.08rem;
+    color: #12bb1a;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    -webkit-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.overlay button:hover {
+    color: #e5b90a;
+}
+
+.menu-button.menu-button--sub {
+    margin-top: 4%;
+    color: #f75be6;
+    font-size: 1.2rem;
+}
+
+.best-player {
+    width: 40%;
+    margin: 0 auto;
+    margin-top: 8%;
+    color: #f75be6;
+    font-size: 1.2rem;
+    line-height: 120%;
+}
+
+.game-controls button {
+    width: 36px;
+    height: 36px;
+    font-size: 0.8rem;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}
+
+.game-controls div {
+    color: #fcfcfc;
+    font-size: 1.3rem;
+    line-height: 120%;
+    padding: 0 2% 0 2%;
+    background-color: rgba(0, 0, 0 , 0.3);
+}
+.win-container {
+    width: 65%;
+    margin: 0 auto;
+    padding-top: 20%;
+    text-align: center;
+}
+
+.win-container span {
+    font-size: 1.3rem;
+    line-height: 120%;
+    color: #f75be6;
+    margin-bottom: 5%;
+    letter-spacing: 0.08rem;
+}
+
+.win-container input {
+    display: block;
+    font-family: 'Share Tech Mono', monospace, sans-serif;
+    margin-top: 5%;
+    padding: 2%;
+    color: #f75be6;
+    font-size: 1.3rem;
+    line-height: 120%;
+    border: 2px solid #12bb1a;
+    border-radius: 5px;
+    background-color: transparent;
+    outline: none;
+}
