@@ -4,9 +4,11 @@
   "description": "app for learning english words for kids",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --history-api-fallback --inline --open",
-    "build": "webpack --config webpack.config.js"
+    "test": "npm run eslint",
+    "eslint": "eslint src/**/*.js",
+    "dev": "webpack-dev-server --history-api-fallback --inline --open",
+    "build": "npm run clear -s && webpack --progress",
+    "clear": "del-cli dist"
   },
   "repository": {
     "type": "git",
@@ -19,17 +21,25 @@
     "@babel/preset-env": "^7.12.7",
     "autoprefixer": "^10.0.2",
     "babel-loader": "^8.2.1",
+    "copy-webpack-plugin": "^6.3.2",
     "css-loader": "^5.0.1",
+    "css-mqpacker": "^7.0.0",
     "cssnano": "^4.1.10",
+    "del-cli": "^3.0.1",
+    "eslint": "^7.13.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
     "file-loader": "^6.2.0",
     "html-loader": "^1.3.2",
     "html-webpack-plugin": "^4.5.0",
+    "image-webpack-loader": "^7.0.1",
     "mini-css-extract-plugin": "^1.3.1",
     "postcss-loader": "^4.1.0",
     "sass": "^1.29.0",
     "sass-loader": "^10.1.0",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.9",
-    "webpack-dev-server": "^3.8.2"
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "4.41.2",
+    "webpack-cli": "3.3.9",
+    "webpack-dev-server": "3.8.2"
   }
 }

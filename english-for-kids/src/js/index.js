@@ -1,3 +1,3 @@
 import '../sass/style.scss';
 
-console.log("Hello from webpack:)");
+console.table('Hello World!');
