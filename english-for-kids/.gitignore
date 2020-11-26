@@ -2,8 +2,6 @@
 Thumbs.db
 
 .idea
-*.sublime*
 .vscode
 
-*.log*
 node_modules/
