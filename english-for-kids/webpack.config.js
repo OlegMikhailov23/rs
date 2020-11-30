@@ -28,7 +28,6 @@ const config = {
   mode: setDMode(),
   devtool: setDevTool(),
   entry: './src/js/index.js',
-
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'
@@ -167,6 +166,11 @@ const config = {
     new HtmlWebPackPlugin({
       template: './src/index.html',
       filename: './index.html'
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: path.resolve(__dirname, './src/assets/img'), to: path.resolve(__dirname, 'dist/assets/img') },
+      ],
     }),
   ]
 };

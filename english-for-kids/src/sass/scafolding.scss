@@ -15,10 +15,6 @@
   src: url('../assets/fonts/nunito-bold.ttf');
 }
 
-html {
-}
-
-
 body {
   position: relative;
   font-family: 'Nunito', sans-serif;
@@ -27,7 +23,7 @@ body {
   font-size: $main-font-size;
   line-height: $main-line-height;
   color: $main-font-color;
-  height: 100vh;
+  //height: 100vh;
 }
 
 *,

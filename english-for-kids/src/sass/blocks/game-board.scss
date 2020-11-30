@@ -1,0 +1,56 @@
+@import '../mixin';
+
+@import '../variables';
+
+.game-board__wrapper {
+  @include container();
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 1.3rem;
+}
+
+.game-board__item {
+  width: 23%;
+  border-radius: 10px;
+  background-color: $background-colr-1;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+  & img {
+    display: block;
+    border-radius: 50%;
+    margin: 0 auto;
+    width: 70%;
+  }
+  & span {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    color: $fourth-font-color;
+    font-size: 1.4rem;
+    padding-top: 15px;
+  }
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 5px 5px 15px 5px #545454;
+    & span {
+      color: $sixth-font-color;
+    }
+  }
+}
+
+@media ($tablet-widths) {
+  .game-board__item {
+    width: 40%;
+  }
+}
+
+@media ($mobile-widths) {
+  .game-board__item {
+    width: 80%;
+  }
+
+}

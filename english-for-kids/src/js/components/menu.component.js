@@ -1,9 +1,6 @@
-import { topics } from '../data/data.js';
-
 export class MenuComponents {
-  constructor(menu) {
-    this.name = menu;
-    this.listData = topics;
+  constructor(data) {
+    this.listData = data;
   }
 
   createMenu() {
