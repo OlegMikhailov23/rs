@@ -1,3 +1,5 @@
-body {
-  background-color: aquamarine;
-}
+@import 'normalize';
+
+@import 'scafolding';
+
+@import 'blocks/header';

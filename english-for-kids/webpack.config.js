@@ -152,7 +152,8 @@ const config = {
         use: [{
           loader: 'file-loader',
           options: {
-            outputPath: './assets/fonts'
+            outputPath: './assets/fonts',
+            name: '[name].[ext]'
           }
         }]
       }

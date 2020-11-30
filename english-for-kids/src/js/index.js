@@ -1,3 +1,9 @@
 import '../sass/style.scss';
 
-console.table('Hello World!');
+import {App} from './app.js';
+
+
+window.addEventListener('DOMContentLoaded', () => {
+  const app = new App();
+  app.initApp();
+})
