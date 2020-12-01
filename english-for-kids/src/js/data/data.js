@@ -1,5 +1,6 @@
 export const cards = [
   ['Action (set A)', 'Action (set B)', 'Action (set C)', 'Animal (set A)', 'Animal (set B)', 'Clothes', 'Emotions', 'Adjective'],
+  // Action Set A
   [
     {
       word: 'cry',
@@ -50,6 +51,8 @@ export const cards = [
       audioSrc: 'audio/jump.mp3',
     },
   ],
+
+  // Action Set B
   [
     {
       word: 'open',
@@ -100,6 +103,58 @@ export const cards = [
       audioSrc: 'audio/swim.mp3',
     },
   ],
+  // Action Set C
+  [
+    {
+      word: 'argue',
+      translation: 'спорить',
+      image: 'img/argue.jpg',
+      audioSrc: 'audio/argue.mp3',
+    },
+    {
+      word: 'build',
+      translation: 'строить',
+      image: 'img/build.jpg',
+      audioSrc: 'audio/build.mp3',
+    },
+    {
+      word: 'carry',
+      translation: 'нести',
+      image: 'img/carry.jpg',
+      audioSrc: 'audio/carry.mp3',
+    },
+    {
+      word: 'catch',
+      translation: 'ловить',
+      image: 'img/catch.jpg',
+      audioSrc: 'audio/catch.mp3',
+    },
+    {
+      word: 'drive',
+      translation: 'водить',
+      image: 'img/drive.jpg',
+      audioSrc: 'audio/drive.mp3',
+    },
+    {
+      word: 'drop',
+      translation: 'бросать',
+      image: 'img/drop.jpg',
+      audioSrc: 'audio/drop.mp3',
+    },
+    {
+      word: 'pull',
+      translation: 'тянуть',
+      image: 'img/pull.jpg',
+      audioSrc: 'audio/pull.mp3',
+    },
+    {
+      word: 'push',
+      translation: 'толкать',
+      image: 'img/push.jpg',
+      audioSrc: 'audio/push.mp3',
+    },
+  ],
+  // Animal Set A
   [
     {
       word: 'cat',
@@ -150,6 +205,7 @@ export const cards = [
       audioSrc: 'audio/sheep.mp3',
     },
   ],
+  // Animal (set B)
   [
     {
       word: 'bird',
@@ -200,6 +256,7 @@ export const cards = [
       audioSrc: 'audio/dolphin.mp3',
     },
   ],
+  // Clothes
   [
     {
       word: 'skirt',
@@ -250,6 +307,7 @@ export const cards = [
       audioSrc: 'audio/shoe.mp3',
     },
   ],
+  // Emotions
   [
     {
       word: 'sad',
@@ -298,6 +356,57 @@ export const cards = [
       translation: 'смех',
       image: 'img/laugh.jpg',
       audioSrc: 'audio/laugh.mp3',
+    },
+  ],
+  // Adjectives
+  [
+    {
+      word: 'big',
+      translation: 'большой',
+      image: 'img/big.jpg',
+      audioSrc: 'audio/big.mp3',
+    },
+    {
+      word: 'small',
+      translation: 'маленький',
+      image: 'img/small.jpg',
+      audioSrc: 'asmall.mp3',
+    },
+    {
+      word: 'fast',
+      translation: 'быстро',
+      image: 'img/fast.jpg',
+      audioSrc: 'audio/fast.mp3',
+    },
+    {
+      word: 'slow',
+      translation: 'медленно',
+      image: 'img/slow.jpg',
+      audioSrc: 'audio/slow.mp3',
+    },
+    {
+      word: 'old',
+      translation: 'старый',
+      image: 'img/old.jpg',
+      audioSrc: 'audio/old.mp3',
+    },
+    {
+      word: 'friendly',
+      translation: 'дружелюбный',
+      image: 'img/friendly.jpg',
+      audioSrc: 'audio/friendly.mp3',
+    },
+    {
+      word: 'beautiful',
+      translation: 'прекрасный',
+      image: 'img/beautiful.jpg',
+      audioSrc: 'audio/beautiful.mp3',
+    },
+    {
+      word: 'ugly',
+      translation: 'уродливый',
+      image: 'img/ugly.jpg',
+      audioSrc: 'audio/ugly.mp3',
     },
   ],
 ];

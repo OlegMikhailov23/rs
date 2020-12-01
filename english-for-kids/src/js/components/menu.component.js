@@ -25,8 +25,8 @@ export class MenuComponents {
 
   createMenuItem(menuItem) {
     return (
-      `        <li class="main-header__menu-list__item"><a
-          class="main-header__menu-list__item__link" id="${menuItem}" href="#">${menuItem}</a></li>`
+      `        <li class="main-header__menu-list__item"><div data-id="${menuItem}"><a
+          class="main-header__menu-list__item__link"  id="${menuItem}">${menuItem}</a></li>`
     );
   }
 
@@ -86,7 +86,6 @@ export class MenuComponents {
         });
         const activeItem = document.getElementById(`${e.target.getAttribute('id')}`);
         activeItem.classList.add('main-header__menu-list__item__link--active');
-        console.log(activeItem);
         closeNav();
       });
     });
