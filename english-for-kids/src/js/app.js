@@ -17,12 +17,12 @@ export class App {
     this.gameBoard = new GameBoard(this.dataForgameBoard);
   }
 
-  choseCategory() {
+  chooseCategory() {
     document.addEventListener('click', (e) => {
       const target = e.target.closest('div').getAttribute('data-id');
       if (target) {
         this.gameBoard.clearGameBoard();
-        const card = new Card(document.querySelector('.game-board__wrapper'));
+        const card = new Card();
         switch (target) {
           case 'Action (set A)':
             this.gameBoard.createCard(card, actionSetA);
@@ -48,6 +48,9 @@ export class App {
           case 'Adjective':
             this.gameBoard.createCard(card, adjective);
             break;
+          case 'Main page':
+            this.gameBoard.createCategory(card, nameCategories);
+            break;
           default:
             break;
         }
@@ -58,6 +61,6 @@ export class App {
   initApp() {
     this.menu.init();
     this.gameBoard.init();
-    this.choseCategory();
+    this.chooseCategory();
   }
 }

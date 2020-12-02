@@ -3,6 +3,7 @@ import { Card } from './card.component';
 export class GameBoard {
   constructor(data) {
     this.listData = data;
+    this.card = new Card();
   }
 
   createGameBoard() {
@@ -20,7 +21,7 @@ export class GameBoard {
   }
 
   clearGameBoard() {
-    const cardCollection = [...document.querySelectorAll('.game-board__item')];
+    const cardCollection = [...document.querySelectorAll('.game-board__item-container')];
     cardCollection.forEach((it) => {
       it.remove();
     });
@@ -32,17 +33,33 @@ export class GameBoard {
     });
   }
 
+  startFlipCard() {
+    document.querySelectorAll('.rotate').forEach((it) => {
+      it.addEventListener('click', (e) => {
+        this.card.flipCard(e.target.closest('.game-board__item-container'));
+        this.startFlipCardBack();
+      });
+    });
+  }
+
+  startFlipCardBack() {
+    document.addEventListener('mouseover', (e) => {
+      if (e.target.classList.contains('game-board__wrapper') && e.relatedTarget) {
+        this.card.flipCardBack(e.relatedTarget.closest('.is-flipped'));
+      }
+    });
+  }
+
   createCard(el, data) {
     data.map((it) => {
       el.initCard(it);
     });
+    this.startFlipCard();
   }
 
   init() {
     const container = document.querySelector('body');
     this.render(container, this.createGameBoard(), 'beforeend');
-    const cardContainer = document.querySelector('.game-board__wrapper');
-    const card = new Card(cardContainer);
-    this.createCategory(card, this.listData);
+    this.createCategory(this.card, this.listData);
   }
 }

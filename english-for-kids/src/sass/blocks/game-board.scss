@@ -4,17 +4,37 @@
 
 .game-board__wrapper {
   @include container();
+  padding-top: 10px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   flex-wrap: wrap;
   gap: 1.3rem;
 }
+// Flip mechanical
+.game-board__item-container {
+  width: 23%;
+  min-height: 350px;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.game-board__item-container.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.game-board__item--back {
+  transform: rotateY(180deg);
+}
+
+// Flip mechanical
 
 .game-board__item {
+  position: absolute;
   display: flex;
   flex-direction: column;
-  width: 23%;
+  width: 100%;
   min-height: 350px;
   border-radius: 10px;
   background-color: $background-colr-1;
@@ -22,6 +42,8 @@
   padding-bottom: 15px;
   cursor: pointer;
   transition: all 0.2s ease-in;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   & img {
     display: block;
     border-radius: 50%;
@@ -38,7 +60,6 @@
     padding-top: 15px;
   }
   &:hover {
-    transform: translateY(-10px);
     box-shadow: 5px 5px 15px 5px #545454;
     & span {
       color: $sixth-font-color;
@@ -47,13 +68,13 @@
 }
 
 @media ($tablet-widths) {
-  .game-board__item {
+  .game-board__item-container {
     width: 40%;
   }
 }
 
 @media ($mobile-widths) {
-  .game-board__item {
+  .game-board__item-container {
     width: 80%;
   }
 

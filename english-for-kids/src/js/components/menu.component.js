@@ -15,7 +15,8 @@ export class MenuComponents {
     </a>
     <nav>
       <ul class="main-header__menu-list">
-
+               <li class="main-header__menu-list__item"><div data-id="Main page"><a
+          class="main-header__menu-list__item__link"  id="mainPage">Main page</a></li>
       </ul>
     </nav>
   </div>
