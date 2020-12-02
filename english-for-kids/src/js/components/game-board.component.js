@@ -50,11 +50,21 @@ export class GameBoard {
     });
   }
 
+  startSpeak() {
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('.game-board__item--front')) {
+        const word = e.target.closest('.game-board__item--front').getAttribute('sound-id');
+        this.card.speak(word);
+      }
+    });
+  }
+
   createCard(el, data) {
     data.map((it) => {
       el.initCard(it);
     });
     this.startFlipCard();
+    this.startSpeak();
   }
 
   init() {

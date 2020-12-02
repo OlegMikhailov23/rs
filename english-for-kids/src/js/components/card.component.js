@@ -1,7 +1,7 @@
 export class Card {
   constructor() {
     this.container = null;
-    this.focused = false;
+    this.sound = new Audio();
   }
 
   setContainer() {
@@ -23,10 +23,10 @@ export class Card {
     return (
       `
        <div class="game-board__item-container">
-           <div class="game-board__item game-board__item--front">
+           <div class="game-board__item game-board__item--front" sound-id="${cardItem.word}">
               <img class="game-board__item-img" src="./assets/img/${cardItem.word}.jpg" alt="${cardItem.word}">
               <span>${cardItem.word}</span>
-              <div class="rotate">rotate</div>
+              <div class="rotate" title="rotate">rotate</div>
            </div>
            <div class="game-board__item game-board__item--back">
               <img class="game-board__item-img" src="./assets/img/${cardItem.word}.jpg" alt="${cardItem.word}">
@@ -48,6 +48,11 @@ export class Card {
     if (card) {
       card.classList.remove('is-flipped');
     }
+  }
+
+  speak(src) {
+    this.sound.src = `./assets/audio/${src}.mp3`;
+    this.sound.autoplay = true;
   }
 
   initCategory(it) {

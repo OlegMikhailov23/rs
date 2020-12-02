@@ -9,15 +9,15 @@
   flex-direction: row;
   justify-content: space-around;
   flex-wrap: wrap;
-  gap: 1.3rem;
 }
 // Flip mechanical
 .game-board__item-container {
   width: 23%;
-  min-height: 350px;
+  min-height: 270px;
   transition: transform 0.6s;
   transform-style: preserve-3d;
   position: relative;
+  margin-bottom: 60px;
 }
 
 .game-board__item-container.is-flipped {
@@ -26,6 +26,7 @@
 
 .game-board__item--back {
   transform: rotateY(180deg);
+  box-shadow: 5px 5px 15px 5px #545454;
 }
 
 // Flip mechanical
@@ -34,10 +35,16 @@
   position: absolute;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  min-height: 350px;
+  height: 100%;
+  min-height: 300px;
   border-radius: 10px;
-  background-color: $background-colr-1;
+  background: rgb(6,155,255);
+  background: linear-gradient(21deg, rgba(6,155,255,1) 0%, rgba(27,201,245,1) 100%);
+  padding-left: 10px;
+  padding-right: 10px;
   padding-top: 15px;
   padding-bottom: 15px;
   cursor: pointer;
@@ -48,16 +55,17 @@
     display: block;
     border-radius: 50%;
     margin: 0 auto;
-    width: 86%;
-    height: 70%;
+    width: 100%;
+    border: 2px solid $main-border-color
   }
   & span {
     display: block;
     margin: 0 auto;
     text-align: center;
     color: $fourth-font-color;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     padding-top: 15px;
+    letter-spacing: 0.06rem;
   }
   &:hover {
     box-shadow: 5px 5px 15px 5px #545454;
@@ -65,6 +73,17 @@
       color: $sixth-font-color;
     }
   }
+}
+
+.rotate {
+  width: 25px;
+  height: 25px;
+  font-size: 0;
+  background-image: url("../assets/img/rotate.svg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  align-self: flex-end;
 }
 
 @media ($tablet-widths) {

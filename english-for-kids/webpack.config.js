@@ -165,11 +165,13 @@ const config = {
     }),
     new HtmlWebPackPlugin({
       template: './src/index.html',
+      favicon: './src/favicon.png',
       filename: './index.html'
     }),
     new CopyWebpackPlugin({
       patterns: [
         { from: path.resolve(__dirname, './src/assets/img'), to: path.resolve(__dirname, 'dist/assets/img') },
+        { from: path.resolve(__dirname, './src/assets/audio'), to: path.resolve(__dirname, 'dist/assets/audio') },
       ],
     }),
   ]
