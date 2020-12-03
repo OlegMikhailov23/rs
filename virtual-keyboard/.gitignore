@@ -1,0 +1,4 @@
+# Файлы редактора
+.idea
+*.sublime*
+.vscode
