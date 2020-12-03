@@ -8,13 +8,11 @@ const [nameCategories, actionSetA, actionSetB, actionSetC, animalSetA,
   animalSetB, clothes, emotion, adjective] = cards;
 
 export class App {
-  constructor(name) {
-    this.name = name;
-    this.gameMode = 'train';
+  constructor() {
     this.dataForMenu = nameCategories;
-    this.dataForgameBoard = nameCategories;
+    this.dataForGameBoard = nameCategories;
     this.menu = new MenuComponents(this.dataForMenu);
-    this.gameBoard = new GameBoard(this.dataForgameBoard);
+    this.gameBoard = new GameBoard(this.dataForGameBoard);
   }
 
   chooseCategory() {
