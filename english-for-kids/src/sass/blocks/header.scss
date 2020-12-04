@@ -258,3 +258,8 @@ nav.closed {
 }
 
 /*** END CSS NEEDED FOR SWITCHER **/
+
+nav.collapse--game {
+  background: #d6249f;
+  background: radial-gradient(circle at 107% 30%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+}

@@ -1,11 +1,14 @@
-export class Card {
+class Card {
   constructor() {
-    this.container = null;
     this.sound = new Audio();
   }
 
-  setContainer() {
-    this.container = document.querySelector('.game-board__wrapper');
+  setContainer(el) {
+    this.container = el;
+  }
+
+  setCardWrap(el) {
+    this.cardContainer = el;
   }
 
   createCardCategory(cardItem) {
@@ -55,13 +58,11 @@ export class Card {
     this.sound.autoplay = true;
   }
 
-  initCategory(it) {
-    this.setContainer();
-    this.render(this.container, this.createCardCategory(it), 'afterbegin');
-  }
-
-  initCard(it) {
-    this.setContainer();
-    this.render(this.container, this.createCard(it), 'afterbegin');
+  initCard(it, cb) {
+    const cardContainer = document.querySelector('.game-board__wrapper');
+    this.setContainer(cardContainer);
+    this.render(this.container, cb, 'afterbegin');
   }
 }
+
+export default Card;

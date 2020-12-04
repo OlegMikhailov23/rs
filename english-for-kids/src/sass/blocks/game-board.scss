@@ -9,11 +9,12 @@
   flex-direction: row;
   justify-content: space-around;
   flex-wrap: wrap;
+  transition: all 0.3s ease-in;
 }
 // Flip mechanical
 .game-board__item-container {
   width: 23%;
-  min-height: 270px;
+  min-height: 300px;
   transition: transform 0.6s;
   transform-style: preserve-3d;
   position: relative;
@@ -38,7 +39,6 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 100%;
   min-height: 300px;
   border-radius: 10px;
   background: rgb(6,155,255);
@@ -53,6 +53,7 @@
     border-radius: 50%;
     margin: 0 auto;
     width: 100%;
+    max-height: 265px;
     border: 2px solid $main-border-color
   }
   & span {
@@ -64,6 +65,8 @@
     font-weight: 600;
     padding-top: 15px;
     letter-spacing: 0.06rem;
+    transition: all 0.3s ease-in-out;
+
   }
   &:hover {
     box-shadow: 5px 5px 15px 5px #545454;
@@ -82,17 +85,76 @@
   background-repeat: no-repeat;
   background-position: center;
   align-self: flex-end;
+  transition: all 0.3s ease;
+}
+
+.game-board__button {
+  display: block;
+  margin: 0 auto;
+  padding: 15px 45px 15px 45px;
+  @include fontpref (1.6rem, 120%, 700);
+  color: $second-font-color;
+  background-color: #ed4679;
+  outline: none;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s ease-out;
+  border-radius: 10px;
+  border: none;
+  letter-spacing: 0.06rem;
+  &:hover {
+    background: #ea7598;
+    transition: 0.3s;
+    color: $sixth-font-color;
+  }
+
+  &:active {
+    color: rgba(255, 255, 255, 0.3);
+    transition: 0.1s;
+    @include bsh(0px,3px,1px,0,#151414,inset);
+  }
 }
 
 @media ($tablet-widths) {
   .game-board__item-container {
-    width: 40%;
+    width: 45%;
+  }
+
+  .game-board__item img {
+    width: 70%;
   }
 }
 
 @media ($mobile-widths) {
   .game-board__item-container {
-    width: 80%;
+    width: 70%;
   }
 
+  .game-board__item img {
+    width: 100%;
+  }
 }
+
+.game-board__item--game {
+  background: #d6249f;
+  background: radial-gradient(circle at 107% 30%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+  & .rotate {
+    width: 0;
+    height: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    opacity: 0;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+

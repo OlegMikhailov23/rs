@@ -1,6 +1,10 @@
-export class MenuComponents {
-  constructor(data) {
-    this.listData = data;
+class MenuComponents {
+  constructor() {
+    this.container = null;
+  }
+
+  setContainer(el) {
+    this.container = el;
   }
 
   createMenu() {
@@ -44,17 +48,18 @@ export class MenuComponents {
     container.insertAdjacentHTML(place, template);
   }
 
-  init() {
+  init(data) {
     const container = document.querySelector('body');
-    this.render(container, this.createMenu(), 'afterbegin');
+    this.render(container, this.createMenu());
     const mainHeader = document.querySelector('.main-header__wrapper');
     this.render(mainHeader, this.createSwitcher());
     const menuContainer = document.querySelector('.main-header__menu-list');
-    this.listData.map((it) => {
+    data.map((it) => {
       this.render(menuContainer, this.createMenuItem(it));
     });
     const hamburgerButton = document.querySelector('.nav-toggle');
     const navMenu = document.querySelector('nav');
+    this.setContainer(navMenu);
     const navMenuLink = document.querySelectorAll('nav a');
     const modalBackground = document.querySelector('.modal-background');
 
@@ -94,3 +99,5 @@ export class MenuComponents {
     modalBackground.addEventListener('click', closeNav);
   }
 }
+
+export default MenuComponents;

@@ -1,18 +1,33 @@
-import { Card } from './card.component';
+import Card from './card.component';
 
-export class GameBoard {
-  constructor(data) {
-    this.listData = data;
+class GameBoard {
+  constructor() {
     this.card = new Card();
+  }
+
+  createSection() {
+    return (
+      `<main>
+          <section class="game-board">
+
+          </section>
+       </main>`
+    );
   }
 
   createGameBoard() {
     return (
-      `<main>
-          <section class="game-board">
-                <div class="game-board__wrapper" id="gameBoard">
-          </section>
-       </main>`
+      `<div class="game-board__wrapper" id="gameBoard">
+
+       </div>`
+    );
+  }
+
+  createGameButton() {
+    return (
+      `
+        <button class="game-board__button hidden" id="startGame">Start</button>
+      `
     );
   }
 
@@ -21,16 +36,7 @@ export class GameBoard {
   }
 
   clearGameBoard() {
-    const cardCollection = [...document.querySelectorAll('.game-board__item-container')];
-    cardCollection.forEach((it) => {
-      it.remove();
-    });
-  }
-
-  createCategory(el, data) {
-    data.map((it) => {
-      el.initCategory(it);
-    });
+    document.querySelector('.game-board__wrapper').remove();
   }
 
   startFlipCard() {
@@ -61,15 +67,26 @@ export class GameBoard {
 
   createCard(el, data) {
     data.map((it) => {
-      el.initCard(it);
+      if (typeof data[0] !== 'string') {
+        el.initCard(it, this.card.createCard(it));
+      } else {
+        el.initCard(it, this.card.createCardCategory(it));
+      }
     });
     this.startFlipCard();
     this.startSpeak();
   }
 
-  init() {
+  init(data) {
     const container = document.querySelector('body');
-    this.render(container, this.createGameBoard(), 'beforeend');
-    this.createCategory(this.card, this.listData);
+    this.render(container, this.createSection());
+    const cardContainer = document.querySelector('.game-board');
+    this.render(cardContainer, this.createGameBoard(), 'afterbegin');
+    this.render(cardContainer, this.createGameButton());
+    this.createCard(this.card, data);
+    const cardWrap = [...document.querySelectorAll('.game-board__item')];
+    this.card.setCardWrap(cardWrap);
   }
 }
+
+export default GameBoard;
