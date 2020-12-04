@@ -9,7 +9,6 @@ class GameBoard {
     return (
       `<main>
           <section class="game-board">
-
           </section>
        </main>`
     );
@@ -18,16 +17,13 @@ class GameBoard {
   createGameBoard() {
     return (
       `<div class="game-board__wrapper" id="gameBoard">
-
        </div>`
     );
   }
 
   createGameButton() {
     return (
-      `
-        <button class="game-board__button hidden" id="startGame">Start</button>
-      `
+      `<button class="game-board__button hidden" id="startGame">Start</button>`
     );
   }
 
@@ -79,10 +75,14 @@ class GameBoard {
 
   init(data) {
     const container = document.querySelector('body');
-    this.render(container, this.createSection());
+    if (!document.querySelector('main')) {
+      this.render(container, this.createSection());
+    }
     const cardContainer = document.querySelector('.game-board');
     this.render(cardContainer, this.createGameBoard(), 'afterbegin');
-    this.render(cardContainer, this.createGameButton());
+    if (!document.querySelector('.game-board__button')) {
+      this.render(cardContainer, this.createGameButton());
+    }
     this.createCard(this.card, data);
     const cardWrap = [...document.querySelectorAll('.game-board__item')];
     this.card.setCardWrap(cardWrap);

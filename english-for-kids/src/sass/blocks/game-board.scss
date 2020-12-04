@@ -99,7 +99,7 @@
   cursor: pointer;
   text-align: center;
   text-decoration: none;
-  transition: all 0.3s ease-out;
+  transition: all 0.2s ease;
   border-radius: 10px;
   border: none;
   letter-spacing: 0.06rem;
@@ -150,7 +150,12 @@
 }
 
 .hidden {
-  display: none;
+  //display: none;
+  opacity: 0;
+  height: 0;
+  font-size: 0;
+  top: 0;
+  left: 0;
 }
 
 .show {
