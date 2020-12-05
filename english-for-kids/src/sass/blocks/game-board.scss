@@ -53,8 +53,9 @@
     border-radius: 50%;
     margin: 0 auto;
     width: 100%;
-    max-height: 265px;
-    border: 2px solid $main-border-color
+    //max-height: 265px;
+    border: 2px solid $main-border-color;
+    flex-shrink: 1;
   }
   & span {
     display: block;
@@ -104,7 +105,7 @@
   border: none;
   letter-spacing: 0.06rem;
   &:hover {
-    background: #ea7598;
+    background-color: #ea7598;
     transition: 0.3s;
     color: $sixth-font-color;
   }
@@ -149,8 +150,20 @@
   }
 }
 
+.game-board__button--in-game {
+  display: block;
+  padding: 10px;
+  width: 60px;
+  height: 60px;
+  font-size: 0;
+  border-radius: 50%;
+  background-image: url("../assets/img/rotate.svg");
+  background-position: center;
+  background-size: 70% 70%;
+  background-repeat: no-repeat;
+}
+
 .hidden {
-  //display: none;
   opacity: 0;
   height: 0;
   font-size: 0;

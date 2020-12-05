@@ -11,6 +11,10 @@ class Card {
     this.cardContainer = el;
   }
 
+  setText(el) {
+    this.text = el;
+  }
+
   createCardCategory(cardItem) {
     return (
       `<div class="game-board__item-container">
@@ -28,12 +32,12 @@ class Card {
        <div class="game-board__item-container">
            <div class="game-board__item game-board__item--front" sound-id="${cardItem.word}">
               <img class="game-board__item-img" src="./assets/img/${cardItem.word}.jpg" alt="${cardItem.word}">
-              <span>${cardItem.word}</span>
+              <span class="game-board__item__text">${cardItem.word}</span>
               <div class="rotate" title="rotate">rotate</div>
            </div>
            <div class="game-board__item game-board__item--back">
               <img class="game-board__item-img" src="./assets/img/${cardItem.word}.jpg" alt="${cardItem.word}">
-              <span>${cardItem.translation}</span>
+              <span class="game-board__item__text">${cardItem.translation}</span>
            </div>
        </div>`
     );

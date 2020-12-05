@@ -3,6 +3,9 @@ import Card from './card.component';
 class GameBoard {
   constructor() {
     this.card = new Card();
+    this.startSpeakCard = this.startSpeakCard.bind(this);
+    this.startFlipCard = this.startFlipCard.bind(this);
+    this.stopSpeakCard = this.stopSpeakCard.bind(this);
   }
 
   createSection() {
@@ -52,13 +55,15 @@ class GameBoard {
     });
   }
 
-  startSpeak() {
-    document.addEventListener('click', (e) => {
-      if (e.target.closest('.game-board__item--front')) {
-        const word = e.target.closest('.game-board__item--front').getAttribute('sound-id');
-        this.card.speak(word);
-      }
-    });
+  startSpeakCard(e) {
+    if (e.target.closest('.game-board__item--front')) {
+      const word = e.target.closest('.game-board__item--front').getAttribute('sound-id');
+      this.card.speak(word);
+    }
+  }
+
+  stopSpeakCard() {
+    document.removeEventListener('click', this.startSpeakCard);
   }
 
   createCard(el, data) {
@@ -69,8 +74,6 @@ class GameBoard {
         el.initCard(it, this.card.createCardCategory(it));
       }
     });
-    this.startFlipCard();
-    this.startSpeak();
   }
 
   init(data) {
@@ -86,6 +89,9 @@ class GameBoard {
     this.createCard(this.card, data);
     const cardWrap = [...document.querySelectorAll('.game-board__item')];
     this.card.setCardWrap(cardWrap);
+    this.card.setText([...document.querySelectorAll('.game-board__item__text')]);
+    document.addEventListener('click', this.startSpeakCard);
+    this.startFlipCard();
   }
 }
 
