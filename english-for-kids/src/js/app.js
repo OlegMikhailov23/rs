@@ -214,6 +214,9 @@ class App {
   endGame() {
     document.querySelector('.game-board__button').removeEventListener('click', this.repeatWord);
     document.removeEventListener('click', this.game);
+    document.querySelectorAll('.disabled').forEach((it) => {
+      it.classList.remove('disabled');
+    });
     this.startButton.classList.remove('game-board__button--in-game');
     this.startButton.addEventListener('click', this.startGame);
     this.gameBoard.clearStar();
