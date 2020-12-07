@@ -24,9 +24,26 @@ class GameBoard {
     );
   }
 
+  createStarContainer() {
+    return (
+      `<div class="game-board__star-container">
+       </div>`
+    );
+  }
+
+  createStar(el, type) {
+    return (
+      `<div class="game-board__star-container__star">
+            <img src="assets/img/${el}.${type}" alt="${el}">
+       </div>`
+    );
+  }
+
   createGameButton() {
     return (
-      `<button class="game-board__button hidden" id="startGame">Start</button>`
+      `
+            <button class="game-board__button hidden" id="startGame">Start</button>
+      `
     );
   }
 
@@ -36,6 +53,12 @@ class GameBoard {
 
   clearGameBoard() {
     document.querySelector('.game-board__wrapper').remove();
+  }
+
+  clearStar() {
+    document.querySelectorAll('.game-board__star-container__star').forEach((it) => {
+      it.remove();
+    });
   }
 
   startFlipCard() {
@@ -67,7 +90,7 @@ class GameBoard {
   }
 
   createCard(el, data) {
-    data.map((it) => {
+    data.forEach((it) => {
       if (typeof data[0] !== 'string') {
         el.initCard(it, this.card.createCard(it));
       } else {
@@ -83,10 +106,12 @@ class GameBoard {
     }
     const cardContainer = document.querySelector('.game-board');
     this.render(cardContainer, this.createGameBoard(), 'afterbegin');
+    const gameBoardWrapper = document.querySelector('.game-board__wrapper');
     if (!document.querySelector('.game-board__button')) {
       this.render(cardContainer, this.createGameButton());
     }
     this.createCard(this.card, data);
+    this.render(gameBoardWrapper, this.createStarContainer(), 'afterbegin');
     const cardWrap = [...document.querySelectorAll('.game-board__item')];
     this.card.setCardWrap(cardWrap);
     this.card.setText([...document.querySelectorAll('.game-board__item__text')]);

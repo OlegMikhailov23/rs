@@ -20,7 +20,7 @@ class MenuComponents {
     <nav>
       <ul class="main-header__menu-list">
                <li class="main-header__menu-list__item"><div data-id="Main page"><a
-          class="main-header__menu-list__item__link"  id="mainPage">Main page</a></li>
+          class="main-header__menu-list__item__link main-header__menu-list__item__link--active"  id="mainPage">Main page</a></li>
       </ul>
     </nav>
   </div>
@@ -54,7 +54,7 @@ class MenuComponents {
     const mainHeader = document.querySelector('.main-header__wrapper');
     this.render(mainHeader, this.createSwitcher());
     const menuContainer = document.querySelector('.main-header__menu-list');
-    data.map((it) => {
+    data.forEach((it) => {
       this.render(menuContainer, this.createMenuItem(it));
     });
     const hamburgerButton = document.querySelector('.nav-toggle');
