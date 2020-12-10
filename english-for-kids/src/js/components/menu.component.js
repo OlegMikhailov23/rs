@@ -1,3 +1,6 @@
+import markup from '../markup/markup';
+import render from '../helper/helper.render';
+
 class MenuComponents {
   constructor() {
     this.container = null;
@@ -7,96 +10,79 @@ class MenuComponents {
     this.container = el;
   }
 
-  createMenu() {
-    return (
-      `<header class="main-header">
-  <div class="main-header__wrapper">
-    <div class="modal-background"></div>
-    <a class="nav-toggle" title="Open/Close menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </a>
-    <nav>
-      <ul class="main-header__menu-list">
-               <li class="main-header__menu-list__item"><div data-id="Main page"><a
-          class="main-header__menu-list__item__link main-header__menu-list__item__link--active"  id="mainPage">Main page</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>`
-    );
+  setHumburger() {
+    this.humburger = document.querySelector('.nav-toggle');
   }
 
-  createMenuItem(menuItem) {
-    return (
-      `        <li class="main-header__menu-list__item"><div data-id="${menuItem}"><a
-          class="main-header__menu-list__item__link"  id="${menuItem}">${menuItem}</a></li>`
-    );
+  setMenu() {
+    this.menu = document.querySelector('nav');
   }
 
-  createSwitcher() {
-    return (
-      `<div class="on-off-toggle">
-  <input class="on-off-toggle__input" type="checkbox" id="bopis" />
-  <label for="bopis" class="on-off-toggle__slider"></label>
-</div>`
-    );
+  setBackground() {
+    this.background = document.querySelector('.modal-background');
   }
 
-  render(container, template, place = 'beforeend') {
-    container.insertAdjacentHTML(place, template);
+  closeNav() {
+    this.menu.classList.add('closed');
+    document.querySelector('html').style.overflow = 'visible';
+    setTimeout(() => {
+      this.menu.classList.remove('collapse');
+      this.menu.classList.remove('closed');
+      this.humburger.classList.remove('open');
+      this.background.classList.remove('modal-background-show');
+    }, 199);
+  }
+
+  openNav() {
+    if (this.menu.classList.contains('collapse')) {
+      this.closeNav();
+    } else {
+      this.humburger.classList.add('open');
+      this.menu.classList.add('collapse');
+      this.background.classList.add('modal-background-show');
+      document.querySelector('html').style.overflow = 'hidden';
+    }
+  }
+
+  activateLink() {
+    const navMenuLink = document.querySelectorAll('nav a');
+    navMenuLink.forEach((link) => {
+      link.addEventListener('click', (el) => {
+        navMenuLink.forEach((it) => {
+          it.classList.remove('main-header__menu-list__item__link--active');
+        });
+        const activeItem = document.getElementById(`${el.target.getAttribute('id')}`);
+        activeItem.classList.add('main-header__menu-list__item__link--active');
+        this.closeNav();
+      });
+    });
+  }
+
+  navBehavior() {
+    this.setHumburger();
+    this.setMenu();
+    this.setBackground();
+    this.setContainer(this.menu);
+    this.closeNav();
+    this.humburger.addEventListener('click', () => {
+      this.openNav();
+    });
+
+    this.activateLink();
+
+    this.background.addEventListener('click', this.closeNav.bind(this));
   }
 
   init(data) {
     const container = document.querySelector('body');
-    this.render(container, this.createMenu());
+    render(container, markup.markupMenu.createMenu());
     const mainHeader = document.querySelector('.main-header__wrapper');
-    this.render(mainHeader, this.createSwitcher());
+    render(mainHeader, markup.markupMenu.createSwitcher());
     const menuContainer = document.querySelector('.main-header__menu-list');
     data.forEach((it) => {
-      this.render(menuContainer, this.createMenuItem(it));
+      render(menuContainer, markup.markupMenu.createMenuItem(it));
     });
-    const hamburgerButton = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('nav');
-    this.setContainer(navMenu);
-    const navMenuLink = document.querySelectorAll('nav a');
-    const modalBackground = document.querySelector('.modal-background');
-
-    const closeNav = () => {
-      navMenu.classList.add('closed');
-      document.querySelector('html').style.overflow = 'visible';
-      setTimeout(() => {
-        navMenu.classList.remove('collapse');
-        navMenu.classList.remove('closed');
-        hamburgerButton.classList.remove('open');
-        modalBackground.classList.remove('modal-background-show');
-      }, 199);
-    };
-
-    hamburgerButton.addEventListener('click', () => {
-      if (navMenu.classList.contains('collapse')) {
-        closeNav();
-      } else {
-        hamburgerButton.classList.add('open');
-        navMenu.classList.add('collapse');
-        modalBackground.classList.add('modal-background-show');
-        document.querySelector('html').style.overflow = 'hidden';
-      }
-    });
-
-    navMenuLink.forEach((link) => {
-      link.addEventListener('click', (e) => {
-        navMenuLink.forEach((it) => {
-          it.classList.remove('main-header__menu-list__item__link--active');
-        });
-        const activeItem = document.getElementById(`${e.target.getAttribute('id')}`);
-        activeItem.classList.add('main-header__menu-list__item__link--active');
-        closeNav();
-      });
-    });
-
-    modalBackground.addEventListener('click', closeNav);
+    this.navBehavior();
   }
 }
 

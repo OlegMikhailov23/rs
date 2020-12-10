@@ -2,6 +2,9 @@ import MenuComponents from './components/menu.component';
 import GameBoard from './components/game-board.component';
 
 import cards from './data/data';
+import markup from './markup/markup';
+import render from './helper/helper.render';
+import helperGameBoard from './helper/helper.game-board';
 
 const [nameCategories, actionSetA, actionSetB, actionSetC, animalSetA,
   animalSetB, clothes, emotion, adjective] = cards;
@@ -17,18 +20,12 @@ const shuffleArray = (arr) => {
   return modArr;
 };
 
-const createFinalScreen = (el, type, message) => {
-  return (
-    `<div class="final-screen">
+const createFinalScreen = (el, type, message) => (
+  `<div class="final-screen">
          <img src="assets/img/${el}.${type}" alt="${el}">
          <span class="final-screen__message">${message}</span>
     </div>`
-  );
-};
-
-const render = (container, template, place = 'beforeend') => {
-  container.insertAdjacentHTML(place, template);
-};
+);
 
 class App {
   constructor() {
@@ -50,7 +47,7 @@ class App {
     this.correctSound = 'correct';
     this.winSound = 'success';
     this.loseSound = 'failure';
-    this.winMessage = 'Good job fellow!';
+    this.winMessage = 'Good job, fellow!';
     this.winPicture = 'star';
     this.loseMessage = 'You should try better!';
     this.losePicture = 'poop';
@@ -73,7 +70,7 @@ class App {
         target = e.target.closest('div').getAttribute('data-id');
       }
       if (target) {
-        this.gameBoard.clearGameBoard();
+        helperGameBoard.clearGameBoard();
         this.endGame();
         switch (target) {
           case 'Action (set A)':
@@ -142,24 +139,18 @@ class App {
   }
 
   changeColor() {
-    if (this.isGame) {
-      this.menu.container.classList.add('collapse--game');
-      this.gameBoard.card.cardContainer.forEach((it) => {
-        it.classList.add('game-board__item--game');
-      });
-    } else {
-      this.menu.container.classList.remove('collapse--game');
-      this.gameBoard.card.cardContainer.forEach((it) => {
-        it.classList.remove('game-board__item--game');
-      });
-    }
+    this.menu.container.classList.toggle('collapse--game', this.isGame);
+    this.gameBoard.card.cardContainer.forEach((it) => {
+      it.classList.toggle('game-board__item--game', this.isGame);
+    });
   }
 
   hideText(el) {
+    const modEl = el;
     if (this.isGame) {
-      el.style.fontSize = '0';
+      modEl.style.fontSize = '0';
     } else {
-      el.style.fontSize = '1.5rem';
+      modEl.style.fontSize = '1.5rem';
     }
   }
 
@@ -180,7 +171,7 @@ class App {
       return;
     }
     if (this.step >= this.CARD_AMOUNT - 1) {
-      this.gameBoard.clearGameBoard();
+      helperGameBoard.clearGameBoard();
       this.gameBoard.init(nameCategories);
       this.location = 'Main page';
       this.showStartButton(this.startButton);
@@ -198,15 +189,15 @@ class App {
       }, 5000);
     } else if (this.currentWordSet[this.step] === this.wordFromPlayer) {
       this.step += 1;
-      this.disableIt(e.target.closest('.game-board__item--front'));
+      helperGameBoard.disableIt(e.target.closest('.game-board__item--front'));
       this.speakApp(this.correctSound);
       setTimeout(() => {
         this.speakApp(this.currentWordSet[this.step]);
       }, 1000);
-      this.gameBoard.render(starContainer, this.gameBoard.createStar(this.winPicture, 'svg'), 'afterbegin');
+      render(starContainer, markup.markupGameBoard.createStar(this.winPicture, 'svg'), 'afterbegin');
     } else {
       this.errors += 1;
-      this.gameBoard.render(starContainer, this.gameBoard.createStar(this.losePicture, 'svg'), 'afterbegin');
+      render(starContainer, markup.markupGameBoard.createStar(this.losePicture, 'svg'), 'afterbegin');
       this.speakApp(this.errorSound);
     }
   }
@@ -219,7 +210,7 @@ class App {
     });
     this.startButton.classList.remove('game-board__button--in-game');
     this.startButton.addEventListener('click', this.startGame);
-    this.gameBoard.clearStar();
+    helperGameBoard.clearStar();
     this.wordFromPlayer = null;
     this.step = 0;
     this.errors = 0;
@@ -231,10 +222,6 @@ class App {
 
   getUserWord(e) {
     this.wordFromPlayer = e.target.closest('.game-board__item--front').getAttribute('sound-id');
-  }
-
-  disableIt(el) {
-    el.classList.add('disabled');
   }
 
   isSpeakable() {
