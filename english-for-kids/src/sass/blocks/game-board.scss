@@ -1,0 +1,238 @@
+@import '../mixin';
+
+@import '../variables';
+
+.game-board {
+  padding-bottom: 60px;
+}
+
+.game-board__wrapper {
+  @include container();
+  padding-top: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  transition: all 0.3s ease-in;
+}
+// Flip mechanical
+.game-board__item-container {
+  width: 23%;
+  min-height: 300px;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  position: relative;
+  margin-bottom: 60px;
+}
+
+.game-board__item-container.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.game-board__item--back {
+  transform: rotateY(180deg);
+  box-shadow: 5px 5px 15px 5px #545454;
+}
+
+// Flip mechanical
+
+.game-board__item {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 300px;
+  border-radius: 10px;
+  background: rgb(6,155,255);
+  background: linear-gradient(21deg, rgba(6,155,255,1) 0%, rgba(27,201,245,1) 100%);
+  padding: 15px 10px;
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  & img {
+    display: block;
+    border-radius: 50%;
+    margin: 0 auto;
+    width: 100%;
+    //max-height: 265px;
+    border: 2px solid $main-border-color;
+    flex-shrink: 1;
+  }
+  & span {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    color: $second-font-color;
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding-top: 15px;
+    letter-spacing: 0.06rem;
+    transition: all 0.3s ease-in-out;
+
+  }
+  &:hover {
+    box-shadow: 5px 5px 15px 5px #545454;
+    & span {
+      color: $sixth-font-color;
+    }
+  }
+}
+
+.rotate {
+  width: 25px;
+  height: 25px;
+  font-size: 0;
+  background-image: url("../assets/img/rotate.svg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  align-self: flex-end;
+  transition: all 0.3s ease;
+}
+
+.game-board__star-container {
+  @include container();
+  min-height: 50px;
+  width: 100%;
+  margin-bottom: 3%;
+  white-space: nowrap;
+  direction: rtl;
+  overflow: hidden;
+  & .game-board__star-container__star {
+    display: inline-block;
+    width: 40px;
+    margin-right: 3px;
+  }
+}
+
+.game-board__button {
+  display: block;
+  margin: 0 auto;
+  padding: 15px 45px 15px 45px;
+  @include fontpref (1.6rem, 120%, 700);
+  color: $second-font-color;
+  background-color: #ed4679;
+  outline: none;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border-radius: 10px;
+  border: none;
+  letter-spacing: 0.06rem;
+  &:hover {
+    background-color: #ea7598;
+    transition: 0.3s;
+    color: $sixth-font-color;
+  }
+
+  &:active {
+    color: rgba(255, 255, 255, 0.3);
+    transition: 0.1s;
+    @include bsh(0px,3px,1px,0,#151414,inset);
+  }
+}
+
+.final-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  margin: auto;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #d6249f;
+  background: radial-gradient(circle at 107% 30%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+  z-index: 100;
+  text-align: center;
+  @include transit(all, .2s, linear);
+  & img {
+    width: 30%;
+    margin: 0 auto;
+  }
+  & span {
+    padding-top: 30px;
+    color: $second-font-color;
+    @include fontpref(2rem, 120%, 700);
+  }
+}
+
+@media ($tablet-widths) {
+  .game-board__item-container {
+    width: 45%;
+  }
+
+  .game-board__star-container {
+    position: sticky;
+    top: 100px;
+    background: rgba(255, 255, 255, 0.7);
+    z-index: 5;
+  }
+
+  .game-board__item img {
+    width: 70%;
+  }
+}
+
+@media ($mobile-widths) {
+  .game-board__item-container {
+    width: 70%;
+  }
+
+  .game-board__item img {
+    width: 100%;
+  }
+}
+
+.game-board__item--game {
+  background: #d6249f;
+  background: radial-gradient(circle at 107% 30%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+  & .rotate {
+    width: 0;
+    height: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    opacity: 0;
+  }
+}
+
+.game-board__button--in-game {
+  display: block;
+  padding: 10px;
+  width: 60px;
+  height: 60px;
+  font-size: 0;
+  border-radius: 50%;
+  background-image: url("../assets/img/rotate.svg");
+  background-position: center;
+  background-size: 70% 70%;
+  background-repeat: no-repeat;
+}
+
+.disabled {
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hidden {
+  opacity: 0;
+  height: 0;
+  font-size: 0;
+  top: 0;
+  left: 0;
+}
+
+.show {
+  display: block;
+}
+
+
+
