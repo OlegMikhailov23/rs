@@ -23,7 +23,20 @@ body {
   font-size: $main-font-size;
   line-height: $main-line-height;
   color: $main-font-color;
-  //height: 100vh;
+  background-image: url('../assets/img/main.jpg');
+  background-size: 100% 100%;
+}
+
+@media ($tablet-widths) {
+  body {
+    background-image: url('../assets/img/main-tablet.jpg');
+  };
+}
+
+@media ($tablet-widths) {
+  body {
+    background-image: url('../assets/img/main-mobile.jpg');
+  };
 }
 
 *,

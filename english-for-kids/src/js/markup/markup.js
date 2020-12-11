@@ -63,6 +63,9 @@ const markupMenu = {
   createMenuItem(it) {
     return (
       `<li class="main-header__menu-list__item"><div data-id="${it}">
+            <div class="main-header__menu-list__item__pict">
+            <img src="./assets/img/${it}.svg" alt="${it}">
+            </div>
             <a class="main-header__menu-list__item__link"  id="${it}">${it}</a>
        </li>`
     );

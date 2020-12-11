@@ -30,6 +30,18 @@ ul .main-header__menu-list__item__link--active::before {
   background-color: $fourth-font-color;
 }
 
+.main-header__menu-list__item {
+  position: relative;
+}
+
+.main-header__menu-list__item__pict {
+  position: absolute;
+  top: 0;
+  left: -45px;
+  width: 35px;
+  height: 35px;
+}
+
 .main-header__menu-list__item__link {
   position: relative;
   transition: 0.3s ease-in;
@@ -116,7 +128,7 @@ nav .main-header__menu-list {
   justify-content: center;
   align-items: center;
   padding-top: 43.8%;
-  padding-left: 50px;
+  padding-left: 70px;
 
   & a {
     @include zero-style();
