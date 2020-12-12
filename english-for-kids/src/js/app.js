@@ -49,7 +49,7 @@ class App {
     this.loseSound = 'failure';
     this.winMessage = 'Good job, fellow!';
     this.winPicture = 'star';
-    this.loseMessage = 'You should try better!';
+    this.loseMessage = null;
     this.losePicture = 'poop';
 
     this.CARD_AMOUNT = 8;
@@ -178,6 +178,11 @@ class App {
       this.changeColor();
       if (this.errors !== 0) {
         this.speakApp(this.loseSound);
+        if (this.errors === 1) {
+          this.loseMessage = `You should try better! It was ${this.errors} mistake`;
+        } else {
+          this.loseMessage = `You should try better! It was ${this.errors} mistakes`;
+        }
         render(mainContainer, createFinalScreen(this.losePicture, 'svg', this.loseMessage));
       } else {
         this.speakApp(this.winSound);
