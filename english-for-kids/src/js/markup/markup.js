@@ -104,7 +104,7 @@ const markupCard = {
            </div>
            <div class="game-board__item game-board__item--back">
               <img class="game-board__item-img" src="./assets/img/${cardItem.word}.jpg" alt="${cardItem.word}">
-              <span class="game-board__item__text">${cardItem.word}</span>
+              <span class="game-board__item__text">${cardItem.translation}</span>
            </div>
        </div>`
     );
