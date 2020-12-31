@@ -1,0 +1,303 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>reveal.js</title>
+
+    <link rel="stylesheet" href="reveal.js/dist/reset.css">
+    <link rel="stylesheet" href="reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="reveal.js/dist/theme/black.css" id="theme">
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css" id="highlight-theme">
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section data-background-image="img/bg.png">
+            <h1>Testing libraries and Frameworks</h1>
+            <img src="img/mocha.png" width="120" height="120">
+            <img src="img/jasmine.png" width="120" height="120">
+            <img src="img/jest.png" width="120" height="120">
+        </section>
+        <section data-background-image="img/bg.png">
+            <h2>So, what is testing in programming???</h2>
+            <img class="r-stretch" src="img/slide2.jpg" width="220" height="220">
+            <p class="fragment">It is a programming process that allows you to check for correctness of individual
+                modules of the source code of the program.</p>
+        </section>
+        <section data-background-image="img/bg.png">
+            <h2>When do we need or don’t need tests???</h2>
+            <ul>You probably don't need tests if:
+                <li class="fragment">You always write code for yourself;</li>
+                <li class="fragment">You create landing-pages, simple flash games or banners;</li>
+                <li class="fragment">You are doing an promotion project for single event;</li>
+            </ul>
+        </section>
+        <section data-background-image="img/bg.png">
+            <h2 class="title">Javascript testing frameworks</h2>
+            <p class="fragment">We will consider top 3 most popular</p>
+            <img class="fragment" src="img/jest.png" width="240" height="240">
+            <img class="fragment" src="img/jasmine.png" width="240" height="240">
+            <img class="fragment" src="img/mocha.png" width="240" height="240">
+        </section>
+        <section data-background-image="img/bg.png">
+            <h2 class="title">
+                Let's look at the test structure</h2>
+            <img class="r-stretch" src="img/slide5.jpg" width="240" height="240">
+            <pre><code class="r-stretch" data-trim data-noescape>
+//1. Unit under test
+describe('Products Service', function() {
+//2. Scenario  describe
+   ('Add new product', function() {
+// 3. What do we expect from the test
+     it('When no price is specified, then the product status is pending approval', () => {
+       const newProduct = new ProductService().add(...);
+       expect(newProduct.status).to.equal('pendingApproval');
+	   });
+   });
+});
+			</code></pre>
+        </section>
+      <section data-background-image="img/bg.png">
+        <h2 class="title">Where is it better to use this or that framework?</h2>
+        <ul class="fragment">
+          <li class="fragment">Mocha and Jasmine are stronger for testing back-end;</li>
+          <li class="fragment">Jasmine is used often with <strong>Angular</strong><img style="position: relative; top: 40px" src="img/angular.png" width="70" height="80">;</li>
+          <li class="fragment">Jest better with <strong>React</strong><img style="position: relative; top: 40px" src="img/react.png" width="80" height="60">;</li>
+        </ul>
+      </section>
+      <section data-background-image="img/bg.png">
+        <h2>Mocking Function</h2>
+        <ul class="fragment">Let's define a best practice:
+          <li class="fragment">focus on the expected results from your function calls, not the implementation of the function;</li>
+          <li class="fragment">never make changes to the state of your application;</li>
+          <li class="fragment">use mock functions so you don't have to worry about unintended side effects crawling through your tests;</li>
+        </ul>
+      </section>
+      <section data-background-image="img/bg.png">
+        <h3>Mocking Function - Jest</h3>
+        <pre class="fragment"><code class="r-stretch" data-trim data-noescape>
+function forEach(items, callback) {
+  for (let index = 0; index < items.length; index++) {
+    callback(items[index]);
+  }
+}
+			</code></pre>
+        <pre class="fragment"><code class="r-stretch" data-trim data-noescape>
+const mockCallback = jest.fn(x => 42 + x);
+forEach([0, 1], mockCallback);
+
+// The mock function is called twice
+expect(mockCallback.mock.calls.length).toBe(2);
+
+// The first argument of the first call to the function was 0
+expect(mockCallback.mock.calls[0][0]).toBe(0);
+
+// The first argument of the second call to the function was 1
+expect(mockCallback.mock.calls[1][0]).toBe(1);
+
+// The return value of the first call to the function was 42
+expect(mockCallback.mock.results[0].value).toBe(42);
+			</code></pre>
+      </section>
+      <section data-background-image="img/bg.png">
+        <h3>Mocking Function - Jasmine</h3>
+        <pre><code>
+it(‘should show CreateNewItem modal from click’, () => {
+    ReactTestUtils.Simulate.click(‘#add-icon’);
+
+    expect(() => {
+        ReactTestUtils.findRenderedDOMComponentTag(‘form’);
+    }).toBeTruthy();
+});
+        </code></pre>
+      </section>
+      <section data-background-image="img/bg.png">
+        <h3>Mocking Function - Mocha</h3>
+        <pre><code>
+It(‘should open CreateNewItem modal’, () => {
+  const wrapper = shallow(<items />);
+  wrapper.find(‘#add-icon’).simulate(‘click’);
+  assert.exists(<CreateItemModal />, ‘this does not exist unfortunately’)
+});
+        </code></pre>
+      </section>
+      <section data-background-image="img/bg.png">
+        <h2>Mocking Data</h2>
+        <ul class="fragment">
+          <li class="fragment">set up a test database with mock data is best practice;</li>
+          <li class="fragment">see exactly where errors occur because you know what values to expect;</li>
+          <li class="fragment">type check your back-end responses and ensure responses aren't revealing real data;</li>
+          <li class="fragment">find bugs faster;</li>
+        </ul>
+      </section>
+      <section data-background-image="img/bg.png">
+        <h3>Mocking Data - Jest</h3>
+        <pre><code>
+describe('POST endpoint', () => {
+  it('responds with the new item', async () => {
+    const newItem = await request(app)
+      .post('/api/createItemr')
+      .send({
+        category: 'food',
+        cost: 14.56,
+        date: '12/23/2019',
+        title: 'Sushi',
+      });
+    expect(newItem.statusCode).toBe(200);
+    expect(newItem).not.toBeNull();
+    expect(newItem.title).toBe('Sushi');
+  });
+});
+
+        </code></pre>
+        <p>There are several expect() matchers at the end and their order is important.</p>
+      </section>
+      <section data-background-image="img/bg.png">
+        <h3>Mocking Data - Jasmine</h3>
+        <pre><code style="font-size: 1rem">
+describe('POST endpoint test', () => {
+  let data = {};
+  beforeAll((done) => {
+    request.post({
+      url: 'http://localhost:3010/api/oreateTtem/',
+      form: {
+        category: ' food',
+        title: 'Tacos',
+        cost: 5.55,
+        date: '02/03/2020'
+      }
+    }, (res, body) => {
+      data.status = res.statusCode;
+      data.body = JSON.parse(body);
+      done();
+    });
+  });
+  ...
+        </code></pre>
+        <p style="text-align: left">You can control how and when data is created and reset.</p>
+      </section>
+      <section data-background-image="img/bg.png">
+        <h3>Mocking Data - Mocha</h3>
+        <pre><code style="font-size: 1rem">
+describe('POST endpoint test', () => {
+  it('it should POST a new item', (done) => {
+    let item = {
+      title: 'Cookies',
+      category: 'food',
+      cost: 19.54,
+      date: '02/04/2020',
+    }
+    chai.request(server)
+      .post('/api/createItem/')
+      .send(item)
+      .end((res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+});
+        </code></pre>
+        <p style="text-align: left">Using <strong>Chai</strong> and it's associated libraries is a common practice, as seen in this example</p>
+      </section>
+      <section data-background-image="img/bg.png">
+        <h2>Mocking Async Calls</h2>
+        <p class="fragment">Try to avoid triggering real function calls </p>
+      </section>
+      <section data-background-image="img/bg.png">
+        <h3>Mocking Async Calls - Jest</h3>
+        <pre><code>
+describe('GET endpoint', () => {
+  it('should get all items', async () => {
+    const res = await request(app)
+      .get('/api/getAllItems');
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).not.toBeNull();
+  });
+});
+        </code></pre>
+        <p class="fragment">Jest does handle async calls in any format you need to handle them, like callbacks or Promises;</p>
+      </section>
+      <section data-background-image="img/bg.png">
+        <h3>Mocking Async Calls - Jasmine</h3>
+        <pre><code style="font-size: 0.9rem">
+describe('GET endpoint test', () => {
+  const data = {};
+  beforeAll(async () => {
+    await request.get('http://localhost:3010/api/getAllItems', (res, body) => {
+      data.status = res.statusCode;
+      data.body = JSON.parse(body);
+    });
+  });
+  afterAll(() => {
+    server.close();
+});
+
+  it('should have 200 status', () => {
+    expect(data.status).toBe(200);
+  });
+});
+
+        </code></pre>
+        <p class="fragment">You should handle the async call within the beforeAll method to prevent residual effects later in the tests.</p>
+      </section>
+      <section data-background-image="img/bg.png">
+        <h3>Mocking Async Calls - Mocha</h3>
+        <pre><code style="font-size: 0.9rem">
+describe('GET endpoint test',
+  () => {
+    it('it should GET all the items', (done) => {
+      chai.request(server)
+        .get('/api/getAllItems')
+        .end((res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('array');
+          done();
+        });
+    });
+  });
+//...
+        </code></pre>
+        <p class="fragment">It's using the same chai-http library as in the previous Mocha example.</p>
+      </section>
+      <section data-background-image="img/bg.png">
+        <h2>Helpful links:</h2>
+        <ul>
+          <li><a href="https://medium.com/@andr.ivas12/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B4%D0%BB%D1%8F-%D1%87%D0%B0%D0%B9%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2-c007d43da791">Тестирование для чайников</a></li>
+          <li><a href="https://dev.to/heroku/comparing-the-top-3-javascript-testing-frameworks-2cco">Top 3 Javascript testing Frameworks;</a></li>
+          <li><a href="https://jestjs.io/docs/en/mock-functions">Jest docks;</a></li>
+          <li><a href="https://habr.com/ru/company/ruvds/blog/435462/">Анатомия тестов и типы тестов;</a></li>
+          <li><a href="https://www.youtube.com/watch?v=LiClxfRihl0&ab_channel=Aspirity">Авто-тесты в JavaScript;</a></li>
+          <li><a href="https://www.ozon.ru/context/detail/id/28990609/">Искусство рассуждать о книгах, которых вы не читали;</a></li>
+        </ul>
+      </section>
+      <section data-background-image="img/bg.png">
+        <h2>I hope you enjoyed!</h2>
+        <i style="background-color: #1c1e20">I'm preparing content for this presentation:</i>
+        <img src="img/dog.jpg" alt="dog">
+      </section>
+    </div>
+</div>
+
+<script src="reveal.js/dist/reveal.js"></script>
+<script src="reveal.js/plugin/notes/notes.js"></script>
+<script src="reveal.js/plugin/markdown/markdown.js"></script>
+<script src="reveal.js/plugin/highlight/highlight.js"></script>
+<script>
+    // More info about initialization & config:
+    // - https://revealjs.com/initialization/
+    // - https://revealjs.com/config/
+    Reveal.initialize({
+        hash: true,
+        slideNumber: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+    });
+</script>
+</body>
+</html>
