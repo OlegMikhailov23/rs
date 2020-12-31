@@ -20,13 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="16460380-80be-4124-9592-29703d721606" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/presentation.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/reveal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reveal.js" beforeDir="false" afterPath="$PROJECT_DIR$/reveal.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reveal.js/css/reveal.scss" beforeDir="false" afterPath="$PROJECT_DIR$/reveal.js/css/reveal.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reveal.js/dist/reveal.css" beforeDir="false" afterPath="$PROJECT_DIR$/reveal.js/dist/reveal.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reveal.js/dist/reveal.esm.js" beforeDir="false" afterPath="$PROJECT_DIR$/reveal.js/dist/reveal.esm.js" afterDir="false" />
@@ -41,7 +36,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/reveal.js" />
   </component>
   <component name="ProjectId" id="1mNpQGD3CyphPCT6zK9gEvSClUm" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -66,7 +61,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1609343885389</updated>
-      <workItem from="1609343886606" duration="12718000" />
+      <workItem from="1609343886606" duration="13674000" />
     </task>
     <servers />
   </component>
